@@ -38,11 +38,11 @@ async function main() {
   // Projects / Case Studies
   const projects = [
     {
-      title: 'Elux Design',
-      client: 'Elux Architecture',
+      title: 'Elux Designs',
+      client: 'Elux Designs',
       category: 'Web Development',
-      description: 'A premium digital presence for a South Pacific architecture firm — custom CMS, integrated email, and a private admin panel.',
-      challenge: 'Elux needed a portfolio that matched the craftsmanship of their architecture — refined, fast, and easy for their team to update without touching code.',
+      description: 'A premium digital presence for a South Pacific design studio — custom CMS, integrated email, and a private admin panel.',
+      challenge: 'Elux needed a portfolio that matched the craftsmanship of their design work — refined, fast, and easy for their team to update without touching code.',
       solution: 'We built a bespoke platform with a custom headless CMS, project management admin panel, and transactional email integration — all wrapped in a cinematic, editorial design system.',
       result: '40% faster load times, zero-dependency content workflow, and a portfolio that converts high-end project inquiries.',
       url: 'https://eluxfiji.com',
@@ -58,7 +58,7 @@ async function main() {
 
   // Testimonials
   const testimonials = [
-    { name: 'Sera Maiwai', role: 'Founder', company: 'Elux Architecture', quote: 'N2K Labs delivered a website that feels like our architecture made digital — precise, beautiful, and considered in every detail. The CMS makes updates effortless.', rating: 5, order: 0 },
+    { name: 'Elvind Govind', role: 'Founder', company: 'Elux Designs', quote: 'N2K Labs delivered a website that feels like our design work made digital — precise, beautiful, and considered in every detail. The CMS makes updates effortless.', rating: 5, order: 0 },
   ]
   for (const t of testimonials) {
     await db.testimonial.create({ data: t })

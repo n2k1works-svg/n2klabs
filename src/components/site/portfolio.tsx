@@ -31,7 +31,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
               <span className="text-gradient-cyan">meets impact.</span>
             </>
           }
-          description="Every great studio starts with one defining project. Here's ours — a collaboration with Elux Architecture."
+          description="Every great studio starts with one defining project. Here's ours — a collaboration with Elux Designs."
         />
 
         {/* filters — hidden when only 1 project */}
