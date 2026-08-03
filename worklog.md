@@ -216,3 +216,22 @@ Stage Summary:
 - Founding year remains correctly 2026 (verified in hero, stats bar, footer).
 - Stats remain honest: 1 project, 1 client, founded 2026.
 - Site is fully verified at the browser level — no false information remains on the rendered page.
+
+---
+Task ID: 8
+Agent: main (Z.ai Code)
+Task: Remove the "For Winners" badge panel from the hero section (user uploaded screenshot showing this card and asked to remove it).
+
+Work Log:
+- VLM-analyzed the uploaded screenshot — confirmed it showed the "FOR WINNERS" panel: 5 cyan stars, quote "Crafted with obsessive detail for brands that refuse to settle for ordinary.", and pagination dots.
+- Located the panel in src/components/site/hero.tsx as the "Z-7: For Winners badge bottom-right" motion.div block (lines 256-287 in original file).
+- Removed the entire motion.div block including its container, stars, quote text, and pagination indicators.
+- Cleaned up the now-unused `Star` import from lucide-react to keep lint clean.
+- Ran `bun run lint` → clean, no errors.
+- Browser verification on http://localhost:3000: confirmed `For Winners`, `FOR WINNERS`, and `Crafted with obsessive` strings no longer exist in the rendered DOM (eval returned false).
+- VLM verification confirmed the panel is gone; the bottom-right of the hero now shows only the existing CAPABILITIES HUD panel (a legitimate, separate UI element).
+
+Stage Summary:
+- For Winners badge panel fully removed from the hero.
+- Hero retains its other UI: SYS·STATUS panel (top-right), BLUEPRINT panel (mid-left), CAPABILITIES panel (right-lower), tagline pill, hero title, subline buttons, socials (bottom-left), Our Story button (bottom-center), and Scroll cue.
+- Lint clean, no regressions.

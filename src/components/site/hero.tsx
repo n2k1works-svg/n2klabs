@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowRight, Star, Twitter, Instagram, Globe } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Twitter, Instagram, Globe } from "lucide-react";
 import { MagneticButton } from "./magnetic-button";
 
 const HERO_TITLE = "N2K Labs".split("");
@@ -252,39 +252,6 @@ export function Hero() {
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </a>
       </div>
-
-      {/* Z-7: For Winners badge bottom-right */}
-      <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ delay: 1.2, duration: 0.7 }}
-        className="absolute bottom-6 right-4 md:right-8 z-20"
-      >
-        <div className="rounded-2xl relative border border-white/10 bg-[#0a0a0c]/80 p-4 backdrop-blur-xl w-56 hud-corners">
-          <div className="mono-label text-[#8a8a93] mb-2">For Winners</div>
-          <div className="flex items-center gap-1 mb-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className="h-3.5 w-3.5 fill-[#00d4ff] text-[#00d4ff]"
-              />
-            ))}
-          </div>
-          <div className="font-mono text-xs text-[#f0ece6] leading-relaxed">
-            Crafted with obsessive detail for brands that refuse to settle for ordinary.
-          </div>
-          <div className="mt-3 flex items-center gap-1.5">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <span
-                key={i}
-                className={`h-1 rounded-full transition-all ${
-                  i === 0 ? "w-6 bg-[#00d4ff]" : "w-1.5 bg-white/20"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </motion.div>
 
       {/* scroll cue */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 hidden md:block">
