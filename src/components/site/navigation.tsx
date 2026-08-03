@@ -45,30 +45,32 @@ export function Navigation() {
         }`}
       >
         <div className="mx-auto max-w-[1600px] px-4 md:px-8 flex items-center justify-between gap-4">
-          {/* Left: hamburger */}
-          <button
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            data-cursor="hover"
-            className="flex items-center gap-2 group"
-          >
-            <span className="flex flex-col gap-[5px]">
-              <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
-              <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
-              <span className="block h-px w-4 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff] group-hover:w-6" />
-            </span>
-            <span className="mono-label text-[#8a8a93] hidden sm:inline">Menu</span>
-          </button>
+          {/* Left group: hamburger + location/clock — grouped so justify-between pins them left, clearing the centered logo */}
+          <div className="flex items-center gap-6 md:gap-8">
+            <button
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              data-cursor="hover"
+              className="flex items-center gap-2 group"
+            >
+              <span className="flex flex-col gap-[5px]">
+                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
+                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
+                <span className="block h-px w-4 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff] group-hover:w-6" />
+              </span>
+              <span className="mono-label text-[#8a8a93] hidden sm:inline">Menu</span>
+            </button>
 
-          {/* Center-left: location + clock — only on large screens to avoid colliding with centered logo on tablet */}
-          <div className="hidden xl:flex items-center gap-2 mono-label text-[#8a8a93]">
-            <span className="text-[#00d4ff]">/</span>
-            <span>South Pacific, FIJI</span>
-            <span className="text-white/20">•</span>
-            <LiveClock className="text-[#f0ece6]" />
+            {/* location + clock — only on large screens, stays in left group */}
+            <div className="hidden xl:flex items-center gap-2 mono-label text-[#8a8a93]">
+              <span className="text-[#00d4ff]">/</span>
+              <span>South Pacific, FIJI</span>
+              <span className="text-white/20">•</span>
+              <LiveClock className="text-[#f0ece6]" />
+            </div>
           </div>
 
-          {/* Center: logo — absolutely centered, sits above location/clock which only renders on xl+ */}
+          {/* Center: logo — absolutely centered, center column is empty so no collision */}
           <a
             href="#home"
             data-cursor="hover"

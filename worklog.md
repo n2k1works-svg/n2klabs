@@ -74,3 +74,18 @@ Stage Summary:
 - Hero nav no longer overlaps on any viewport. Clean 3-point layout on mobile/tablet; full badge on desktop.
 - Tech Stack section fully removed from public site; footer no longer credits any technologies. Clients see only capabilities and results, not the internal toolchain.
 - Section numbering contiguous: /01 About → /02 Services → /03 Portfolio → /04 Process → /05 Testimonials → /06 Contact.
+
+---
+Task ID: 3
+Agent: main (Z.ai Code)
+Task: Properly fix the centered N2K nav logo overlapping with the location/clock text (previous fix only addressed tablet, desktop still collided).
+
+Work Log:
+- User flagged the overlap was still present on desktop (~1920px). VLM confirmed: at 1918px the centered N2K logo crashed into both "South Pacific, FIJI" (left) and the live clock (right).
+- Root cause: nav used `justify-between` with 3 flex children (hamburger, location/clock, CTA) + the logo absolutely centered. `justify-between` pushed the middle location/clock item toward the horizontal center — exactly where the logo sits — causing a collision at every width where the location/clock was visible.
+- Real fix: grouped hamburger + location/clock into a single left-side `<div>` flex container. Now `justify-between` has only 2 flex items (left group + right CTA), pinning both to the edges and leaving the entire center column clear for the absolutely-centered logo.
+- Verified via VLM at 4 viewports: 390px (clean, 3-point nav), 768px (clean), 1280px (clean, location/clock visible with ample clearance), 1920px (clean — the user's exact width, generous gap between clock and logo).
+- Lint clean.
+
+Stage Summary:
+- Nav logo overlap fully resolved at every breakpoint. Desktop now shows: [Menu | / South Pacific, FIJI • live clock] ----- [N2K.] ----- [Start Project], with the location/clock group pinned left and clear horizontal clearance to the centered logo.
