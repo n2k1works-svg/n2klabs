@@ -257,3 +257,38 @@ Stage Summary:
 - This makes the portfolio authentic — visitors see the actual work N2K Labs delivered for Elux.
 - Old AI-generated elux.jpg left in /public/uploads/ (unused now, harmless).
 - Lint clean, no regressions.
+
+---
+Task ID: 10
+Agent: main (Z.ai Code)
+Task: Redesign the Elux portfolio card so the screenshot is shown INSIDE a laptop mockup frame (not as a full-bleed image taking too much space). The user said the previous full-bleed image "does not look neat" and asked for the image to go "on the laptop screen".
+
+Work Log:
+- Created a new `LaptopMockup` component inside portfolio.tsx that renders a realistic laptop frame with:
+  - Dark bezel around the screen (rounded top corners, 14px radius)
+  - Small camera dot at the top center
+  - The Elux screenshot rendered inside the screen area (16:10 aspect ratio, object-cover + object-top)
+  - Subtle screen glare overlay (gradient)
+  - Base/keyboard deck below the screen (slightly wider than screen, trapezoid-like with -2px overlap, gradient from #2a2a30 to #16161a)
+  - Notch in the base (the small recessed area typical of laptops)
+  - Soft cyan glow + drop shadow for depth
+- Restructured the single-project portfolio card layout from a vertical stack (full-bleed image on top, content below) to a clean 2-column layout:
+  - Left column (7/12 width on lg): the laptop mockup with a "View case study →" hint link below it
+  - Right column (5/12 width on lg): Featured badge + category pill, client label, project title (3xl-4xl), description, tags, and two CTAs (View Case Study + Visit Live Site)
+  - On smaller screens (below lg), it stacks vertically with laptop first, content second
+- Updated the case study modal to also use the LaptopMockup component (max-w-3xl, centered) at the top instead of the previous full-bleed aspect-[16/8] image.
+- Kept the multi-project grid branch unchanged (uses the original card style with full-bleed images) so future projects still work with the existing layout.
+- Ran `bun run lint` → clean, no errors.
+- Agent Browser verification at 1440x900 viewport:
+  - Confirmed laptop mockup on the left with Elux Designs website screenshot inside the screen (gold "Designing Tomorrow's Spaces" headline visible)
+  - Confirmed right-side content panel: Featured badge, Web Development category, "ELUX DESIGNS" client label, project title, description ("premium digital presence for a South Pacific design studio"), 4 tags (Editorial, Custom CMS, Email Integration, Admin Panel), and View Case Study + Visit Live Site buttons
+  - VLM confirmed: "The layout is exceptionally neat, compact, and professional... high-end agency or designer portfolio piece"
+  - Clicked "View Case Study" → modal opens with laptop mockup at top + project details, challenge/solution/result cards, tags, and Visit Live Site button below. VLM confirmed "clean and professional".
+- Layout is now compact and polished — no more large empty full-bleed image taking up excessive space.
+
+Stage Summary:
+- The Elux Designs portfolio card now displays the real Elux website screenshot INSIDE a laptop mockup frame (with bezel, camera, screen, base/keyboard deck).
+- Two-column layout: laptop mockup on the left, project content (title, description, tags, CTAs) on the right.
+- Case study modal also uses the laptop mockup at the top.
+- Lint clean, browser-verified across desktop and modal interactions.
+- Solves the user's complaint: image no longer takes excessive space; the layout looks neat and professional.
