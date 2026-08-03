@@ -10,7 +10,6 @@ import { Services } from "@/components/site/services";
 import { Portfolio } from "@/components/site/portfolio";
 import { Process } from "@/components/site/process";
 import { Testimonials } from "@/components/site/testimonials";
-import { TechStack } from "@/components/site/tech-stack";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 import { AdminPanel } from "@/components/site/admin-panel";
@@ -45,7 +44,6 @@ export default async function Home() {
         <Portfolio projects={projects} />
         <Process />
         <Testimonials testimonials={testimonials} />
-        <TechStack />
         <Contact settings={settings} />
       </main>
 

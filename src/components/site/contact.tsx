@@ -66,7 +66,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <SectionHeading
-          index="/ 07"
+          index="/ 06"
           kicker="Start a Project"
           title={
             <>

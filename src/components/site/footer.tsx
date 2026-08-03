@@ -113,9 +113,6 @@ export function Footer({ settings }: { settings: SettingsMap }) {
             © {new Date().getFullYear()} N2K Labs — South Pacific, Fiji. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <span className="mono-label text-[#5a5a63]">
-              Built with Next.js · TypeScript
-            </span>
             <motion.button
               whileHover={{ y: -3 }}
               onClick={scrollTop}

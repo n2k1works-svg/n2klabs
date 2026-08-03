@@ -54,3 +54,23 @@ Stage Summary:
 - Portfolio section now shows all 4 project cards with properly-rendered images (Elux Design, Pacific Trade Portal, Lumina Analytics, Tides Resort).
 - No 404s in dev.log. No broken image placeholders.
 - Site is fully production-ready. All 11 sections, CMS, admin panel, Resend email, and seed data verified end-to-end.
+
+---
+Task ID: 2
+Agent: main (Z.ai Code)
+Task: Fix hero nav logo overlap on tablet + remove Tech Stack section (client shouldn't see internal tools).
+
+Work Log:
+- Investigated via Agent Browser at 390px / 768px / 1440px viewports + VLM analysis.
+- Root cause: On md breakpoint (768px-1023px), the "South Pacific, FIJI" location+clock (`hidden md:flex`) collided with the absolutely-centered N2K logo — they were both fighting for the same horizontal space, creating a cramped, overlapping cluster.
+- Fix: bumped location+clock from `hidden md:flex` → `hidden xl:flex` so it only renders on 1280px+ where there's room for the centered logo. Added `z-10` to logo link for safety. Mobile + tablet now show clean 3-point nav (Menu | Logo | CTA); desktop keeps the location/clock badge.
+- Removed `<TechStack />` render + import from page.tsx (component file kept for future use but no longer public-facing).
+- Renumbered Contact section from `/ 07` → `/ 06` to close the gap left by Tech Stack removal.
+- Removed "Built with Next.js · TypeScript" attribution from footer bottom bar (user doesn't want clients seeing their tools).
+- Verified via VLM at 768px (nav clean, no overlap), 1440px (location/clock visible and non-overlapping), full-page (no Tech Stack/Toolkit section present), and footer bottom (only copyright + location, no tech mention).
+- Lint clean.
+
+Stage Summary:
+- Hero nav no longer overlaps on any viewport. Clean 3-point layout on mobile/tablet; full badge on desktop.
+- Tech Stack section fully removed from public site; footer no longer credits any technologies. Clients see only capabilities and results, not the internal toolchain.
+- Section numbering contiguous: /01 About → /02 Services → /03 Portfolio → /04 Process → /05 Testimonials → /06 Contact.

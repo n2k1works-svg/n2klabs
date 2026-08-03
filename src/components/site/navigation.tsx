@@ -60,19 +60,19 @@ export function Navigation() {
             <span className="mono-label text-[#8a8a93] hidden sm:inline">Menu</span>
           </button>
 
-          {/* Center-left: location + clock */}
-          <div className="hidden md:flex items-center gap-2 mono-label text-[#8a8a93]">
+          {/* Center-left: location + clock — only on large screens to avoid colliding with centered logo on tablet */}
+          <div className="hidden xl:flex items-center gap-2 mono-label text-[#8a8a93]">
             <span className="text-[#00d4ff]">/</span>
             <span>South Pacific, FIJI</span>
             <span className="text-white/20">•</span>
             <LiveClock className="text-[#f0ece6]" />
           </div>
 
-          {/* Center: logo */}
+          {/* Center: logo — absolutely centered, sits above location/clock which only renders on xl+ */}
           <a
             href="#home"
             data-cursor="hover"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 z-10"
           >
             <span className="font-black text-xl md:text-2xl tracking-tight text-[#f0ece6]">
               N2K
