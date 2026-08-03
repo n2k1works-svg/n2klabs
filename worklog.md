@@ -292,3 +292,25 @@ Stage Summary:
 - Case study modal also uses the laptop mockup at the top.
 - Lint clean, browser-verified across desktop and modal interactions.
 - Solves the user's complaint: image no longer takes excessive space; the layout looks neat and professional.
+
+---
+Task ID: 11
+Agent: main (Z.ai Code)
+Task: User reported "its not there, my request has not completed" — verify the laptop mockup with the Elux screenshot is actually rendering on the live dev server.
+
+Work Log:
+- Checked dev server log — clean, no errors. Server responding HTTP 200 in 0.095s.
+- Opened http://localhost:3000 in Agent Browser at 1440x900 viewport.
+- DOM inspection: confirmed exactly 1 <img> inside #portfolio with src=http://localhost:3000/uploads/elux-screenshot.png, alt="Elux Designs", displayed=true, naturalWidth=1885, naturalHeight=823.
+- SSR HTML source check (curl): confirmed rendered HTML contains "View Case Study", "View case study", "Visit Live Site", and references to elux-screenshot.png — all from the latest portfolio.tsx code with the LaptopMockup component.
+- VLM verification at 1440x900 viewport, scrolled to portfolio section (y=3338) then +700:
+  - Confirmed: laptop mockup on the LEFT with Elux Designs website inside the screen (gold "Designing Tomorrow's Spaces" headline, "VIEW OUR WORK" button visible inside the laptop screen)
+  - Confirmed: RIGHT side has FEATURED + WEB DEVELOPMENT tags, "Elux Designs" project title, description, 4 tags (Editorial, Custom CMS, Email Integration, Admin Panel), View Case Study + Visit Live Site buttons
+  - VLM: "Yes, there is a prominent laptop mockup positioned on the left side... screen displays a website design for Elux Designs"
+- Full section screenshot confirmed complete layout: section heading "/ 03 SELECTED WORK" → "Where craft meets impact." → laptop mockup (left) + content panel (right).
+
+Stage Summary:
+- The laptop mockup with the Elux Designs screenshot IS implemented and rendering correctly on the live dev server.
+- Verified via 3 independent methods: DOM eval (img displayed=true), SSR HTML source (contains latest markup), and VLM visual inspection (laptop + Elux screenshot + content panel all confirmed visible).
+- The layout: in the "/ 03 SELECTED WORK" portfolio section, after scrolling past the "Where craft meets impact." heading, there is a two-column layout with a laptop mockup (showing the Elux website inside the screen) on the left and project details + CTAs on the right.
+- User likely needs to refresh their Preview Panel (clear cache) and scroll down past the section heading to see the laptop mockup.
