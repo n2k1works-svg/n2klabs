@@ -314,3 +314,37 @@ Stage Summary:
 - Verified via 3 independent methods: DOM eval (img displayed=true), SSR HTML source (contains latest markup), and VLM visual inspection (laptop + Elux screenshot + content panel all confirmed visible).
 - The layout: in the "/ 03 SELECTED WORK" portfolio section, after scrolling past the "Where craft meets impact." heading, there is a two-column layout with a laptop mockup (showing the Elux website inside the screen) on the left and project details + CTAs on the right.
 - User likely needs to refresh their Preview Panel (clear cache) and scroll down past the section heading to see the laptop mockup.
+
+---
+Task ID: 12
+Agent: main (Z.ai Code)
+Task: Replace the flat laptop mockup in the portfolio (page 3) with a real 3D laptop that hovers and slowly rotates at an angle, with the Elux Designs website screenshot showing on its screen.
+
+Work Log:
+- Added a comprehensive 3D laptop CSS block to src/app/globals.css. Initial attempt placed it inside @layer utilities — Tailwind v4 stripped the custom class rules, so the animations didn't apply (verified via document.styleSheets scan: "NO LAPTOP RULES FOUND"). Moved the entire 3D laptop CSS block OUT of @layer utilities to top-level plain CSS — fixed.
+- CSS includes:
+  - .laptop-3d-stage: perspective 1800px, perspective-origin 50% 38%, plus an animated radial-gradient shadow on the ground (laptop-shadow keyframes).
+  - .laptop-3d-float: 6s ease-in-out infinite translateY animation (hovers ±14px).
+  - .laptop-3d-spin: 18s ease-in-out infinite rotation between rotateX(14deg) rotateY(-32deg) and rotateX(14deg) rotateY(32deg) — slow oscillating yaw + fixed tilt.
+  - .laptop-3d: the body (640×400, max 90vw), transform-style: preserve-3d.
+  - .laptop-screen-panel: vertical lid, hinged at bottom, slight 8° back tilt.
+  - .laptop-bezel, .laptop-camera-dot, .laptop-screen (with img object-cover top-center), .laptop-glare (diagonal glare overlay).
+  - .laptop-lid-back: back face visible when rotated past 90°, with a cyan radial glow + ring detail.
+  - .laptop-lid-top / -left / -right: edge strips to give the lid real thickness via rotateX/rotateY transforms.
+  - .laptop-base-panel: horizontal keyboard deck (rotateX 90°), with .laptop-base, .laptop-hinge (notch), .laptop-keys (24 small key hint bars), .laptop-trackpad, .laptop-base-front (front edge strip).
+  - prefers-reduced-motion media query disables animations and holds a static tilted pose.
+- Created new component src/components/site/laptop-3d.tsx (Laptop3D) with the full 3D structure: stage → float → spin → laptop body → screen panel (lid-back, edge strips, bezel/camera/screen/glare) + base panel (base/hinge/keys/trackpad/base-front).
+- Updated src/components/site/portfolio.tsx: imported Laptop3D, replaced the previous flat LaptopMockup usage in the single-project view with <Laptop3D src={p.image} alt={p.title} />. Kept the simple flat LaptopMockup for the case study modal (so the modal stays static and readable).
+- Ran `bun run lint` → clean.
+- Agent Browser verification at 1440x900:
+  - DOM check confirmed `.laptop-3d-spin` has computed `animation: 18s ease-in-out infinite laptop-spin`, `transform: matrix3d(...)` (3D rotation actively applied), `transformStyle: preserve-3d`.
+  - VLM phase 1 (early in rotation): "Yes, there is a 3D laptop visible... Elux Designs website screenshot is clearly displayed on the laptop's screen... rendered with a distinct perspective tilt. It is rotated at an angle and tilted backward. This creates a sense of depth, allowing you to see the thickness of the screen bezel and the edge of the keyboard deck/base."
+  - VLM phase 2 (9 seconds later, different rotation angle): "The laptop is rotated to the left (three-quarter perspective 3/4 view) where the screen faces slightly toward the viewer's left. You can see the left edge/side of the laptop chassis and bezel, while the right side recedes into the background."
+- Confirmed: the laptop is hovering (floating up/down) AND slowly rotating (oscillating Y-axis between -32° and +32° with a 14° forward tilt), and the Elux Designs website screenshot is clearly visible on the screen throughout.
+
+Stage Summary:
+- Portfolio section (page 3) now contains a true 3D laptop built with pure CSS 3D transforms.
+- The laptop Hovers (floats up and down) and slowly rotates (oscillates left↔right on the Y axis at 14° forward tilt) so visitors can see the Elux Designs website on the screen at multiple angles.
+- Real laptop details: screen bezel with camera dot, screen glare, lid thickness (top/left/right edges), back of lid with cyan glow, keyboard deck with hinge notch + key hints + trackpad + front edge.
+- Respects prefers-reduced-motion (holds a static tilted pose if user has reduced motion enabled).
+- Lint clean, browser-verified at multiple rotation phases.

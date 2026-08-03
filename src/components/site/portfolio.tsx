@@ -4,11 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X, ExternalLink, Target, Wrench, TrendingUp } from "lucide-react";
 import { SectionHeading } from "./section-heading";
+import { Laptop3D } from "./laptop-3d";
 import type { ProjectData } from "@/lib/data";
 
 const FILTERS = ["All", "Web Development", "E-Commerce", "Web App", "Brand & Web"];
 
-/** Laptop mockup frame — screenshot renders inside the screen. */
+/** Simple flat laptop preview used inside the case-study modal (not animated). */
 function LaptopMockup({
   src,
   alt,
@@ -22,9 +23,7 @@ function LaptopMockup({
     <div className={`relative ${className}`}>
       {/* Screen + bezel */}
       <div className="relative rounded-[14px] border border-white/15 bg-[#1a1a1f] p-2 shadow-[0_0_40px_rgba(0,212,255,0.08),0_20px_50px_-20px_rgba(0,0,0,0.8)]">
-        {/* camera dot */}
         <div className="absolute left-1/2 top-[5px] z-10 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-white/20" />
-        {/* screen */}
         <div className="relative aspect-[16/10] overflow-hidden rounded-[8px] bg-[#0a0a0c]">
           {src ? (
             <img
@@ -43,15 +42,11 @@ function LaptopMockup({
               </div>
             </div>
           )}
-          {/* subtle screen glare */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-white/[0.05]" />
         </div>
       </div>
-      {/* Base / keyboard deck */}
       <div className="relative mx-auto mt-[-2px] h-[10px] w-[108%] -translate-x-[3.7%] rounded-b-[8px] bg-gradient-to-b from-[#2a2a30] to-[#16161a]">
-        {/* hinge highlight */}
         <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
-        {/* notch */}
         <div className="absolute left-1/2 top-[7px] h-[3px] w-12 -translate-x-1/2 rounded-b-[3px] bg-[#0a0a0c]" />
       </div>
     </div>
@@ -106,7 +101,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
           </div>
         )}
 
-        {/* single project — laptop mockup + content side-by-side */}
+        {/* single project — 3D laptop + content side-by-side */}
         {isSingle && (
           <div className="mt-12">
             {filtered.map((p, i) => (
@@ -118,7 +113,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 transition={{ duration: 0.6 }}
                 className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"
               >
-                {/* laptop mockup */}
+                {/* 3D laptop — hovering + rotating */}
                 <div className="lg:col-span-7">
                   <button
                     onClick={() => setActive(p)}
@@ -126,12 +121,11 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                     aria-label={`View case study: ${p.title}`}
                     className="group block w-full text-left"
                   >
-                    <LaptopMockup
+                    <Laptop3D
                       src={p.image}
                       alt={p.title}
-                      className="transition-transform duration-500 group-hover:scale-[1.015]"
+                      className="transition-transform duration-500 group-hover:scale-[1.01]"
                     />
-                    {/* hint to click */}
                     <div className="mt-4 flex items-center gap-2 text-xs text-[#5a5a63] transition-colors group-hover:text-[#00d4ff]">
                       <span className="mono-label">View case study</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
