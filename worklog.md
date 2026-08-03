@@ -1,0 +1,38 @@
+# N2K Labs — Build Worklog
+
+---
+Task ID: 1
+Agent: main (Z.ai Code)
+Task: Build a premium, world-class cyberpunk agency website for "N2K Labs" — single-page Next.js app with full CMS, admin panel, and Resend email.
+
+Work Log:
+- Confirmed design direction (cyberpunk futurism, deep black + cyan, glassmorphism, Inter/JetBrains Mono).
+- Generated hero 3D room background image (1344x768) + Elux case study image via z-ai image CLI.
+- Defined Prisma schema: AdminUser, Project, Service, Testimonial, Stat, Setting, ContactMessage. Pushed to SQLite.
+- Seeded DB: 6 services, 4 projects (Elux featured), 4 testimonials, 4 stats, 9 settings, 1 admin user.
+- Built cyberpunk global theme in globals.css (glass, glow, grid-overlay, hud-corners, mono-label, animations).
+- Built core chrome: CustomCursor (dot+ring), ScrollProgress, LiveClock (Fiji tz), Preloader, MagneticButton.
+- Built Navigation (sticky, hamburger overlay, location/clock badge, N2K logo, Start Project CTA).
+- Built Hero (3D bg, perspective grid, 3 floating HUD panels, massive char-reveal title, For Winners badge, socials, Our Story, CTAs, parallax).
+- Built StatsBar (animated counters), About (story + values), Services (6 expandable cards), Portfolio (filterable + case study modal), Process (5-step timeline), Testimonials (manual nav + dots), TechStack (marquee + grid), Contact (form + info), Footer (sticky bottom + back-to-top + admin link).
+- Built API routes: auth (login/logout/session), contact (Resend email + DB save), projects/services/testimonials/settings/stats (CRUD), admin/messages, admin/password, upload (image to /public/uploads).
+- Built AdminPanel overlay (Ctrl+Shift+A or footer link): login + 6 tabs (Projects, Testimonials, Services, Messages, Settings, Password) with full CRUD + image upload.
+- Added SEO: metadata, OpenGraph, sitemap.ts, robots.ts.
+- Fixed critical layout bug: .hud-corners was forcing position:relative over .absolute, collapsing the hero. Removed position from the utility and added `relative` to non-positioned consumers.
+- Fixed all ESLint errors (set-state-in-effect, jsx-no-comment-textnodes, unused disables). Lint clean.
+- Verified end-to-end with Agent Browser + VLM:
+  - Hero renders all 9 elements correctly.
+  - Services shows 6 cards.
+  - Portfolio shows Elux case study + filters; modal opens with Challenge/Solution/Result + Visit Live Site.
+  - Admin panel opens via Ctrl+Shift+A, login (admin@n2klabs.com / n2k-admin-2024) works, Projects CRUD visible.
+  - Contact form submission shows "Message Sent".
+  - Mobile (390px) fully responsive, no overflow.
+  - Footer sticky to bottom (atBottom: true), no overlap.
+
+Stage Summary:
+- Production-ready single-page agency site on Next.js 16 + TS + Tailwind 4 + Prisma + Framer Motion.
+- All 11 required sections present and browser-verified.
+- Full CMS via API + admin overlay with cookie auth + image upload.
+- Resend email wired (degrades gracefully without API key).
+- Default admin: admin@n2klabs.com / n2k-admin-2024 (changeable in admin → Password tab).
+- .env.example documents SQLite→Neon PostgreSQL migration and Resend setup.
