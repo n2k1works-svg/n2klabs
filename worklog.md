@@ -137,3 +137,18 @@ Stage Summary:
 - Hero "STACK" panel repurposed as "NOW LIVE" engagements panel (city-based status feed) — preserves the cyberpunk HUD aesthetic.
 - Capability/deliverable terms (CMS, Admin Panel, Email Integration, Booking, Headless commerce) retained as those are service offerings clients should see, not internal dev tools.
 - Tech Stack section component file fully deleted (was already unrendered).
+
+---
+Task ID: 6
+Agent: main (Z.ai Code)
+Task: Move the hero 'Our Story' button up so it no longer overlaps/crowds the 'Scroll' cue at the bottom-center.
+
+Work Log:
+- User flagged the 'Our Story' button overlapping with the 'Scroll' cue (text + vertical line) at the bottom-center of the hero.
+- VLM analysis confirmed: Our Story was at `bottom-6` (24px) and Scroll cue starts at `bottom-2` (8px) growing upward — they sat at roughly the same vertical level and crowded each other horizontally near the center.
+- Fix: raised the 'Our Story' button from `bottom-6` → `bottom-16` (64px from bottom) so it sits cleanly ABOVE the Scroll cue. Also removed the `md:left-[calc(50%-80px)]` horizontal offset so it's now perfectly centered (`left-1/2 -translate-x-1/2`) on the same vertical axis as the Scroll cue below it, creating a clean central stack.
+- Verified via VLM at 1440px desktop: (1) Our Story is now above the Scroll cue, (2) clear vertical separation with no overlap/crowding, (3) both horizontally centered on the same axis, (4) layout is clean and professional. Social icons (bottom-left) and For Winners badge (bottom-right) confirmed clear of Our Story.
+- Lint clean.
+
+Stage Summary:
+- Hero bottom-center now has a clean vertical stack: 'Our Story' button on top → clear gap → 'Scroll' text + vertical line at the very bottom. No overlap, professional balance.

@@ -241,8 +241,8 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Z-6: Our Story button bottom-left-center */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 md:left-[calc(50%-80px)] z-20 hidden sm:block">
+      {/* Z-6: Our Story button — raised above the scroll cue to avoid overlap */}
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 hidden sm:block">
         <a
           href="#about"
           data-cursor="hover"
