@@ -68,55 +68,6 @@ const FALLBACK_PROJECTS: ProjectData[] = [
     featured: true,
     order: 0,
   },
-  {
-    id: "pacific",
-    title: "Pacific Trade Portal",
-    client: "Island Exports Co.",
-    category: "E-Commerce",
-    description:
-      "A multilingual commerce platform connecting South Pacific artisans with global markets.",
-    challenge:
-      "Fragmented logistics and a dated storefront limited reach for regional exporters.",
-    solution:
-      "Headless commerce build with multi-currency, regional shipping logic, and a bilingual experience.",
-    result: "3x international orders within the first quarter of launch.",
-    image: "/uploads/pacific-trade.jpg",
-    tags: ["E-Commerce", "Headless", "Multi-currency"],
-    featured: true,
-    order: 1,
-  },
-  {
-    id: "lumina",
-    title: "Lumina Analytics",
-    client: "Lumina Group",
-    category: "Web App",
-    description:
-      "A real-time analytics dashboard for a regional hospitality group tracking bookings and revenue across properties.",
-    challenge: "Data siloed across properties with no unified view for decision-makers.",
-    solution:
-      "Custom dashboard with live data pipelines, role-based access, and exportable reporting.",
-    result: "Cut weekly reporting time from 6 hours to 4 minutes.",
-    image: "/uploads/lumina.jpg",
-    tags: ["Dashboard", "Real-time", "Data Viz"],
-    featured: true,
-    order: 2,
-  },
-  {
-    id: "tides",
-    title: "Tides Resort",
-    client: "Tides Fiji",
-    category: "Brand & Web",
-    description:
-      "Full brand refresh and a cinematic booking-driven website for a luxury island resort.",
-    challenge: "An aging brand and a slow website failed to convey the premium resort experience.",
-    solution:
-      "New identity system paired with a performant custom-built site and integrated booking flow.",
-    result: "Direct bookings increased 58% post-launch.",
-    image: "/uploads/tides.jpg",
-    tags: ["Branding", "Resort", "Booking"],
-    featured: false,
-    order: 3,
-  },
 ];
 
 const FALLBACK_SERVICES: ServiceData[] = [
@@ -193,42 +144,12 @@ const FALLBACK_TESTIMONIALS: TestimonialData[] = [
     rating: 5,
     order: 0,
   },
-  {
-    id: "t2",
-    name: "James Lal",
-    role: "Director",
-    company: "Island Exports Co.",
-    quote:
-      "Our new platform opened doors to markets we could never reach before. The team understood our region and built something that truly works here.",
-    rating: 5,
-    order: 1,
-  },
-  {
-    id: "t3",
-    name: "Ana Volavola",
-    role: "Marketing Lead",
-    company: "Lumina Group",
-    quote:
-      "The analytics dashboard transformed how we operate. We went from guessing to knowing — every decision is now backed by real-time data.",
-    rating: 5,
-    order: 2,
-  },
-  {
-    id: "t4",
-    name: "Marcus Benn",
-    role: "GM",
-    company: "Tides Fiji",
-    quote:
-      "From brand to booking, N2K handled everything with a level of polish we did not think was possible in the South Pacific. World-class.",
-    rating: 5,
-    order: 3,
-  },
 ];
 
 const FALLBACK_STATS: StatData[] = [
-  { id: "st1", label: "Projects Delivered", value: 87, suffix: "+", order: 0 },
-  { id: "st2", label: "Happy Clients", value: 64, suffix: "+", order: 1 },
-  { id: "st3", label: "Years Experience", value: 9, suffix: "", order: 2 },
+  { id: "st1", label: "Projects Delivered", value: 1, suffix: "", order: 0 },
+  { id: "st2", label: "Happy Clients", value: 1, suffix: "", order: 1 },
+  { id: "st3", label: "Founded", value: 2026, suffix: "", order: 2 },
   { id: "st4", label: "Avg. Load Time", value: 1, suffix: "s", order: 3 },
 ];
 

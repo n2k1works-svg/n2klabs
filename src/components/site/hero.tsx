@@ -96,10 +96,10 @@ export function Hero() {
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-[#8a8a93]">PROJECTS</span>
-            <span className="font-mono text-[#f0ece6]">87</span>
+            <span className="font-mono text-[#f0ece6]">01</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[78%] bg-[#00d4ff]" />
+            <div className="h-full w-[8%] bg-[#00d4ff]" />
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-[#8a8a93]">PERF</span>
@@ -121,18 +121,18 @@ export function Hero() {
         <BlueprintContent />
       </HudPanel>
 
-      {/* Panel 3 — right lower: live engagements */}
+      {/* Panel 3 — right lower: capabilities */}
       <HudPanel
-        title="NOW LIVE"
+        title="CAPABILITIES"
         className="hidden lg:block bottom-[20%] right-[5%] w-48 animate-float"
         delay={1.1}
       >
         <div className="space-y-1.5 font-mono text-[11px]">
           {[
-            ["SUVA, FG", "SHIPPING"],
-            ["AUCKLAND", "IN DEV"],
-            ["SYDNEY", "REVIEW"],
-            ["SINGAPORE", "SCOPING"],
+            ["Editorial", "READY"],
+            ["Brand", "READY"],
+            ["Commerce", "READY"],
+            ["Dashboards", "READY"],
           ].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between">
               <span className="text-[#8a8a93]">{k}</span>
@@ -160,7 +160,7 @@ export function Hero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#00d4ff] animate-blink" />
             <span className="mono-label text-[#8a8a93]">
-              Digital Solutions Studio — Est. 2016
+              Digital Solutions Studio — Est. 2026
             </span>
           </motion.div>
 
@@ -271,7 +271,7 @@ export function Hero() {
             ))}
           </div>
           <div className="font-mono text-xs text-[#f0ece6] leading-relaxed">
-            Trusted by 64+ brands across the South Pacific & beyond.
+            Crafted with obsessive detail for brands that refuse to settle for ordinary.
           </div>
           <div className="mt-3 flex items-center gap-1.5">
             {[0, 1, 2, 3, 4].map((i) => (

@@ -152,3 +152,29 @@ Work Log:
 
 Stage Summary:
 - Hero bottom-center now has a clean vertical stack: 'Our Story' button on top → clear gap → 'Scroll' text + vertical line at the very bottom. No overlap, professional balance.
+
+---
+Task ID: 7
+Agent: main (Z.ai Code)
+Task: Update site to reflect real business — only 1 client (Elux Design), founded 2026. Remove all false/fake data.
+
+Work Log:
+- Hero tagline: "Est. 2016" → "Est. 2026"
+- Hero SYS·STATUS HUD: PROJECTS 87 → 01, progress bar 78% → 8%
+- Hero "NOW LIVE" panel (showed fake city engagements Suva/Auckland/Sydney/Singapore) → replaced with "CAPABILITIES" panel showing service readiness (Editorial/Brand/Commerce/Dashboards — all "READY")
+- Hero "For Winners" badge: "Trusted by 64+ brands across the South Pacific & beyond." → "Crafted with obsessive detail for brands that refuse to settle for ordinary."
+- Stats Bar: Projects Delivered 87+ → 1, Happy Clients 64+ → 1, Years Experience 9 → Founded 2026, Avg Load Time 1s (kept)
+- Portfolio: removed 3 fake projects (Pacific Trade Portal, Lumina Analytics, Tides Resort). Kept only Elux Design. Filters hidden when projects.length === 1. Single card spans full width (md:col-span-2 lg:col-span-3). Heading updated: "Case studies in craft & impact" → "Where craft meets impact", description updated to reference Elux as debut project.
+- Testimonials: removed 3 fake testimonials (James Lal, Ana Volavola, Marcus Benn). Kept only Sera Maiwai (Elux Architecture). Navigation arrows + dots hidden when count === 1.
+- Updated both prisma/seed.ts and src/lib/data.ts fallback arrays to match.
+- Re-seeded database (bunx tsx prisma/seed.ts).
+- VLM-verified: hero (Est. 2026, PROJECTS 01, CAPABILITIES panel, new For Winners text), stats bar (1, 1, 2026, 1s), portfolio (1 card, no filters, full width), testimonials (1 quote from Sera Maiwai/Elux, no nav arrows/dots).
+- Lint clean.
+
+Stage Summary:
+- Site now reflects real business: 1 client (Elux Design), founded 2026. Zero false data anywhere.
+- Stats: Projects Delivered 1, Happy Clients 1, Founded 2026, Avg Load Time 1s.
+- Portfolio: 1 featured case study (Elux), filters auto-hidden for single project, card spans full width.
+- Testimonials: 1 real quote from Sera Maiwai (Elux Architecture), navigation auto-hidden for single testimonial.
+- Hero HUD panels honest: SYS·STATUS shows 01 projects, CAPABILITIES shows service readiness (not fake active engagements).
+- For Winners badge reframed from fake client count to a quality/positioning statement.

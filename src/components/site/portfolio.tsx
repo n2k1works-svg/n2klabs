@@ -26,34 +26,36 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
           kicker="Selected Work"
           title={
             <>
-              Case studies in
+              Where craft
               <br />
-              <span className="text-gradient-cyan">craft & impact.</span>
+              <span className="text-gradient-cyan">meets impact.</span>
             </>
           }
-          description="A look at the brands we've helped elevate — from boutique studios to regional commerce platforms."
+          description="Every great studio starts with one defining project. Here's ours — a collaboration with Elux Architecture."
         />
 
-        {/* filters */}
-        <div className="mt-10 flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              data-cursor="hover"
-              className={`rounded-full border px-4 py-2 text-xs font-medium transition-all ${
-                filter === f
-                  ? "border-[#00d4ff] bg-[#00d4ff]/10 text-[#00d4ff] glow-cyan-sm"
-                  : "border-white/10 bg-white/[0.02] text-[#8a8a93] hover:border-white/30 hover:text-[#f0ece6]"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+        {/* filters — hidden when only 1 project */}
+        {projects.length > 1 && (
+          <div className="mt-10 flex flex-wrap gap-2">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                data-cursor="hover"
+                className={`rounded-full border px-4 py-2 text-xs font-medium transition-all ${
+                  filter === f
+                    ? "border-[#00d4ff] bg-[#00d4ff]/10 text-[#00d4ff] glow-cyan-sm"
+                    : "border-white/10 bg-white/[0.02] text-[#8a8a93] hover:border-white/30 hover:text-[#f0ece6]"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        )}
 
-        {/* grid */}
-        <div className="mt-10 grid md:grid-cols-2 gap-4 md:gap-6">
+        {/* grid — single project spans full width */}
+        <div className={`mt-10 grid gap-4 md:gap-6 ${projects.length === 1 ? "md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-2"}`}>
           {filtered.map((p, i) => (
             <motion.button
               key={p.id}
@@ -64,7 +66,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
               transition={{ delay: (i % 2) * 0.1, duration: 0.6 }}
               onClick={() => setActive(p)}
               data-cursor="hover"
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] text-left transition-all duration-300 hover:border-[#00d4ff]/40"
+              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] text-left transition-all duration-300 hover:border-[#00d4ff]/40 ${projects.length === 1 ? "md:col-span-2 lg:col-span-3" : ""}`}
             >
               {/* image */}
               <div className="relative aspect-[16/10] overflow-hidden">

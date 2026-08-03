@@ -89,45 +89,47 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
               </AnimatePresence>
             </div>
 
-            {/* controls */}
-            <div className="mt-6 flex items-center justify-between">
-              {/* dots */}
-              <div className="flex items-center gap-2">
-                {testimonials.map((t, i) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setIdx(i)}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    data-cursor="hover"
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === idx
-                        ? "w-8 bg-[#00d4ff]"
-                        : "w-1.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                  />
-                ))}
-              </div>
+            {/* controls — hidden when only 1 testimonial */}
+            {count > 1 && (
+              <div className="mt-6 flex items-center justify-between">
+                {/* dots */}
+                <div className="flex items-center gap-2">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setIdx(i)}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      data-cursor="hover"
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === idx
+                          ? "w-8 bg-[#00d4ff]"
+                          : "w-1.5 bg-white/20 hover:bg-white/40"
+                      }`}
+                    />
+                  ))}
+                </div>
 
-              {/* arrows */}
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => go(-1)}
-                  aria-label="Previous"
-                  data-cursor="hover"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => go(1)}
-                  aria-label="Next"
-                  data-cursor="hover"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                {/* arrows */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => go(-1)}
+                    aria-label="Previous"
+                    data-cursor="hover"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => go(1)}
+                    aria-label="Next"
+                    data-cursor="hover"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
