@@ -121,18 +121,18 @@ export function Hero() {
         <BlueprintContent />
       </HudPanel>
 
-      {/* Panel 3 — right lower: build stack */}
+      {/* Panel 3 — right lower: live engagements */}
       <HudPanel
-        title="STACK"
+        title="NOW LIVE"
         className="hidden lg:block bottom-[20%] right-[5%] w-48 animate-float"
         delay={1.1}
       >
         <div className="space-y-1.5 font-mono text-[11px]">
           {[
-            ["Next.js 16", "ACTIVE"],
-            ["TypeScript", "ACTIVE"],
-            ["Prisma", "ACTIVE"],
-            ["Tailwind", "ACTIVE"],
+            ["SUVA, FG", "SHIPPING"],
+            ["AUCKLAND", "IN DEV"],
+            ["SYDNEY", "REVIEW"],
+            ["SINGAPORE", "SCOPING"],
           ].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between">
               <span className="text-[#8a8a93]">{k}</span>

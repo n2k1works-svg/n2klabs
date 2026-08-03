@@ -21,7 +21,7 @@ const STEPS = [
     icon: Code2,
     no: "03",
     title: "Development",
-    text: "We engineer with Next.js, TypeScript, and modern infrastructure — fast, accessible, and built to scale.",
+    text: "We engineer with modern, battle-tested infrastructure — fast, accessible, and built to scale.",
   },
   {
     icon: Rocket,

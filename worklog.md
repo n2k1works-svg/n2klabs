@@ -113,3 +113,27 @@ Stage Summary:
 - All code-comment-style "// " prefixes stripped from user-visible labels. Site now reads as professional editorial copy rather than developer debug text.
 - Single "/" section indices ("/ 01", "/ 02"...) retained as clean chapter markers.
 - Footer Admin Access link upgraded with a ShieldCheck icon.
+
+---
+Task ID: 5
+Agent: main (Z.ai Code)
+Task: Remove ALL user-visible mentions of internal tools/technologies (Next.js, TypeScript, React, Prisma, Tailwind, Framer Motion, shadcn, Vercel, Resend, etc.) from everywhere on the site.
+
+Work Log:
+- Audited entire codebase for user-facing tech mentions via ripgrep. Found mentions in: hero.tsx (STACK HUD panel), process.tsx (Development step text), prisma/seed.ts (Web Development service description/features, Elux solution + tags, Tides solution + tags), lib/data.ts (fallback mirror of seed).
+- Hero HUD: replaced "STACK" panel (which listed Next.js 16, TypeScript, Prisma, Tailwind) with a "NOW LIVE" engagements panel showing city statuses (SUVA/AUCKLAND/SYDNEY/SINGAPORE) — keeps the cyberpunk HUD aesthetic without revealing tools.
+- Seed data + fallback: rewrote to be capability-focused, tech-agnostic:
+  - Web Development service: "engineered with Next.js, TypeScript" → "engineered for speed, scale, and conversion"; features "Next.js & React" / "Type-safe architecture" / "Edge & serverless" → "Custom-built frontends" / "Editorial & marketing sites" / "Headless commerce"
+  - Elux project: "custom Next.js site" → "bespoke platform"; tags ['Next.js',...] → ['Editorial', 'Custom CMS', 'Email Integration', 'Admin Panel']
+  - Tides project: "performant Next.js site" → "performant custom-built site"; tags ['Branding', 'Next.js', 'Booking'] → ['Branding', 'Resort', 'Booking']
+- Process section: "We engineer with Next.js, TypeScript, and modern infrastructure" → "We engineer with modern, battle-tested infrastructure"
+- Deleted dead src/components/site/tech-stack.tsx (was already removed from page.tsx in Task 2, but file still existed with all tech names).
+- Re-ran seed script (bunx tsx prisma/seed.ts) to update DB rows.
+- Verified via VLM: full-page screenshot (1440px) confirmed NO technology names visible anywhere — hero HUD, services, portfolio cards, process, testimonials, contact, footer all clean. Portfolio case study modal verified: Elux Solution reads "bespoke platform with a custom headless CMS" (no Next.js); tags show "Editorial / Custom CMS / Email Integration / Admin Panel". Mobile (390px) confirmed clean.
+- Lint clean.
+
+Stage Summary:
+- Zero user-visible mentions of Next.js, TypeScript, React, Prisma, Tailwind, Framer Motion, shadcn, Vercel, Resend, NextAuth, Zustand, or PostgreSQL remain anywhere on the site (hero, services, portfolio cards + modals, process, testimonials, contact, footer).
+- Hero "STACK" panel repurposed as "NOW LIVE" engagements panel (city-based status feed) — preserves the cyberpunk HUD aesthetic.
+- Capability/deliverable terms (CMS, Admin Panel, Email Integration, Booking, Headless commerce) retained as those are service offerings clients should see, not internal dev tools.
+- Tech Stack section component file fully deleted (was already unrendered).

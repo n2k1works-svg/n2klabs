@@ -59,12 +59,12 @@ const FALLBACK_PROJECTS: ProjectData[] = [
     challenge:
       "Elux needed a portfolio that matched the craftsmanship of their architecture — refined, fast, and easy for their team to update without touching code.",
     solution:
-      "We built a custom Next.js site with a bespoke headless CMS, project management admin panel, and transactional email integration — all wrapped in a cinematic, editorial design system.",
+      "We built a bespoke platform with a custom headless CMS, project management admin panel, and transactional email integration — all wrapped in a cinematic, editorial design system.",
     result:
       "40% faster load times, zero-dependency content workflow, and a portfolio that converts high-end project inquiries.",
     url: "https://eluxfiji.com",
     image: "/uploads/elux.jpg",
-    tags: ["Next.js", "Custom CMS", "Email Integration", "Admin Panel"],
+    tags: ["Editorial", "Custom CMS", "Email Integration", "Admin Panel"],
     featured: true,
     order: 0,
   },
@@ -110,10 +110,10 @@ const FALLBACK_PROJECTS: ProjectData[] = [
       "Full brand refresh and a cinematic booking-driven website for a luxury island resort.",
     challenge: "An aging brand and a slow website failed to convey the premium resort experience.",
     solution:
-      "New identity system paired with a performant Next.js site and integrated booking flow.",
+      "New identity system paired with a performant custom-built site and integrated booking flow.",
     result: "Direct bookings increased 58% post-launch.",
     image: "/uploads/tides.jpg",
-    tags: ["Branding", "Next.js", "Booking"],
+    tags: ["Branding", "Resort", "Booking"],
     featured: false,
     order: 3,
   },
@@ -126,8 +126,8 @@ const FALLBACK_SERVICES: ServiceData[] = [
     slug: "web-development",
     icon: "Code2",
     description:
-      "High-performance websites & web apps engineered with Next.js, TypeScript, and modern infrastructure. Pixel-perfect, blazing-fast, built to scale.",
-    features: ["Next.js & React", "Type-safe architecture", "Edge & serverless", "Core Web Vitals optimized"],
+      "High-performance websites & web apps engineered for speed, scale, and conversion. Pixel-perfect, blazing-fast, built to grow with your business.",
+    features: ["Custom-built frontends", "Editorial & marketing sites", "Headless commerce", "Core Web Vitals optimized"],
     order: 0,
   },
   {
