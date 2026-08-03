@@ -392,6 +392,12 @@
   50%      { transform: rotateX(14deg) rotateY(32deg); }
 }
 
+/* pulsing cyan dot — used by the laptop-3d toggle and hint */
+@keyframes pulse-cyan {
+  0%, 100% { opacity: 0.55; transform: scale(0.9); }
+  50%      { opacity: 1; transform: scale(1.1); }
+}
+
 /* the laptop body */
 .laptop-3d {
   position: relative;
@@ -627,5 +633,254 @@
   }
   .laptop-3d-float {
     transform: translateY(0);
+  }
+}
+
+/* ========================================
+   3D LAPTOP — interactive mouse mode
+   ======================================== */
+
+/* In manual mode, freeze the spin keyframe and let JS drive the transform.
+   Float (up/down hover) keeps running for life. */
+.laptop-3d-stage.is-interactive .laptop-3d-spin {
+  animation: none;
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.laptop-3d-stage.is-interactive .laptop-3d-stage::after {
+  animation: none;
+  opacity: 0.45;
+}
+
+/* --- Floating mode toggle button (top-right of stage) --- */
+.laptop-3d-toggle {
+  position: absolute;
+  top: 22px;
+  right: 16px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 212, 255, 0.28);
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: rgba(240, 236, 230, 0.85);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  user-select: none;
+}
+.laptop-3d-toggle:hover {
+  border-color: rgba(0, 212, 255, 0.7);
+  color: #00d4ff;
+  box-shadow: 0 0 22px rgba(0, 212, 255, 0.18);
+  transform: translateY(-1px);
+}
+.laptop-3d-stage.is-interactive .laptop-3d-toggle {
+  border-color: rgba(0, 212, 255, 0.65);
+  background: rgba(0, 212, 255, 0.12);
+  color: #00d4ff;
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.2);
+}
+.laptop-3d-toggle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.9);
+  animation: pulse-cyan 1.6s ease-in-out infinite;
+}
+.laptop-3d-toggle-icon {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.laptop-3d-toggle:hover .laptop-3d-toggle-icon {
+  opacity: 1;
+}
+
+/* --- Mode hint badge (top-left of stage) --- */
+.laptop-3d-hint {
+  position: absolute;
+  top: 22px;
+  left: 16px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 10, 12, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(138, 138, 147, 0.9);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.laptop-3d-stage.is-interactive .laptop-3d-hint {
+  border-color: rgba(0, 212, 255, 0.35);
+  color: #00d4ff;
+}
+.laptop-3d-hint-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(138, 138, 147, 0.8);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.laptop-3d-stage.is-interactive .laptop-3d-hint-dot {
+  background: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.9);
+  animation: pulse-cyan 1.6s ease-in-out infinite;
+}
+
+/* --- HUD crosshair reticle overlay (interactive mode only) --- */
+.laptop-3d-reticle {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+/* full-width horizontal guide line at cursor Y */
+.laptop-3d-reticle-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--ry, 50%);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.06) 15%,
+    rgba(0, 212, 255, 0.5) 50%,
+    rgba(0, 212, 255, 0.06) 85%,
+    transparent 100%
+  );
+  will-change: top;
+}
+
+/* full-height vertical guide line at cursor X */
+.laptop-3d-reticle-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--rx, 50%);
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.06) 15%,
+    rgba(0, 212, 255, 0.5) 50%,
+    rgba(0, 212, 255, 0.06) 85%,
+    transparent 100%
+  );
+  will-change: left;
+}
+
+/* targeting brackets + center dot cluster */
+.laptop-3d-reticle-target {
+  position: absolute;
+  left: var(--rx, 50%);
+  top: var(--ry, 50%);
+  width: 64px;
+  height: 64px;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+}
+.reticle-bracket {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 0 solid #00d4ff;
+  filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.7));
+}
+.reticle-tl {
+  top: 0;
+  left: 0;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-top-left-radius: 3px;
+}
+.reticle-tr {
+  top: 0;
+  right: 0;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  border-top-right-radius: 3px;
+}
+.reticle-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+  border-bottom-left-radius: 3px;
+}
+.reticle-br {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+  border-bottom-right-radius: 3px;
+}
+.reticle-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow:
+    0 0 6px #00d4ff,
+    0 0 12px rgba(0, 212, 255, 0.6);
+  transform: translate(-50%, -50%);
+}
+
+/* live coordinate readout below the reticle */
+.laptop-3d-reticle-readout {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(0, 212, 255, 0.9);
+  text-align: center;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(0, 212, 255, 0.5);
+}
+
+/* Hide the toggle/hint on tiny screens (where mouse interaction isn't useful anyway) */
+@media (max-width: 640px) {
+  .laptop-3d-toggle,
+  .laptop-3d-hint {
+    display: none;
+  }
+}
+
+/* Re-assert reduced-motion behaviour for interactive bits */
+@media (prefers-reduced-motion: reduce) {
+  .laptop-3d-stage.is-interactive .laptop-3d-spin {
+    transition: none;
+  }
+  .laptop-3d-reticle-h,
+  .laptop-3d-reticle-v,
+  .laptop-3d-reticle-target {
+    transition: none;
   }
 }

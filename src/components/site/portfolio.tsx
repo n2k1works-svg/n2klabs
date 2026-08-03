@@ -115,11 +115,19 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
               >
                 {/* 3D laptop — hovering + rotating */}
                 <div className="lg:col-span-7">
-                  <button
+                  <div
                     onClick={() => setActive(p)}
                     data-cursor="hover"
+                    role="button"
+                    tabIndex={0}
                     aria-label={`View case study: ${p.title}`}
-                    className="group block w-full text-left"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setActive(p);
+                      }
+                    }}
+                    className="group block w-full text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/40 rounded-2xl"
                   >
                     <Laptop3D
                       src={p.image}
@@ -130,7 +138,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                       <span className="mono-label">View case study</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </div>
-                  </button>
+                  </div>
                 </div>
 
                 {/* content */}

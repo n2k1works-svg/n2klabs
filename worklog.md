@@ -348,3 +348,56 @@ Stage Summary:
 - Real laptop details: screen bezel with camera dot, screen glare, lid thickness (top/left/right edges), back of lid with cyan glow, keyboard deck with hinge notch + key hints + trackpad + front edge.
 - Respects prefers-reduced-motion (holds a static tilted pose if user has reduced motion enabled).
 - Lint clean, browser-verified at multiple rotation phases.
+
+---
+Task ID: 12
+Agent: main (Z.ai Code)
+Task: Make the 3D laptop interactive with a mouse crosshair so the user can toggle between auto-rotate and manual mouse-control modes (user request: "make it interactive with the mouse crosshair, so i can toogle with it").
+
+Work Log:
+- Read existing `src/components/site/laptop-3d.tsx` — found pure CSS-animated 3D laptop (hover + slow Y-axis oscillation).
+- Read existing laptop-3d CSS block in `src/app/globals.css` (lines ~338-631) — understood the structure: `.laptop-3d-stage` (perspective), `.laptop-3d-float` (hover keyframe), `.laptop-3d-spin` (rotation keyframe), `.laptop-3d` (body), lid/base panels with thickness strips.
+- Rewrote `src/components/site/laptop-3d.tsx`:
+  - Added `interactive` state + `stageRef` / `spinRef` / `reticleRef` refs.
+  - Added a floating mode-toggle button (top-right of stage) with a crosshair SVG icon, "AUTO"/"MANUAL" label, and pulsing cyan dot.
+  - Added a hint badge (top-left of stage) showing "AUTO ROTATE" / "MOVE CURSOR TO TILT".
+  - Added a HUD crosshair reticle overlay (mounted only when interactive) — full-width/height guide lines at cursor X/Y, a 64x64 targeting cluster of 4 corner brackets + center dot, and a live ROT_X / ROT_Y readout.
+  - `handleMouseMove`: maps cursor px/py over the stage → `rotateY = (px - 0.5) * 76°` (range -38°..+38°) and `rotateX = 14 - (py - 0.5) * 36°` (range -4°..+32°); writes the transform directly to `spinRef.current.style.transform` (no React re-render per frame); updates reticle position via CSS vars `--rx`/`--ry`; updates the readout `<span>` textContent directly.
+  - `handleMouseLeave`: smoothly returns the laptop to the default tilt `rotateX(14deg) rotateY(-20deg)` and fades the reticle out (opacity 0).
+  - `useEffect` on `interactive`: when toggled ON, sets the default manual tilt inline transform; when toggled OFF, clears the inline transform so the CSS `laptop-spin` keyframe resumes.
+- Added new CSS in `globals.css` (appended after the reduced-motion block):
+  - `@keyframes pulse-cyan` (was referenced but not defined — added for the toggle/hint dots).
+  - `.laptop-3d-stage.is-interactive .laptop-3d-spin { animation: none; transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); }` — freezes the spin keyframe in manual mode so the inline transform takes effect; float (hover) keeps running in both modes.
+  - `.laptop-3d-toggle` button styles — pill-shaped, dark glass with cyan border, mono font, pulsing dot, hover + active states.
+  - `.laptop-3d-hint` badge styles — pill-shaped, transitions to cyan in interactive mode.
+  - `.laptop-3d-reticle` overlay — absolutely positioned full-stage, pointer-events none, opacity 0 by default, 0.18s opacity transition.
+  - `.laptop-3d-reticle-h` / `-v` — 1px gradient guide lines at cursor X/Y using CSS vars.
+  - `.laptop-3d-reticle-target` + `.reticle-bracket` (+ tl/tr/bl/br variants) + `.reticle-dot` — 64x64 targeting brackets cluster with cyan glow.
+  - `.laptop-3d-reticle-readout` — mono cyan text below the reticle showing ROT_X / ROT_Y.
+  - `@media (max-width: 640px)` — hides toggle + hint on tiny screens (no useful mouse interaction on touch).
+  - `@media (prefers-reduced-motion: reduce)` — disables the transition on the spin and reticle.
+- **Bug fix in `src/components/site/portfolio.tsx`**: the `<Laptop3D>` (which now contains a toggle `<button>`) was previously wrapped inside a parent `<button onClick={() => setActive(p)}>` — invalid HTML (button-in-button) AND clicking the toggle bubbled up and opened the case-study modal. Replaced the parent `<button>` with a `<div role="button" tabIndex={0} onKeyDown={...}>` that preserves accessibility (Enter/Space activate) and added `e.stopPropagation()` to the toggle's onClick as defense-in-depth.
+- Verified via `agent-browser` at 1440x900 desktop viewport:
+  - AUTO mode (initial): toggle="AUTO", hint="AUTO ROTATE", reticle NOT mounted, spin animation="laptop-spin" (running), laptop shows Elux screenshot.
+  - Click toggle → MANUAL mode: toggle="MANUAL", hint="MOVE CURSOR TO TILT", reticle mounted (opacity 0 initially), spin animation="none", inline transform set to `rotateX(14deg) rotateY(-20deg)`.
+  - Dispatch mousemove at center of stage → reticle opacity=1, --rx=49.96%, --ry=49.86%, ROT_X readout="14.1", ROT_Y readout="-0.0", laptop transform = `rotateX(14°) rotateY(0°)`.
+  - Dispatch mousemove at top-right corner (px=0.9, py=0.15) → ROT_X="26.7", ROT_Y="30.4", laptop tilted accordingly.
+  - Dispatch mouseleave (via mouseout with external relatedTarget — React's onMouseLeave uses mouseout delegation) → reticle opacity=0, spin transform reset to default matrix.
+  - Click toggle again → AUTO mode: isInteractive=false, toggle="AUTO", reticle unmounted, spin animation="laptop-spin" (resumed), inline transform cleared.
+  - Console check after reload: the previous `<button> cannot contain a nested <button>` React error is GONE.
+- Verified via VLM (`z-ai vision`) on a screenshot taken in MANUAL mode with cursor at upper-left of stage:
+  - Confirmed hint badge "MOVE CURSOR TO TILT" with cyan dot in top-left area.
+  - Confirmed cyan targeting reticle: "four corner brackets forming a square, with a small cyan dot exactly in the center" positioned over the laptop screen.
+  - Confirmed live readout text: "ROT_X 15.0°" and "ROT_Y -15.3°" visible below the reticle.
+- Ran `bun run lint` — clean, no errors.
+
+Stage Summary:
+- 3D laptop is now fully interactive with a cyberpunk mouse crosshair.
+- Two modes (AUTO ↔ MANUAL) toggled by a floating pill button in the top-right of the laptop stage.
+- In MANUAL mode the laptop tilts toward the cursor (rotateX 0..32°, rotateY -38..+38°) and a HUD reticle follows the mouse with corner brackets, a center dot, full-width/height guide lines, and a live ROT_X/ROT_Y readout.
+- Mouse-leave smoothly returns the laptop to a default tilt and hides the reticle.
+- Auto-rotation resumes cleanly when toggled back.
+- Fixed invalid HTML (button-in-button) and an accidental modal-open-on-toggle bug by restructuring the parent wrapper in portfolio.tsx to a `div[role=button]` and adding `stopPropagation` to the toggle.
+- Performance: high-frequency mousemove writes go straight to the DOM via refs (no React re-render per frame); only `interactive` state change triggers a re-render.
+- Touch-friendly: toggle and hint badges auto-hide on screens < 640px wide where mouse interaction isn't useful.
+- All verifications (lint, dev log, Agent Browser DOM checks, VLM visual check) pass.
