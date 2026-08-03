@@ -46,7 +46,7 @@ async function main() {
       solution: 'We built a bespoke platform with a custom headless CMS, project management admin panel, and transactional email integration — all wrapped in a cinematic, editorial design system.',
       result: '40% faster load times, zero-dependency content workflow, and a portfolio that converts high-end project inquiries.',
       url: 'https://eluxfiji.com',
-      image: '/uploads/elux.jpg',
+      image: '/uploads/elux-screenshot.png',
       tags: JSON.stringify(['Editorial', 'Custom CMS', 'Email Integration', 'Admin Panel']),
       featured: true,
       order: 0,

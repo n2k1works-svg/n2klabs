@@ -235,3 +235,25 @@ Stage Summary:
 - For Winners badge panel fully removed from the hero.
 - Hero retains its other UI: SYS·STATUS panel (top-right), BLUEPRINT panel (mid-left), CAPABILITIES panel (right-lower), tagline pill, hero title, subline buttons, socials (bottom-left), Our Story button (bottom-center), and Scroll cue.
 - Lint clean, no regressions.
+
+---
+Task ID: 9
+Agent: main (Z.ai Code)
+Task: Replace the AI-generated Elux project image with a real screenshot of the actual Elux Designs website (eluxfiji.com) that the user uploaded.
+
+Work Log:
+- User uploaded a screenshot of https://www.eluxfiji.com/ (saved to /home/z/my-project/upload/pasted_image_1785796608924.png, 1885x823 PNG, 739KB).
+- VLM-analyzed the uploaded image: confirmed it is the real Elux Design website homepage showing the gold "ELUX DESIGN" circular logo, "NADI, FIJI · EST. 2009" tagline, "Designing Tomorrow's Spaces" headline, and luxury gold/black aesthetic.
+- Copied the uploaded PNG to /home/z/my-project/public/uploads/elux-screenshot.png (served as a static asset by Next.js).
+- Updated prisma/seed.ts: project image field changed from '/uploads/elux.jpg' (AI-generated) → '/uploads/elux-screenshot.png' (real screenshot).
+- Updated src/lib/data.ts FALLBACK_PROJECTS: same image path change for the fallback mirror.
+- Ran `bunx tsx prisma/seed.ts` → "Seed complete." (DB now references the new image path).
+- Ran `bun run lint` → clean, no errors.
+- Agent Browser verification: opened http://localhost:3000, scrolled to #portfolio section, screenshotted the project card.
+- VLM verification confirmed the card now displays the real Elux website screenshot (gold logo, "Designing Tomorrow's Spaces" headline, Nadi Fiji est. 2009 tagline all visible inside the portfolio card image area).
+
+Stage Summary:
+- The Elux Designs portfolio card now shows a real screenshot of the live client website (eluxfiji.com) instead of a generic AI-generated image.
+- This makes the portfolio authentic — visitors see the actual work N2K Labs delivered for Elux.
+- Old AI-generated elux.jpg left in /public/uploads/ (unused now, harmless).
+- Lint clean, no regressions.
