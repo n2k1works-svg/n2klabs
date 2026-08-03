@@ -52,7 +52,7 @@ export function About({ tagline }: { tagline: string }) {
             transition={{ duration: 0.7 }}
             className="lg:col-span-7 glass rounded-2xl p-8 md:p-10"
           >
-            <div className="mono-label text-[#00d4ff] mb-4">{"// THE STORY"}</div>
+            <div className="mono-label text-[#00d4ff] mb-4">{"THE STORY"}</div>
             <p className="text-lg md:text-xl text-[#f0ece6] leading-relaxed mb-6">
               N2K Labs was founded on a simple conviction: the South Pacific
               deserves digital experiences as refined as anything coming out of

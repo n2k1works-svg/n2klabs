@@ -79,7 +79,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                   <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#121218] to-[#0a0a0c]">
                     <div className="text-center">
                       <div className="font-mono text-xs text-[#00d4ff]/40 mb-2">
-                        {"// NO PREVIEW"}
+                        {"NO PREVIEW"}
                       </div>
                       <div className="font-black text-3xl text-white/10">
                         {p.title}

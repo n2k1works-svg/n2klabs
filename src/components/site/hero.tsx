@@ -82,7 +82,7 @@ export function Hero() {
       {/* Z-3: floating HUD panels */}
       {/* Panel 1 — top right: project metrics */}
       <HudPanel
-        title="// SYS.STATUS"
+        title="SYS · STATUS"
         className="hidden md:block top-[18%] right-[6%] w-60"
         delay={0.6}
       >
@@ -114,7 +114,7 @@ export function Hero() {
 
       {/* Panel 2 — mid left: blueprint/coords */}
       <HudPanel
-        title="// BLUEPRINT"
+        title="BLUEPRINT"
         className="hidden lg:block bottom-[26%] left-[4%] w-56 animate-float-slow"
         delay={0.9}
       >
@@ -123,7 +123,7 @@ export function Hero() {
 
       {/* Panel 3 — right lower: build stack */}
       <HudPanel
-        title="// STACK"
+        title="STACK"
         className="hidden lg:block bottom-[20%] right-[5%] w-48 animate-float"
         delay={1.1}
       >

@@ -139,7 +139,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
 
             {/* socials */}
             <div className="glass rounded-2xl p-6">
-              <div className="mono-label text-[#8a8a93] mb-4">{"// FOLLOW"}</div>
+              <div className="mono-label text-[#8a8a93] mb-4">{"FOLLOW"}</div>
               <div className="flex gap-3">
                 {socials.map(({ icon: Icon, href, label }) => (
                   <a
@@ -170,7 +170,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
               onSubmit={onSubmit}
               className="glass relative rounded-2xl p-6 md:p-8 hud-corners"
             >
-              <div className="mono-label text-[#00d4ff] mb-6">{"// INQUIRY FORM"}</div>
+              <div className="mono-label text-[#00d4ff] mb-6">{"INQUIRY FORM"}</div>
 
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <Field label="Your Name" required>

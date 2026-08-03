@@ -206,7 +206,7 @@ function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
     <div className="flex h-full items-center justify-center p-6">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="mono-label text-[#00d4ff] mb-2">{"// SECURE ACCESS"}</div>
+          <div className="mono-label text-[#00d4ff] mb-2">{"SECURE ACCESS"}</div>
           <h2 className="text-3xl font-black text-[#f0ece6]">Admin Console</h2>
           <p className="mt-2 text-sm text-[#8a8a93]">
             Default: admin@n2klabs.com / n2k-admin-2024
@@ -292,7 +292,7 @@ function Toolbar({ title, onAdd }: { title: string; onAdd?: () => void }) {
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
-        <div className="mono-label text-[#00d4ff] mb-1">{"// MANAGE"}</div>
+        <div className="mono-label text-[#00d4ff] mb-1">{"MANAGE"}</div>
         <h2 className="text-2xl font-black text-[#f0ece6]">{title}</h2>
       </div>
       {onAdd && (
@@ -474,7 +474,7 @@ function ProjectEditor({
   return (
     <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5">
       <div className="mono-label text-[#00d4ff] mb-4">
-        {project.id ? "// EDIT PROJECT" : "// NEW PROJECT"}
+        {project.id ? "EDIT PROJECT" : "NEW PROJECT"}
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         <Field label="Title"><input className={inputCls} value={f.title || ""} onChange={(e) => set("title", e.target.value)} /></Field>
@@ -565,7 +565,7 @@ function TestimonialsAdmin() {
       <Toolbar title="Testimonials" onAdd={() => setEditing({} as Testimonial)} />
       {editing && (
         <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5 space-y-3">
-          <div className="mono-label text-[#00d4ff]">{editing.id ? "// EDIT" : "// NEW"}</div>
+          <div className="mono-label text-[#00d4ff]">{editing.id ? "EDIT" : "NEW"}</div>
           <div className="grid sm:grid-cols-2 gap-3">
             <Field label="Name"><input className={inputCls} value={editing.name || ""} onChange={(e) => setEditing({ ...editing, name: e.target.value })} /></Field>
             <Field label="Role"><input className={inputCls} value={editing.role || ""} onChange={(e) => setEditing({ ...editing, role: e.target.value })} /></Field>
@@ -648,7 +648,7 @@ function ServicesAdmin() {
       <Toolbar title="Services" onAdd={() => setEditing({} as Service)} />
       {editing && (
         <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5 space-y-3">
-          <div className="mono-label text-[#00d4ff]">{editing.id ? "// EDIT" : "// NEW"}</div>
+          <div className="mono-label text-[#00d4ff]">{editing.id ? "EDIT" : "NEW"}</div>
           <div className="grid sm:grid-cols-2 gap-3">
             <Field label="Title"><input className={inputCls} value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></Field>
             <Field label="Icon (lucide name)"><input className={inputCls} value={editing.icon || ""} onChange={(e) => setEditing({ ...editing, icon: e.target.value })} placeholder="Code2" /></Field>

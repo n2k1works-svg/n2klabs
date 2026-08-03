@@ -89,3 +89,27 @@ Work Log:
 
 Stage Summary:
 - Nav logo overlap fully resolved at every breakpoint. Desktop now shows: [Menu | / South Pacific, FIJI • live clock] ----- [N2K.] ----- [Start Project], with the location/clock group pinned left and clear horizontal clearance to the centered logo.
+
+---
+Task ID: 4
+Agent: main (Z.ai Code)
+Task: Remove all visible "//" double-slash prefixes from text labels across the site for a more professional appearance.
+
+Work Log:
+- Audited all .tsx files for visible "// " text prefixes (excluded code comments, URLs, and the single "/" decorative dividers in the nav overlay which are intentional separators).
+- Removed "// " prefix from 14 visible labels across 6 components:
+  - hero.tsx: "// SYS.STATUS" → "SYS · STATUS", "// BLUEPRINT" → "BLUEPRINT", "// STACK" → "STACK"
+  - portfolio.tsx: "// NO PREVIEW" → "NO PREVIEW"
+  - about.tsx: "// THE STORY" → "THE STORY"
+  - contact.tsx: "// FOLLOW" → "FOLLOW", "// INQUIRY FORM" → "INQUIRY FORM"
+  - footer.tsx: "// NAVIGATE" → "NAVIGATE", "// CONNECT" → "CONNECT"
+  - admin-panel.tsx: "// SECURE ACCESS" → "SECURE ACCESS", "// MANAGE" → "MANAGE", "// EDIT PROJECT"/"// NEW PROJECT" → "EDIT PROJECT"/"NEW PROJECT", "// EDIT"/"// NEW" (×2) → "EDIT"/"NEW"
+- Replaced the footer "Admin Access" link's single "/" prefix character with a proper ShieldCheck lucide icon for a polished, professional look (the "/" + " Admin Access" was being misread by VLM as "// ADMIN ACCESS").
+- Verified via VLM: hero HUD panels (SYS · STATUS, BLUEPRINT, STACK — no //), footer (NAVIGATE, CONNECT, Admin Access with shield icon — no //), about (THE STORY — no //), contact (FOLLOW, INQUIRY FORM — no //).
+- Confirmed section-heading index format "/ 02 ——— WHAT WE DO" is a single-slash chapter marker (intentional editorial convention), NOT a double slash — left as-is.
+- Lint clean.
+
+Stage Summary:
+- All code-comment-style "// " prefixes stripped from user-visible labels. Site now reads as professional editorial copy rather than developer debug text.
+- Single "/" section indices ("/ 01", "/ 02"...) retained as clean chapter markers.
+- Footer Admin Access link upgraded with a ShieldCheck icon.

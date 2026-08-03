@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUp, Twitter, Instagram, Globe, Github } from "lucide-react";
+import { ArrowUp, Twitter, Instagram, Globe, Github, ShieldCheck } from "lucide-react";
 import type { SettingsMap } from "@/lib/data";
 
 const LINKS = [
@@ -60,7 +60,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
 
           {/* quick links */}
           <div className="lg:col-span-3">
-            <div className="mono-label text-[#00d4ff] mb-4">{"// NAVIGATE"}</div>
+            <div className="mono-label text-[#00d4ff] mb-4">{"NAVIGATE"}</div>
             <ul className="grid grid-cols-2 gap-y-2 gap-x-6">
               {LINKS.map((l) => (
                 <li key={l.href}>
@@ -78,7 +78,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
 
           {/* socials + admin */}
           <div className="lg:col-span-4">
-            <div className="mono-label text-[#00d4ff] mb-4">{"// CONNECT"}</div>
+            <div className="mono-label text-[#00d4ff] mb-4">{"CONNECT"}</div>
             <div className="flex flex-wrap gap-3 mb-6">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -102,7 +102,8 @@ export function Footer({ settings }: { settings: SettingsMap }) {
               data-cursor="hover"
               className="inline-flex items-center gap-2 mono-label text-[#5a5a63] transition-colors hover:text-[#00d4ff]"
             >
-              <span>/</span> Admin Access
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Admin Access
             </button>
           </div>
         </div>
