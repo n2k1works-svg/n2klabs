@@ -134,7 +134,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                       alt={p.title}
                       className="transition-transform duration-500 group-hover:scale-[1.01]"
                     />
-                    <div className="mt-4 flex items-center gap-2 text-xs text-[#5a5a63] transition-colors group-hover:text-[#00d4ff]">
+                    <div className="mt-4 flex items-center gap-2 text-xs text-[#9aa0a8] transition-colors group-hover:text-[#00d4ff]">
                       <span className="mono-label">View case study</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </div>

@@ -104,7 +104,7 @@ export function AdminPanel() {
                 </div>
                 <div>
                   <div className="font-bold text-[#f0ece6]">N2K Admin</div>
-                  <div className="mono-label text-[#5a5a63]">
+                  <div className="mono-label text-[#9aa0a8]">
                     {authed ? "Authenticated" : "Locked"}
                   </div>
                 </div>
@@ -319,7 +319,7 @@ const inputCls =
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mono-label text-[#5a5a63] mb-1.5 block">{label}</span>
+      <span className="mono-label text-[#9aa0a8] mb-1.5 block">{label}</span>
       {children}
     </label>
   );
@@ -412,7 +412,7 @@ function ProjectsAdmin() {
                     </span>
                   )}
                 </div>
-                <div className="mono-label text-[#5a5a63] mt-0.5">
+                <div className="mono-label text-[#9aa0a8] mt-0.5">
                   {p.client} · {p.category}
                 </div>
               </div>
@@ -587,7 +587,7 @@ function TestimonialsAdmin() {
             <div className="flex items-start gap-4">
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-[#f0ece6]">{t.name}</div>
-                <div className="mono-label text-[#5a5a63]">{t.role}{t.company ? ` · ${t.company}` : ""}</div>
+                <div className="mono-label text-[#9aa0a8]">{t.role}{t.company ? ` · ${t.company}` : ""}</div>
                 <p className="mt-2 text-sm text-[#8a8a93] line-clamp-2">{t.quote}</p>
               </div>
               <div className="flex gap-2">
@@ -667,7 +667,7 @@ function ServicesAdmin() {
             <div className="flex items-center gap-4">
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-[#f0ece6]">{s.title}</div>
-                <div className="mono-label text-[#5a5a63] mt-0.5">{s.icon || "—"}</div>
+                <div className="mono-label text-[#9aa0a8] mt-0.5">{s.icon || "—"}</div>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setEditing(s)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[#00d4ff]/50 hover:text-[#00d4ff]">Edit</button>
@@ -719,7 +719,7 @@ function MessagesAdmin() {
                     {m.email} <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
-                <div className="mono-label text-[#5a5a63] mt-1">
+                <div className="mono-label text-[#9aa0a8] mt-1">
                   {m.service || "—"} · {m.budget || "—"} · {new Date(m.createdAt).toLocaleString()}
                 </div>
                 <p className="mt-2 text-sm text-[#b0aca6]">{m.message}</p>
@@ -850,7 +850,7 @@ function Loader() {
 }
 function Empty({ label }: { label: string }) {
   return (
-    <div className="rounded-xl border border-dashed border-white/10 py-12 text-center mono-label text-[#5a5a63]">
+    <div className="rounded-xl border border-dashed border-white/10 py-12 text-center mono-label text-[#9aa0a8]">
       {label}
     </div>
   );

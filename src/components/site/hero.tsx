@@ -256,7 +256,7 @@ export function Hero() {
       {/* scroll cue */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 hidden md:block">
         <div className="flex flex-col items-center gap-1">
-          <span className="mono-label text-[#5a5a63]">Scroll</span>
+          <span className="mono-label text-[#9aa0a8]">Scroll</span>
           <div className="h-8 w-px bg-gradient-to-b from-[#00d4ff]/60 to-transparent" />
         </div>
       </div>

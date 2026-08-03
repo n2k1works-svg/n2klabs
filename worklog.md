@@ -401,3 +401,31 @@ Stage Summary:
 - Performance: high-frequency mousemove writes go straight to the DOM via refs (no React re-render per frame); only `interactive` state change triggers a re-render.
 - Touch-friendly: toggle and hint badges auto-hide on screens < 640px wide where mouse interaction isn't useful.
 - All verifications (lint, dev log, Agent Browser DOM checks, VLM visual check) pass.
+
+---
+Task ID: 13
+Agent: main (Z.ai Code)
+Task: Increase visibility of very-light/low-contrast text across the site (user request: "increase visibility of the texts which are very light, example the text scroll under our story"). The uploaded screenshot showed the "Scroll" label below the "Our Story" button was nearly unreadable.
+
+Work Log:
+- Analyzed the uploaded screenshot with VLM (`z-ai vision`) — confirmed the "SCROLL" label below the "Our Story" button was the only genuinely low-contrast text element (described as "very light/low-contrast... dark grey... significantly harder to read").
+- Audited the codebase for the offending color: `text-[#5a5a63]` (RGB 90,90,99 → contrast ratio ~2.7:1 on the #0a0a0c background, FAILS WCAG AA). Found 11 usages across 4 files:
+  - `src/components/site/hero.tsx:259` — "Scroll" label (user's example)
+  - `src/components/site/portfolio.tsx:137` — "View case study" label
+  - `src/components/site/footer.tsx:103` — "Admin Access" link
+  - `src/components/site/footer.tsx:113` — copyright line
+  - `src/components/site/admin-panel.tsx` — 7 metadata/label usages (auth status, field labels, empty-state text, testimonial role, service icon, message meta, etc.)
+- Also checked for other dim colors (`#6a6a73`, `#7a7a83`, `#4a4a53`, `#3a3a43`, `text-white/30` etc.) — only `#5a5a63` was the genuinely too-dim text color. `text-white/10` and `text-white/20` usages were decorative (watermark project titles, bullet separators) and correctly left alone. The `--chart-5: #5a5a63` variable in globals.css is a chart color, not text — left alone.
+- Replaced every `text-[#5a5a63]` → `text-[#9aa0a8]` (RGB 154,160,168 → contrast ratio ~7.2:1 on #0a0a0c, PASSES WCAG AAA). That's roughly a **2.7× contrast boost**.
+  - Chose `#9aa0a8` (slightly brighter than the existing `#8a8a93` muted tier at ~4.6:1) so the previously-dim labels are now noticeably MORE readable than the standard muted labels — directly addressing the user's "increase visibility" request.
+  - Kept it below the `#b0aca6` body-text tier (~8:1) so these labels still feel like secondary metadata, not primary content.
+- Ran `bun run lint` — clean.
+- Verified via Agent Browser: computed `color` for "Scroll", "View case study", and the copyright line all now report `rgb(154, 160, 168)` = `#9aa0a8` (was `rgb(90, 90, 99)`).
+- Verified via VLM on a fresh hero screenshot: "The 'SCROLL' text is clearly readable... light gray or off-white... stands out distinctly against the dark background... immediately legible."
+
+Stage Summary:
+- All 11 instances of the too-dim `#5a5a63` text color have been bumped to `#9aa0a8` (WCAG AAA-passing).
+- Contrast ratio improved from ~2.7:1 → ~7.2:1 (2.7× boost).
+- Affected texts: hero "Scroll" cue, portfolio "View case study" label, footer copyright + "Admin Access" link, and 7 admin-panel metadata labels.
+- No other (decorative) low-opacity elements were touched, preserving the existing visual hierarchy.
+- Lint clean, dev server healthy, VLM-confirmed readability improvement.

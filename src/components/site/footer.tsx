@@ -100,7 +100,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
                 window.dispatchEvent(new CustomEvent("n2k-open-admin"))
               }
               data-cursor="hover"
-              className="inline-flex items-center gap-2 mono-label text-[#5a5a63] transition-colors hover:text-[#00d4ff]"
+              className="inline-flex items-center gap-2 mono-label text-[#9aa0a8] transition-colors hover:text-[#00d4ff]"
             >
               <ShieldCheck className="h-3.5 w-3.5" />
               Admin Access
@@ -110,7 +110,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
 
         {/* bottom bar */}
         <div className="mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="mono-label text-[#5a5a63]">
+          <p className="mono-label text-[#9aa0a8]">
             © {new Date().getFullYear()} N2K Labs — South Pacific, Fiji. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
