@@ -39,7 +39,7 @@ const STEPS = [
 
 export function Process() {
   return (
-    <section id="process" className="relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
+    <section id="process" className="cv-auto contain-paint relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">

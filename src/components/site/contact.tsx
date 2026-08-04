@@ -60,7 +60,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
   ].filter((s) => s.href);
 
   return (
-    <section id="contact" className="relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
+    <section id="contact" className="cv-auto contain-paint relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
 

@@ -136,12 +136,14 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "ss01", "cv11";
-    overflow-x: hidden;
+    /* `clip` (not `hidden`) avoids creating a scroll container on <body>,
+       which preserves compositor-thread scrolling for buttery-smooth
+       wheel/trackpad scroll. `hidden` forces main-thread scrolling. */
+    overflow-x: clip;
     /* Respect iOS safe-area insets (notch / home indicator) */
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
-    /* Remove the 300ms tap delay on touch devices (modern browsers
-       already do this when width=device-width, but this guarantees it) */
+    /* Remove the 300ms tap delay on touch devices */
     touch-action: manipulation;
     /* Prevent text size adjustment on orientation change (iOS) */
     -webkit-text-size-adjust: 100%;
@@ -374,6 +376,25 @@
   /* hide scrollbar */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ========================================
+   SCROLL PERFORMANCE — content-visibility + paint containment
+   (Top-level CSS so Tailwind v4 doesn't tree-shake it)
+   ========================================
+   content-visibility:auto lets the browser skip layout, paint, and
+   hit-testing for elements outside the viewport. On a long page this
+   is the single biggest scroll-perf win — often reducing per-frame
+   paint work by 80%+.
+   contain:layout style paint isolates each section's rendering so
+   animations/hover inside one section don't trigger repaints in siblings.
+   ======================================== */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.contain-paint {
+  contain: layout style paint;
 }
 
 /* ========================================

@@ -53,7 +53,7 @@ export function Hero() {
     <section
       ref={ref}
       id="home"
-      className="relative min-h-screen min-h-[100svh] w-full overflow-hidden bg-[#0a0a0c]"
+      className="contain-paint relative min-h-screen min-h-[100svh] w-full overflow-hidden bg-[#0a0a0c]"
     >
       {/* Z-1: 3D background */}
       <motion.div

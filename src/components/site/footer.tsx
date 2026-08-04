@@ -27,7 +27,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-white/5 bg-[#0a0a0c]">
+    <footer className="cv-auto contain-paint relative mt-auto overflow-hidden border-t border-white/5 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.06),transparent_70%)]" />
 

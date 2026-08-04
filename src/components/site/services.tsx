@@ -29,7 +29,7 @@ export function Services({ services }: { services: ServiceData[] }) {
   const [open, setOpen] = useState<string | null>(null);
 
   return (
-    <section id="services" className="relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
+    <section id="services" className="cv-auto contain-paint relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">

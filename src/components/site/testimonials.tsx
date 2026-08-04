@@ -15,7 +15,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
   const active = testimonials[idx];
 
   return (
-    <section id="testimonials" className="relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
+    <section id="testimonials" className="cv-auto contain-paint relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.06),transparent_70%)]" />
 

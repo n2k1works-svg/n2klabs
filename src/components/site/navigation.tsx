@@ -25,8 +25,19 @@ export function Navigation() {
   };
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
+    // rAF-throttled scroll handler — coalesces multiple scroll events
+    // into a single check per animation frame. Without this, onScroll
+    // fires dozens of times per second during a trackpad flick.
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 40);
+        ticking = false;
+      });
+    };
+    onScroll(); // set initial state
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -52,7 +63,7 @@ export function Navigation() {
       <header
         className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-500 ${
           scrolled
-            ? "py-3 bg-[#0a0a0c]/70 backdrop-blur-xl border-b border-white/5"
+            ? "py-3 bg-[#0a0a0c]/85 backdrop-blur-lg border-b border-white/5"
             : "py-5 bg-transparent"
         }`}
       >
