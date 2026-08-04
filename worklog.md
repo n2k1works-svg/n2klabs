@@ -693,3 +693,87 @@ Stage Summary:
   - Ctrl+Shift+E keyboard shortcut toggles between Edit and View modes.
 - All functionality preserved: login, logout, all 6 tabs, full CRUD on Projects/Testimonials/Services, message status updates, settings save, password change.
 - Lint clean. Dev server healthy (Python double-fork daemon keeps it alive between bash sessions). Two Agent Browser verification rounds confirmed 16/17 scenarios PASS in round 1 (with 1 source-inspection-only pass for the Messages badge swap due to stale DB) and 7/7 scenarios PASS in round 2 (after dev-server restart + hydration fix). All core interactions work end-to-end.
+
+---
+Task ID: 16-deploy-verify
+Agent: general-purpose (Agent Browser — final deploy verification)
+Task: Final pre-deployment smoke verification of both user-visible routes (/, /?view=admin), including the scroll color transition, admin login, edit/view mode toggle, persistence, and back-to-site flow.
+
+Work Log:
+- Read prior worklog (Tasks 1–15, 695 lines) to understand the project: cyberpunk N2K Labs agency site, single-page Next.js 16 app + Prisma SQLite + Resend email. Task 14 added the Heaven→Earth→Hell scroll color transition. Task 15 moved the admin dashboard to a dedicated full-page route at `/?view=admin` and added the Edit/View mode toggle (persisted in localStorage `n2k-admin-view-mode`). Verified dev server is healthy: `curl http://localhost:3000/` returns HTTP 200 in ~80ms, `/?view=admin` returns 200 in ~50ms, `/api/projects` returns 200 in ~10ms, `/api/auth/session` returns 200 in ~7ms. Process tree confirms the Python double-fork daemon (PID file `/home/z/my-project/dev.pid`, PID 22203, uptime 1h25m) is keeping `bun run dev` + `next-server (v16.1.3)` alive between bash calls.
+- Launched agent-browser (Playwright headless Chrome, 1440×900 viewport) and created `/home/z/my-project/screenshots/task16-deploy-verify/` for screenshots.
+- **Scenario 1 (Home page renders cleanly):** `agent-browser open http://localhost:3000/` → title "N2K Labs — Digital Solutions That Elevate". Snapshot shows hero h1 "N2K Labs", brand link "N2K .", all 6 service cards (Web Development, UI/UX Design, E-Commerce Solutions, Digital Strategy, Brand Identity, SEO & Analytics), portfolio section, process timeline, testimonials, contact form, footer with "ADMIN ACCESS" link. DOM verification:
+  - Hero renders: `document.querySelector('h1').textContent === "N2K Labs"` ✓
+  - Brand: `N2K` and `N2K Labs` in body text ✓
+  - Scroll progress bar: `<div style="transform:scaleX(0)" class="fixed top-0 left-0 right-0 z-[200] h-[2px] origin-left bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-[var(--accent-deep)] glow-cyan-sm">` ✓ (present at scrollY=0 with scaleX=0)
+  - Custom cursor component: mounted in the React tree (verified via source `src/components/site/custom-cursor.tsx`); it conditionally renders the dot+ring elements only when `window.matchMedia('(pointer: fine)').matches` returns true. In headless Chrome this matchMedia returns false, so the cursor `<div className="cursor-none">` wrapper correctly stays `null`. The component is wired up and enabled on real mouse devices — not a deploy-blocking issue, expected headless behavior. CSS var `--accent: #00d4ff` (cyan heaven accent at top) ✓
+  - Sticky footer: present (`ADMIN ACCESS` link, social links, back-to-top, footer nav) ✓
+  - Network tab: 0 failed API calls — all 24 captured requests returned HTTP 200 (HTML, CSS, JS chunks, fonts, hero-bg.png, logo.svg, SVG noise filter)
+  - Console errors: 0 (cleared before opening, after navigation the errors array is empty) ✓
+  - Screenshot → `screenshots/task16-deploy-verify/01-home-hero.png`
+- **Scenario 2 (Scroll color transition):** With `accentAtTop = #00d4ff` confirmed at scrollY=0 (Heaven — angelic blue, RGB 0,212,255), scrolled to three positions and queried `getComputedStyle(document.documentElement).getPropertyValue('--accent')`:
+  - Top (scrollProgress=0.0): `#00d4ff` (Heaven blue) ✓
+  - Middle (scrollProgress=0.5678): `rgb(208, 132, 69)` — interpolated between Earth stop `[201,162,83]` at p=0.42 and Ember stop `[217,90,50]` at p=0.78 (expected value at t=0.4167 ≈ rgb(208, 132, 69) ✓ — golden/amber Earth zone)
+  - Bottom (scrollProgress=1.0): `rgb(220, 38, 38)` (Hell deep red) ✓ — matches the `STOPS[3]` constant in `scroll-color-transition.tsx`
+  - Heaven→Earth→Hell effect confirmed end-to-end ✓
+  - Screenshot at bottom (red zone) → `screenshots/task16-deploy-verify/02-home-bottom-red.png`
+- **Scenario 3 (Admin dashboard full-page):** `agent-browser open http://localhost:3000/?view=admin` → snapshot shows ONLY admin elements (back arrow, Admin Console login panel). No site Nav/Hero/Footer present (full-page, not an overlay) ✓. DOM verification:
+  - Header text: `"N2K Admin\n/ EDIT MODE\nLOCKED"` ✓ (Lock icon SVG with `lucide-lock` class present, 2 SVGs in header total — Lock + ArrowLeft)
+  - Back-to-site arrow: `<a href="/" aria-label="Back to site">` ✓
+  - Body class doesn't contain the regular site nav/footer chrome (verified by absence of `<footer>` and `isFullPage=true`)
+  - Screenshot → `screenshots/task16-deploy-verify/03-admin-locked.png`
+- **Scenario 4 (Admin login flow):** Filled password `n2k-admin-2024` (email `admin@n2klabs.com` was already prefilled) and clicked "Unlock" button. After 2.5s wait, snapshot confirms full dashboard rendered:
+  - Header text: `"N2K Admin\n/ EDIT MODE\nAUTHENTICATED\nEdit\nView\nLogout"` ✓ (status changed LOCKED → AUTHENTICATED)
+  - 6 sidebar tabs visible: Projects, Testimonials, Services, Messages, Settings, Password ✓ (counted twice because mobile tab strip is also rendered alongside desktop sidebar — both hidden via `md:flex`/`md:hidden`)
+  - Edit/View pill toggle visible in header: 2 buttons "Edit" + "View" (both with Pencil and Eye icons) ✓
+  - Projects tab loaded: h2 "Projects" + "Add New" button + Elux Designs card (text "Elux Designs\nFEATURED\nELUX DESIGNS · WEB DEVELOPMENT…") visible ✓
+  - Each project card has Edit button (text "Edit" + Pencil icon) and trash button (lucide-trash-2 SVG) ✓
+  - Screenshot → `screenshots/task16-deploy-verify/04-admin-projects-edit-mode.png`
+- **Scenario 5 (Edit mode CRUD visibility):**
+  - Projects tab EDIT MODE: `addNewButton: true`, `editButtons: 3` (1 header pill + 1 card Edit, plus the snapshot's icon-only trash button counts as a card action), `trashSvgCount: 1` (1 trash icon on the Elux card). The DB only has 1 project (Elux) — earlier seed had 4 but testing trimmed down to 1; the task only requires Elux to be visible. PASS ✓
+  - Messages tab EDIT MODE (clicked Messages button): h2 "Messages" + 2 message cards (Sarah Mitchell + Sarah Test, both with `sarah@example.com` email link) + 2 `<select>` status dropdowns, each with 4 options `[new(selected), read, replied, archived]`, value="new" ✓
+  - Screenshot → `screenshots/task16-deploy-verify/05-messages-edit-mode.png`
+- **Scenario 6 (View mode toggle):** Clicked "View" pill button (ref=e4) in the header. DOM verification on Messages tab in VIEW MODE:
+  - Header text: `"N2K Admin\n/ VIEW MODE\nAUTHENTICATED\nEdit\nView\nLogout"` ✓ (header label changed to / VIEW MODE)
+  - VIEW MODE banner present: body text contains "VIEW MODE — editing controls are hidden. Switch to Edit Mode in the header to make changes." ✓
+  - Messages tab: `selectCount: 0`, `badgeCount: 2` (the `<select>` dropdowns were swapped for colored status badge pills) ✓
+  - Each badge is a `<span class="rounded-md border px-2 py-1 text-[10px] font-mono uppercase tracking-wide text-[var(--accent)] border-[rgba(var(--accent-rgb),0.4)] bg-[rgba(var(--accent-rgb),0.08)]">` with textContent `"new"`, computed `text-transform: uppercase`, computed color `var(--accent)` (cyan), 36.75×25px pill — visually rendered as `"NEW"` ✓
+  - Projects tab in VIEW MODE: `addNewButtons: 0`, `cardEditButtons: 0`, `trashSvgCount: 0` ✓ (Elux card still visible, just no Edit/Delete buttons)
+  - Settings tab in VIEW MODE: `inputCount: 9`, `disabledInputs: 9`, `enabledInputs: 0`, `saveSettingsButtons: 0` ✓ (all inputs disabled, no Save Settings button)
+  - Password tab in VIEW MODE: h2 "Change Password", body text contains "PASSWORD MANAGEMENT IS HIDDEN IN VIEW MODE." (case-insensitive match confirmed) ✓
+  - Screenshots → `screenshots/task16-deploy-verify/06-messages-view-mode.png` and `screenshots/task16-deploy-verify/07-password-view-mode.png`
+- **Scenario 7 (Persistence + back-to-site):** With VIEW MODE still on, clicked the back arrow (←) link in the admin header (`a[aria-label="Back to site"]`, href="/"). Browser navigated to `http://localhost:3000/`. DOM verification:
+  - URL: `http://localhost:3000/` ✓
+  - Hero h1 present: "N2K Labs" ✓
+  - Site chrome intact: Open menu button, N2K logo link, Start Project CTA, all section headings (Web Development, UI/UX Design, etc.) ✓
+  - Footer present (ADMIN ACCESS link visible) ✓
+  - `localStorage["n2k-admin-view-mode"]` = "1" — view-mode preference persisted across the navigation ✓
+  - Screenshot → `screenshots/task16-deploy-verify/08-back-to-site-home.png`
+- **Scenario 8 (Console errors check):** Captured all console messages across the entire session via `agent-browser console --json` and `agent-browser errors --json`:
+  - `agent-browser errors --json` returns `{"success":true,"data":{"errors":[]}}` — ZERO errors ✓
+  - Total console messages captured: 20 (mostly `[Fast Refresh] rebuilding`/`done in Xms` log lines from Next.js dev HMR, plus 2 `[info] Download the React DevTools` lines, plus 2 `[log] [HMR] connected` lines)
+  - 1 cosmetic warning: `"Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly."` — this is the Framer Motion "non-static position" notice from ScrollProgress mentioned in the task spec as acceptable
+  - ZERO React hydration errors, ZERO failed API calls, ZERO blocking errors ✓
+- Closed browser via `agent-browser close`.
+- Final dev-server health recheck: `curl /` = HTTP 200 / 112KB / 81ms; `curl /?view=admin` = HTTP 200 / 27KB / 47ms; `curl /api/projects` = HTTP 200 / 11ms; `curl /api/auth/session` = HTTP 200 / 7ms. Daemon PID 22203 alive with 1h25m uptime. Deployment is production-healthy.
+
+Stage Summary:
+- **S1 Home page renders cleanly** → PASS. Hero "N2K Labs" h1, brand "N2K", scroll progress bar (`<div style="transform:scaleX(0)">` at z-200, h-2px, gradient cyan→cyan→accent-deep), custom cursor component mounted (renders null in headless due to `pointer: fine` matchMedia gate; correctly enabled on real mouse devices — verified by source inspection of `src/components/site/custom-cursor.tsx`), sticky footer (ADMIN ACCESS + socials + back-to-top), 0 console errors, 0 failed API calls (24 requests all 200). Screenshot: `screenshots/task16-deploy-verify/01-home-hero.png`.
+- **S2 Scroll color transition** → PASS. `--accent` CSS var transitions: top `#00d4ff` (Heaven blue) → middle `rgb(208, 132, 69)` (Earth golden/amber, scrollProgress=0.57) → bottom `rgb(220, 38, 38)` (Hell deep red, scrollProgress=1.0). Interpolation matches `STOPS` table in `scroll-color-transition.tsx` to the rounded integer. Screenshot: `screenshots/task16-deploy-verify/02-home-bottom-red.png`.
+- **S3 Admin dashboard renders full-page** → PASS. `/?view=admin` renders a dedicated full-page admin (no site Nav/Hero/Footer chrome overlaying). Header: "N2K Admin / EDIT MODE / LOCKED" with Lock icon SVG + back arrow `<a href="/" aria-label="Back to site">`. Screenshot: `screenshots/task16-deploy-verify/03-admin-locked.png`.
+- **S4 Admin login** → PASS. Login with admin@n2klabs.com / n2k-admin-2024 → header updates to "AUTHENTICATED", all 6 sidebar tabs (Projects, Testimonials, Services, Messages, Settings, Password) render, Edit/View pill toggle visible in header, Projects tab loads with Elux Designs card visible (with FEATURED badge). Screenshot: `screenshots/task16-deploy-verify/04-admin-projects-edit-mode.png`.
+- **S5 Edit mode CRUD visibility** → PASS. Projects tab EDIT MODE: "Add New" button present; Elux card has Edit button + trash (lucide-trash-2) button. Messages tab EDIT MODE: 2 message cards (Sarah Mitchell + Sarah Test), each with `<select>` status dropdown (4 options: new/read/replied/archived, value="new"). Screenshot: `screenshots/task16-deploy-verify/05-messages-edit-mode.png`.
+- **S6 View mode toggle** → PASS. Clicking "View" pill: header label → "/ VIEW MODE"; VIEW MODE banner appears ("VIEW MODE — editing controls are hidden…"). Messages tab: 0 `<select>` dropdowns, 2 colored badge pills (37×25px, mono uppercase, cyan, text "new" rendered as "NEW" via `text-transform:uppercase`). Projects tab: 0 Add New, 0 Edit, 0 trash. Settings tab: 9/9 inputs disabled, 0 Save Settings buttons. Password tab: "PASSWORD MANAGEMENT IS HIDDEN IN VIEW MODE." message. Screenshots: `screenshots/task16-deploy-verify/06-messages-view-mode.png` + `screenshots/task16-deploy-verify/07-password-view-mode.png`.
+- **S7 Persistence + back-to-site** → PASS. With VIEW MODE on, clicking back arrow (←) in admin header navigated to `http://localhost:3000/`. Marketing site intact: hero "N2K Labs" h1, nav chrome (Open menu / N2K logo / Start Project CTA), all section headings, footer (ADMIN ACCESS link) all visible. `localStorage["n2k-admin-view-mode"]` = "1" persisted. Screenshot: `screenshots/task16-deploy-verify/08-back-to-site-home.png`.
+- **S8 Console errors check** → PASS. `agent-browser errors --json` returned empty `errors[]` array — ZERO blocking errors. 20 console messages total, all benign: 14× `[Fast Refresh] rebuilding`/`done in Xms` log lines, 2× `[info] Download the React DevTools`, 2× `[log] [HMR] connected`, 1× cosmetic Framer Motion warning ("Please ensure that the container has a non-static position…") from ScrollProgress — explicitly acceptable per the task spec. ZERO React hydration errors, ZERO failed API calls.
+- **All screenshots** (in `/home/z/my-project/screenshots/task16-deploy-verify/`):
+  - `01-home-hero.png` — Home page hero (Scenario 1)
+  - `02-home-bottom-red.png` — Home page scrolled to bottom showing Hell red accent (Scenario 2)
+  - `03-admin-locked.png` — Admin dashboard `/?view=admin` showing "N2K Admin" header + Lock icon + "LOCKED" status, login panel (Scenario 3)
+  - `04-admin-projects-edit-mode.png` — Projects tab after login, EDIT MODE, showing Elux card with Edit + trash (Scenario 4)
+  - `05-messages-edit-mode.png` — Messages tab EDIT MODE with 2 message cards + 2 `<select>` status dropdowns (Scenario 5)
+  - `06-messages-view-mode.png` — Messages tab VIEW MODE with 2 NEW status badge pills (Scenario 6)
+  - `07-password-view-mode.png` — Password tab VIEW MODE showing "PASSWORD MANAGEMENT IS HIDDEN IN VIEW MODE." (Scenario 6)
+  - `08-back-to-site-home.png` — Marketing site after clicking back arrow from admin (Scenario 7)
+
+**FINAL DEPLOY VERDICT: 8/8 scenarios PASS. The "deployment" (dev server on port 3000, kept alive via the Python double-fork daemon at PID 22203) is healthy and both user-visible golden paths — marketing site at `/` and admin dashboard at `/?view=admin` — work end-to-end. Ready to ship.**
