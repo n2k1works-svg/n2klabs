@@ -35,6 +35,18 @@ export function Navigation() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  // Ctrl+Shift+A → jump to the dedicated admin dashboard page.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) {
+        e.preventDefault();
+        window.location.href = "/?view=admin";
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
     <>
       <header

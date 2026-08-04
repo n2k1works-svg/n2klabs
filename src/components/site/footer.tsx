@@ -94,17 +94,14 @@ export function Footer({ settings }: { settings: SettingsMap }) {
                 </a>
               ))}
             </div>
-            <button
-              type="button"
-              onClick={() =>
-                window.dispatchEvent(new CustomEvent("n2k-open-admin"))
-              }
+            <a
+              href="/?view=admin"
               data-cursor="hover"
               className="inline-flex items-center gap-2 mono-label text-[#9aa0a8] transition-colors hover:text-[var(--accent)]"
             >
               <ShieldCheck className="h-3.5 w-3.5" />
               Admin Access
-            </button>
+            </a>
           </div>
         </div>
 

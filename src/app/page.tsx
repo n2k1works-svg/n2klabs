@@ -13,9 +13,27 @@ import { Process } from "@/components/site/process";
 import { Testimonials } from "@/components/site/testimonials";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
-import { AdminPanel } from "@/components/site/admin-panel";
+import { AdminDashboard } from "@/components/site/admin-dashboard";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const params = await searchParams;
+  const view = typeof params.view === "string" ? params.view : undefined;
+
+  // Dedicated full-page admin dashboard — accessible at /?view=admin
+  if (view === "admin") {
+    return (
+      <div className="relative min-h-screen bg-[#0a0a0c]">
+        <CustomCursor />
+        <ScrollProgress />
+        <AdminDashboard />
+      </div>
+    );
+  }
+
   const [projects, services, testimonials, stats, settings] = await Promise.all([
     getProjects(),
     getServices(),
@@ -24,8 +42,7 @@ export default async function Home() {
     getSettings(),
   ]);
 
-  const tagline =
-    settings["site.tagline"] || "Digital Solutions That Elevate";
+  const tagline = settings["site.tagline"] || "Digital Solutions That Elevate";
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#0a0a0c]">
@@ -50,7 +67,6 @@ export default async function Home() {
       </main>
 
       <Footer settings={settings} />
-      <AdminPanel />
     </div>
   );
 }
