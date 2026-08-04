@@ -79,11 +79,11 @@ Vercel → Project → Settings → Domains → add `n2klabs.com` → follow the
 ```bash
 bun install
 bun run db:push     # creates SQLite db/custom.db
-bunx tsx prisma/seed.ts   # optional: seed demo data
+bunx tsx prisma/seed.ts   # optional: seed demo data (requires ADMIN_PASSWORD env var — see below)
 bun run dev         # starts on http://localhost:3000
 ```
 
-**Default admin credentials:** `admin@n2klabs.com` / `n2k-admin-2024` (change immediately in production via `/?view=admin` → Password tab).
+**Admin credentials:** Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in your `.env` (see `.env.example`), then run `bunx tsx prisma/seed.ts` to seed the admin user. Change the password anytime in production via `/?view=admin` → Password tab.
 
 ## 🎛 Admin Dashboard
 

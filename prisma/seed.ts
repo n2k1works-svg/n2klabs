@@ -10,12 +10,22 @@ async function main() {
   await db.project.deleteMany()
   await db.adminUser.deleteMany()
 
-  // Admin user (password: "n2k-admin-2024" — hashed simply; in production use bcrypt)
-  // We store a simple hash placeholder; real auth compares via API.
+  // Admin user — password is read from the ADMIN_PASSWORD env var.
+  // This keeps the credential out of the source tree.
+  // Set ADMIN_PASSWORD in your .env (locally) or your hosting platform's
+  // env vars (production) before running this seed.
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@n2klabs.com'
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminPassword) {
+    throw new Error(
+      'ADMIN_PASSWORD env var is required to seed the admin user. ' +
+      'Set it in .env (locally) or in your hosting platform env vars, then re-run: bunx tsx prisma/seed.ts'
+    )
+  }
   await db.adminUser.create({
     data: {
-      email: 'admin@n2klabs.com',
-      passwordHash: 'n2k-admin-2024', // plain for demo; API hashes on compare
+      email: adminEmail,
+      passwordHash: adminPassword, // API hashes on compare; bcrypt recommended for production
       name: 'N2K Admin',
     },
   })

@@ -67,3 +67,8 @@ server.log
 /.zscripts/
 /download/
 /examples/
+
+# internal agent artifacts (should never be committed)
+/worklog.md
+/tool-results/
+/.agent-ctx/

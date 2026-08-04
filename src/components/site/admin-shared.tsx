@@ -166,7 +166,7 @@ export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
           <div className="mono-label text-[var(--accent)] mb-2">{"SECURE ACCESS"}</div>
           <h2 className="text-3xl font-black text-[#f0ece6]">Admin Console</h2>
           <p className="mt-2 text-sm text-[#8a8a93]">
-            Default: admin@n2klabs.com / n2k-admin-2024
+            Authorized personnel only.
           </p>
         </div>
         <form onSubmit={submit} className="space-y-4">
