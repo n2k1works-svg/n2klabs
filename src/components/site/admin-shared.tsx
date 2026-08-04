@@ -134,7 +134,7 @@ export function ReadOnlyBanner() {
 
 /* ============ LOGIN ============ */
 export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
-  const [email, setEmail] = useState("admin@n2klabs.com");
+  const [email, setEmail] = useState("n2k1works@gmail.com");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");

@@ -2,7 +2,8 @@
 
 /**
  * Legacy AdminPanel — previously a slide-in overlay triggered by
- * Ctrl+Shift+A or the footer "Admin Access" link.
+ * Ctrl+Shift+A. The footer "Admin Access" link has been removed; admin
+ * is now accessible only via the keyboard shortcut or direct URL.
  *
  * As of Task 15 the admin dashboard is a dedicated full-page view at
  * /?view=admin. This file is kept as a thin re-export so any deep import

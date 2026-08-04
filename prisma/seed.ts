@@ -14,7 +14,7 @@ async function main() {
   // This keeps the credential out of the source tree.
   // Set ADMIN_PASSWORD in your .env (locally) or your hosting platform's
   // env vars (production) before running this seed.
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@n2klabs.com'
+  const adminEmail = process.env.ADMIN_EMAIL || 'n2k1works@gmail.com'
   const adminPassword = process.env.ADMIN_PASSWORD
   if (!adminPassword) {
     throw new Error(

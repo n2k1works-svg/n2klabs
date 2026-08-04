@@ -89,9 +89,8 @@ bun run dev         # starts on http://localhost:3000
 
 - **URL:** `/?view=admin`
 - **Entry points:**
-  1. Footer "Admin Access" link.
-  2. `Ctrl+Shift+A` keyboard shortcut from anywhere on the site.
-  3. Direct URL navigation.
+  1. `Ctrl+Shift+A` keyboard shortcut from anywhere on the site.
+  2. Direct URL navigation.
 - **Edit Mode** (default): full CRUD — Add New, Edit, Delete, Save, status dropdowns.
 - **View Mode:** click the "View" pill in the header (or press `Ctrl+Shift+E`) to hide every Edit/Delete/Save/Add New control. Settings inputs become disabled, the password form is replaced with a hidden message, and message status dropdowns become colored badge pills. Preference persists across reloads.
 - **Back to Site:** click the ← arrow in the header or press `Escape`.
