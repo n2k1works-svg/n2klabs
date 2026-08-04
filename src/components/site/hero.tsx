@@ -26,7 +26,7 @@ function HudPanel({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="mono-label text-[#00d4ff] mb-3">{title}</div>
+      <div className="mono-label text-[var(--accent)] mb-3">{title}</div>
       {children}
     </motion.div>
   );
@@ -67,10 +67,10 @@ export function Hero() {
         {/* darken */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c]/40 via-[#0a0a0c]/30 to-[#0a0a0c]" />
         {/* volumetric light from top-center */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,rgba(0,212,255,0.28),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,rgba(var(--accent-rgb),0.28),transparent_70%)]" />
         {/* cyan edge glows */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_60%_at_10%_60%,rgba(0,212,255,0.10),transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_60%_at_90%_70%,rgba(0,136,204,0.10),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_60%_at_10%_60%,rgba(var(--accent-rgb),0.10),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_60%_at_90%_70%,rgba(var(--accent-deep-rgb),0.10),transparent_70%)]" />
       </motion.div>
 
       {/* Z-2: perspective grid overlay */}
@@ -92,21 +92,21 @@ export function Hero() {
             <span className="font-mono text-[#f0ece6]">99.98%</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[99%] bg-[#00d4ff] glow-cyan-sm" />
+            <div className="h-full w-[99%] bg-[var(--accent)] glow-cyan-sm" />
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-[#8a8a93]">PROJECTS</span>
             <span className="font-mono text-[#f0ece6]">01</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[8%] bg-[#00d4ff]" />
+            <div className="h-full w-[8%] bg-[var(--accent)]" />
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-[#8a8a93]">PERF</span>
-            <span className="font-mono text-[#00d4ff]">A+</span>
+            <span className="font-mono text-[var(--accent)]">A+</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[95%] bg-[#00d4ff] glow-cyan-sm" />
+            <div className="h-full w-[95%] bg-[var(--accent)] glow-cyan-sm" />
           </div>
         </div>
         <div className="mt-3 scan-line w-full animate-pulse-glow" />
@@ -136,8 +136,8 @@ export function Hero() {
           ].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between">
               <span className="text-[#8a8a93]">{k}</span>
-              <span className="flex items-center gap-1 text-[#00d4ff]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#00d4ff] animate-blink" />
+              <span className="flex items-center gap-1 text-[var(--accent)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-blink" />
                 {v}
               </span>
             </div>
@@ -158,7 +158,7 @@ export function Hero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="mb-6 inline-flex items-center gap-2 glass rounded-full px-4 py-1.5"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00d4ff] animate-blink" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-blink" />
             <span className="mono-label text-[#8a8a93]">
               Digital Solutions Studio — Est. 2026
             </span>
@@ -210,7 +210,7 @@ export function Hero() {
               <MagneticButton
                 as="a"
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 Get a Quote
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -234,7 +234,7 @@ export function Hero() {
             rel="noopener noreferrer"
             aria-label={label}
             data-cursor="hover"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[#8a8a93] backdrop-blur-md transition-all hover:border-[#00d4ff]/60 hover:text-[#00d4ff] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[#8a8a93] backdrop-blur-md transition-all hover:border-[rgba(var(--accent-rgb),0.6)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
           >
             <Icon className="h-4 w-4" />
           </a>
@@ -257,7 +257,7 @@ export function Hero() {
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 hidden md:block">
         <div className="flex flex-col items-center gap-1">
           <span className="mono-label text-[#9aa0a8]">Scroll</span>
-          <div className="h-8 w-px bg-gradient-to-b from-[#00d4ff]/60 to-transparent" />
+          <div className="h-8 w-px bg-gradient-to-b from-[rgba(var(--accent-rgb),0.6)] to-transparent" />
         </div>
       </div>
     </section>
@@ -267,7 +267,7 @@ export function Hero() {
 function BlueprintContent() {
   return (
     <>
-      <svg viewBox="0 0 200 120" className="w-full h-24 text-[#00d4ff]/70">
+      <svg viewBox="0 0 200 120" className="w-full h-24 text-[rgba(var(--accent-rgb),0.7)]">
         <g fill="none" stroke="currentColor" strokeWidth="0.5">
           <rect x="10" y="10" width="180" height="100" />
           <line x1="10" y1="50" x2="190" y2="50" />
@@ -279,7 +279,7 @@ function BlueprintContent() {
           <line x1="10" y1="110" x2="50" y2="70" />
           <line x1="190" y1="110" x2="150" y2="70" />
         </g>
-        <g fill="#00d4ff">
+        <g fill="var(--accent)">
           <circle cx="100" cy="50" r="1.5" />
           <circle cx="10" cy="10" r="1" />
           <circle cx="190" cy="10" r="1" />

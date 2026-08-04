@@ -62,7 +62,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
   return (
     <section id="contact" className="relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
-      <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse,rgba(0,212,255,0.08),transparent_70%)]" />
+      <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <SectionHeading
@@ -90,15 +90,15 @@ export function Contact({ settings }: { settings: SettingsMap }) {
             <a
               href={`mailto:${email}`}
               data-cursor="hover"
-              className="group glass rounded-2xl p-6 transition-colors hover:border-[#00d4ff]/40"
+              className="group glass rounded-2xl p-6 transition-colors hover:border-[rgba(var(--accent-rgb),0.4)]"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)]">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="mono-label text-[#8a8a93] mb-1">Email</div>
-                  <div className="text-base font-semibold text-[#f0ece6] group-hover:text-[#00d4ff] transition-colors">
+                  <div className="text-base font-semibold text-[#f0ece6] group-hover:text-[var(--accent)] transition-colors">
                     {email}
                   </div>
                 </div>
@@ -108,15 +108,15 @@ export function Contact({ settings }: { settings: SettingsMap }) {
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}
               data-cursor="hover"
-              className="group glass rounded-2xl p-6 transition-colors hover:border-[#00d4ff]/40"
+              className="group glass rounded-2xl p-6 transition-colors hover:border-[rgba(var(--accent-rgb),0.4)]"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)]">
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="mono-label text-[#8a8a93] mb-1">Phone</div>
-                  <div className="text-base font-semibold text-[#f0ece6] group-hover:text-[#00d4ff] transition-colors">
+                  <div className="text-base font-semibold text-[#f0ece6] group-hover:text-[var(--accent)] transition-colors">
                     {phone}
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
 
             <div className="glass rounded-2xl p-6">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)]">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
                     rel="noopener noreferrer"
                     aria-label={label}
                     data-cursor="hover"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[#00d4ff] hover:text-[#00d4ff] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -170,7 +170,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
               onSubmit={onSubmit}
               className="glass relative rounded-2xl p-6 md:p-8 hud-corners"
             >
-              <div className="mono-label text-[#00d4ff] mb-6">{"INQUIRY FORM"}</div>
+              <div className="mono-label text-[var(--accent)] mb-6">{"INQUIRY FORM"}</div>
 
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <Field label="Your Name" required>
@@ -286,9 +286,9 @@ export function Contact({ settings }: { settings: SettingsMap }) {
           color: #5a5a63;
         }
         :global(.n2k-input:focus) {
-          border-color: rgba(0, 212, 255, 0.5);
-          background: rgba(0, 212, 255, 0.03);
-          box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+          border-color: rgba(var(--accent-rgb), 0.5);
+          background: rgba(var(--accent-rgb), 0.03);
+          box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
         }
         :global(.n2k-input option) {
           background: #121218;
@@ -311,7 +311,7 @@ function Field({
   return (
     <label className="block">
       <span className="mono-label text-[#8a8a93] mb-2 block">
-        {label} {required && <span className="text-[#00d4ff]">*</span>}
+        {label} {required && <span className="text-[var(--accent)]">*</span>}
       </span>
       {children}
     </label>

@@ -57,7 +57,7 @@ export function Services({ services }: { services: ServiceData[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ delay: (i % 3) * 0.08, duration: 0.6 }}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] p-7 transition-all duration-300 hover:border-[#00d4ff]/40 hover:bg-[#14141a]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] p-7 transition-all duration-300 hover:border-[rgba(var(--accent-rgb),0.4)] hover:bg-[#14141a]"
               >
                 {/* number */}
                 <div className="absolute top-6 right-6 font-mono text-xs text-[#3a3a40]">
@@ -65,7 +65,7 @@ export function Services({ services }: { services: ServiceData[] }) {
                 </div>
 
                 {/* icon */}
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-[#00d4ff]/20 bg-[#00d4ff]/5 text-[#00d4ff] transition-all duration-300 group-hover:border-[#00d4ff]/50 group-hover:shadow-[0_0_28px_rgba(0,212,255,0.35)]">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-[rgba(var(--accent-rgb),0.2)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)] transition-all duration-300 group-hover:border-[rgba(var(--accent-rgb),0.5)] group-hover:shadow-[0_0_28px_rgba(var(--accent-rgb),0.35)]">
                   <Icon className="h-6 w-6" />
                 </div>
 
@@ -91,7 +91,7 @@ export function Services({ services }: { services: ServiceData[] }) {
                           key={f}
                           className="flex items-center gap-2 text-sm text-[#b0aca6]"
                         >
-                          <Check className="h-3.5 w-3.5 text-[#00d4ff] shrink-0" />
+                          <Check className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
                           {f}
                         </li>
                       ))}
@@ -103,7 +103,7 @@ export function Services({ services }: { services: ServiceData[] }) {
                 <button
                   onClick={() => setOpen(isOpen ? null : s.id)}
                   data-cursor="hover"
-                  className="mt-2 inline-flex items-center gap-2 mono-label text-[#8a8a93] transition-colors hover:text-[#00d4ff]"
+                  className="mt-2 inline-flex items-center gap-2 mono-label text-[#8a8a93] transition-colors hover:text-[var(--accent)]"
                 >
                   {isOpen ? "Less" : "Details"}
                   <Plus
@@ -114,7 +114,7 @@ export function Services({ services }: { services: ServiceData[] }) {
                 </button>
 
                 {/* hover glow line */}
-                <div className="absolute -bottom-px left-0 h-px w-0 bg-gradient-to-r from-[#00d4ff] via-[#00d4ff] to-transparent transition-all duration-500 group-hover:w-full" />
+                <div className="absolute -bottom-px left-0 h-px w-0 bg-gradient-to-r from-[var(--accent)] via-[var(--accent)] to-transparent transition-all duration-500 group-hover:w-full" />
               </motion.div>
             );
           })}

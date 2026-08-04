@@ -69,9 +69,9 @@ export function CustomCursor() {
           transform: `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`,
           width: down ? 14 : 8,
           height: down ? 14 : 8,
-          backgroundColor: hovering ? "#00d4ff" : "#f0ece6",
+          backgroundColor: hovering ? "var(--accent)" : "#f0ece6",
           boxShadow: hovering
-            ? "0 0 16px rgba(0,212,255,0.8)"
+            ? "0 0 16px rgba(var(--accent-rgb),0.8)"
             : "0 0 8px rgba(240,236,230,0.4)",
         }}
       />
@@ -82,7 +82,7 @@ export function CustomCursor() {
           transform: `translate3d(${ringPos.x}px, ${ringPos.y}px, 0) translate(-50%, -50%)`,
           width: hovering ? 56 : 36,
           height: hovering ? 56 : 36,
-          borderColor: hovering ? "rgba(0,212,255,0.7)" : "rgba(240,236,230,0.4)",
+          borderColor: hovering ? "rgba(var(--accent-rgb),0.7)" : "rgba(240,236,230,0.4)",
           borderWidth: 1,
           opacity: 0.9,
         }}

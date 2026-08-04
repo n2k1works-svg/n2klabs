@@ -22,7 +22,7 @@ function LaptopMockup({
   return (
     <div className={`relative ${className}`}>
       {/* Screen + bezel */}
-      <div className="relative rounded-[14px] border border-white/15 bg-[#1a1a1f] p-2 shadow-[0_0_40px_rgba(0,212,255,0.08),0_20px_50px_-20px_rgba(0,0,0,0.8)]">
+      <div className="relative rounded-[14px] border border-white/15 bg-[#1a1a1f] p-2 shadow-[0_0_40px_rgba(var(--accent-rgb),0.08),0_20px_50px_-20px_rgba(0,0,0,0.8)]">
         <div className="absolute left-1/2 top-[5px] z-10 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-white/20" />
         <div className="relative aspect-[16/10] overflow-hidden rounded-[8px] bg-[#0a0a0c]">
           {src ? (
@@ -35,7 +35,7 @@ function LaptopMockup({
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#121218] to-[#0a0a0c]">
               <div className="text-center">
-                <div className="font-mono text-[10px] text-[#00d4ff]/40 mb-1">
+                <div className="font-mono text-[10px] text-[rgba(var(--accent-rgb),0.4)] mb-1">
                   NO PREVIEW
                 </div>
                 <div className="font-black text-xl text-white/10">{alt}</div>
@@ -65,7 +65,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
   return (
     <section id="portfolio" className="relative py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
-      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-[radial-gradient(ellipse,rgba(0,136,204,0.08),transparent_70%)]" />
+      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-[radial-gradient(ellipse,rgba(var(--accent-deep-rgb),0.08),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <SectionHeading
@@ -91,7 +91,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 data-cursor="hover"
                 className={`rounded-full border px-4 py-2 text-xs font-medium transition-all ${
                   filter === f
-                    ? "border-[#00d4ff] bg-[#00d4ff]/10 text-[#00d4ff] glow-cyan-sm"
+                    ? "border-[var(--accent)] bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent)] glow-cyan-sm"
                     : "border-white/10 bg-white/[0.02] text-[#8a8a93] hover:border-white/30 hover:text-[#f0ece6]"
                 }`}
               >
@@ -127,14 +127,14 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                         setActive(p);
                       }
                     }}
-                    className="group block w-full text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/40 rounded-2xl"
+                    className="group block w-full text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[rgba(var(--accent-rgb),0.4)] rounded-2xl"
                   >
                     <Laptop3D
                       src={p.image}
                       alt={p.title}
                       className="transition-transform duration-500 group-hover:scale-[1.01]"
                     />
-                    <div className="mt-4 flex items-center gap-2 text-xs text-[#9aa0a8] transition-colors group-hover:text-[#00d4ff]">
+                    <div className="mt-4 flex items-center gap-2 text-xs text-[#9aa0a8] transition-colors group-hover:text-[var(--accent)]">
                       <span className="mono-label">View case study</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </div>
@@ -145,7 +145,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 <div className="lg:col-span-5">
                   <div className="flex flex-wrap items-center gap-3 mb-4">
                     {p.featured && (
-                      <span className="rounded-full border border-[#00d4ff]/30 bg-[#00d4ff]/5 px-3 py-1 mono-label text-[#00d4ff]">
+                      <span className="rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] px-3 py-1 mono-label text-[var(--accent)]">
                         Featured
                       </span>
                     )}
@@ -185,7 +185,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         data-cursor="hover"
-                        className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-5 py-2.5 text-sm font-semibold text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                        className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-5 py-2.5 text-sm font-semibold text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                       >
                         Visit Live Site
                         <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -211,7 +211,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 transition={{ delay: (i % 2) * 0.1, duration: 0.6 }}
                 onClick={() => setActive(p)}
                 data-cursor="hover"
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] text-left transition-all duration-300 hover:border-[#00d4ff]/40"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121218] text-left transition-all duration-300 hover:border-[rgba(var(--accent-rgb),0.4)]"
               >
                 {/* image */}
                 <div className="relative aspect-[16/10] overflow-hidden">
@@ -225,7 +225,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#121218] to-[#0a0a0c]">
                       <div className="text-center">
-                        <div className="font-mono text-xs text-[#00d4ff]/40 mb-2">
+                        <div className="font-mono text-xs text-[rgba(var(--accent-rgb),0.4)] mb-2">
                           {"NO PREVIEW"}
                         </div>
                         <div className="font-black text-3xl text-white/10">
@@ -236,7 +236,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/20 to-transparent" />
                   {p.featured && (
-                    <div className="absolute top-4 left-4 rounded-full border border-[#00d4ff]/30 bg-[#0a0a0c]/70 px-3 py-1 mono-label text-[#00d4ff] backdrop-blur-md">
+                    <div className="absolute top-4 left-4 rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/70 px-3 py-1 mono-label text-[var(--accent)] backdrop-blur-md">
                       Featured
                     </div>
                   )}
@@ -252,11 +252,11 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                       <div className="mono-label text-[#8a8a93] mb-2">
                         {p.client}
                       </div>
-                      <h3 className="text-2xl font-bold text-[#f0ece6] group-hover:text-[#00d4ff] transition-colors">
+                      <h3 className="text-2xl font-bold text-[#f0ece6] group-hover:text-[var(--accent)] transition-colors">
                         {p.title}
                       </h3>
                     </div>
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-[#8a8a93] transition-all group-hover:border-[#00d4ff] group-hover:text-[#00d4ff]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-[#8a8a93] transition-all group-hover:border-[var(--accent)] group-hover:text-[var(--accent)]">
                       <ArrowUpRight className="h-4 w-4" />
                     </div>
                   </div>
@@ -305,7 +305,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 <button
                   onClick={() => setActive(null)}
                   aria-label="Close"
-                  className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/70 text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                  className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/70 text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -318,7 +318,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
 
               <div className="p-6 md:p-10">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="rounded-full border border-[#00d4ff]/30 bg-[#00d4ff]/5 px-3 py-1 mono-label text-[#00d4ff]">
+                  <span className="rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] px-3 py-1 mono-label text-[var(--accent)]">
                     {active.category}
                   </span>
                   <span className="mono-label text-[#8a8a93]">
@@ -344,7 +344,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                       className="rounded-xl border border-white/10 bg-[#121218] p-5"
                     >
                       <div className="flex items-center gap-2 mb-3">
-                        <Icon className="h-4 w-4 text-[#00d4ff]" />
+                        <Icon className="h-4 w-4 text-[var(--accent)]" />
                         <span className="mono-label text-[#8a8a93]">{label}</span>
                       </div>
                       <p className="text-sm text-[#b0aca6] leading-relaxed">

@@ -17,7 +17,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
   return (
     <section id="testimonials" className="relative py-24 md:py-36 bg-[#0a0a0c] overflow-hidden">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,212,255,0.06),transparent_70%)]" />
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.06),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
@@ -58,7 +58,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
                     {Array.from({ length: active.rating }).map((_, i) => (
                       <Star
                         key={i}
-                        className="h-4 w-4 fill-[#00d4ff] text-[#00d4ff]"
+                        className="h-4 w-4 fill-[var(--accent)] text-[var(--accent)]"
                       />
                     ))}
                   </div>
@@ -68,7 +68,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
                   </p>
 
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#00d4ff]/30 bg-[#00d4ff]/5 font-bold text-[#00d4ff]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] font-bold text-[var(--accent)]">
                       {active.name
                         .split(" ")
                         .map((n) => n[0])
@@ -102,7 +102,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
                       data-cursor="hover"
                       className={`h-1.5 rounded-full transition-all ${
                         i === idx
-                          ? "w-8 bg-[#00d4ff]"
+                          ? "w-8 bg-[var(--accent)]"
                           : "w-1.5 bg-white/20 hover:bg-white/40"
                       }`}
                     />
@@ -115,7 +115,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
                     onClick={() => go(-1)}
                     aria-label="Previous"
                     data-cursor="hover"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                   >
                     <ArrowLeft className="h-4 w-4" />
                   </button>
@@ -123,7 +123,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialData[]
                     onClick={() => go(1)}
                     aria-label="Next"
                     data-cursor="hover"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[#00d4ff] hover:text-[#00d4ff]"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                   >
                     <ArrowRight className="h-4 w-4" />
                   </button>

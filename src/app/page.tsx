@@ -1,6 +1,7 @@
 import { getProjects, getServices, getTestimonials, getStats, getSettings } from "@/lib/data";
 import { CustomCursor } from "@/components/site/custom-cursor";
 import { ScrollProgress } from "@/components/site/scroll-progress";
+import { ScrollColorTransition } from "@/components/site/scroll-color-transition";
 import { Preloader } from "@/components/site/preloader";
 import { Navigation } from "@/components/site/navigation";
 import { Hero } from "@/components/site/hero";
@@ -33,6 +34,7 @@ export default async function Home() {
 
       <CustomCursor />
       <ScrollProgress />
+      <ScrollColorTransition />
       <Preloader />
       <Navigation />
 

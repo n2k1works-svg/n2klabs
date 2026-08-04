@@ -429,3 +429,78 @@ Stage Summary:
 - Affected texts: hero "Scroll" cue, portfolio "View case study" label, footer copyright + "Admin Access" link, and 7 admin-panel metadata labels.
 - No other (decorative) low-opacity elements were touched, preserving the existing visual hierarchy.
 - Lint clean, dev server healthy, VLM-confirmed readability improvement.
+
+---
+Task ID: 14-a
+Agent: general-purpose (component colour refactor)
+Task: Refactor all 16 component files to replace hardcoded #00d4ff / #0088cc / rgba(0,212,255,X) cyan references with CSS variables (var(--accent) / var(--accent-deep) / rgba(var(--accent-rgb),X)) so the scroll-driven Heaven→Earth→Hell colour transition retints the entire UI.
+
+Work Log:
+- Read worklog.md to confirm context from Tasks 1-13 and that the lead agent has already added `--accent` / `--accent-rgb` / `--accent-deep` / `--accent-deep-rgb` vars to `:root` and `.dark` in globals.css, converted all globals.css cyan usages, and created + wired `ScrollColorTransition` into page.tsx.
+- Verified the 4 CSS vars are present in globals.css (lines 62-65 light, 112-115 dark): `--accent: #00d4ff;`, `--accent-rgb: 0, 212, 255;`, `--accent-deep: #0088cc;`, `--accent-deep-rgb: 0, 136, 204;`. These literals MUST stay as literals so they remain valid fallback defaults (do not touch globals.css).
+- Counted cyan literal occurrences across src/components/: 124 total matches across 16 files (matching the ~125 estimate in the brief). laptop-3d.tsx had 0 occurrences (it uses .laptop-* CSS classes already retinted in globals.css).
+- Per-file refactors (replacement rules applied):
+  - **section-heading.tsx** (2): `text-[#00d4ff]` → `text-[var(--accent)]`; `bg-[#00d4ff]/60` → `bg-[rgba(var(--accent-rgb),0.6)]`.
+  - **stats-bar.tsx** (1): `text-[#00d4ff]` → `text-[var(--accent)]` (mono-label).
+  - **scroll-progress.tsx** (1 line, 3 tokens): `from-[#00d4ff] via-[#00d4ff] to-[#0088cc]` → `from-[var(--accent)] via-[var(--accent)] to-[var(--accent-deep)]`.
+  - **custom-cursor.tsx** (3): inline `style={{ backgroundColor: "#00d4ff", boxShadow: "0 0 16px rgba(0,212,255,0.8)", borderColor: "rgba(0,212,255,0.7)" }}` → `var(--accent)` / `rgba(var(--accent-rgb),0.8)` / `rgba(var(--accent-rgb),0.7)`.
+  - **preloader.tsx** (4): radial-gradient bg, mono-label, N2K monogram dot, scan-line via-grad — all converted to `var(--accent)` / `rgba(var(--accent-rgb),0.12)`.
+  - **hero.tsx** (16): HUD panel mono-labels, three radial-gradient edge-glow bg layers (two cyan + one accent-deep `rgba(0,136,204,0.10)`), 4 HUD bar fills (`bg-[#00d4ff]`), `A+` mono text, CAPABILITIES dot+text, blink dot, CTA hover border+text, social-link hover `border-[#00d4ff]/60` → `border-[rgba(var(--accent-rgb),0.6)]` + `shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]`, scroll-cue `from-[#00d4ff]/60` → `from-[rgba(var(--accent-rgb),0.6)]`, blueprint SVG `text-[#00d4ff]/70` → `text-[rgba(var(--accent-rgb),0.7)]` and `<g fill="#00d4ff">` → `<g fill="var(--accent)">`.
+  - **navigation.tsx** (12): hamburger hover bg, two `/` separators in location bar, logo dot, overlay radial-gradient bg, "Navigation" `/`, X icon hover, nav index mono, ArrowUpRight, footer `/` separators.
+  - **about.tsx** (6): top radial-gradient bg, "THE STORY" label, signature gradient avatar `from-[#00d4ff] to-[#0088cc]` → `from-[var(--accent)] to-[var(--accent-deep)]`, value-card hover border, value icon container `border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]` → rgba equivalents, hover-glow underline.
+  - **services.tsx** (5): card hover border, icon container `border-[#00d4ff]/20 bg-[#00d4ff]/5 text-[#00d4ff]` + hover `border-[#00d4ff]/50` + `shadow-[0_0_28px_rgba(0,212,255,0.35)]`, Check icon, expand-toggle hover text, hover-glow line `from-[#00d4ff] via-[#00d4ff]`.
+  - **process.tsx** (4): connecting line `via-[#00d4ff]/30`, node border hover `[#00d4ff]/50` + `shadow-[0_0_30px_rgba(0,212,255,0.3)]`, node icon `text-[#00d4ff]`, step-number badge `bg-[#00d4ff]`.
+  - **portfolio.tsx** (16): LaptopMockup shadow `0_0_40px_rgba(0,212,255,0.08)`, NO PREVIEW labels `text-[#00d4ff]/40`, section radial-gradient (accent-deep `rgba(0,136,204,0.08)`), filter-pill active state (border+bg+text+glow), focus-visible ring `/40`, view-case-study hover, Featured badge, Visit Live Site hover, multi-card hover border, card-title hover text, arrow-circle hover, modal Close hover, modal category badge, modal challenge/solution/result icons.
+  - **testimonials.tsx** (6): top radial-gradient bg, Star `fill-[#00d4ff] text-[#00d4ff]`, avatar container `border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]`, active dot `bg-[#00d4ff]`, prev/next arrow hover border+text.
+  - **contact.tsx** (14): bottom radial-gradient bg, 3 info-card hover borders `/40` + icon containers `/30` + `/5` + text + group-hover text, social-link hover border+text+shadow, "INQUIRY FORM" label, `:global(.n2k-input:focus)` border-color + background + box-shadow rgba literals (in `<style jsx>`), required-asterisk `*`.
+  - **footer.tsx** (9): top radial-gradient bg, brand dot, email-link hover + blink dot, "NAVIGATE" label, "CONNECT" label, social-link hover, Admin Access hover, back-to-top hover.
+  - **admin-panel.tsx** (24, used 8 batched replace_all edits for atomic patterns that recurred): header Lock icon container (`/30` + `/5` + text), boot spinner, active tab state (`bg-[#00d4ff]/10` + text), "SECURE ACCESS" label, `<style jsx>` `:global(.n2k-input:focus)` border-color + box-shadow rgba literals, "MANAGE" label, `inputCls` `focus:border-[#00d4ff]/50`, project list icon container, FolderKanban icon, FEATURED badge (`bg-[#00d4ff]/10` + text), Edit button hover (`/50` + text), 3 editor panel borders `border-[#00d4ff]/30`, 3 "EDIT"/"NEW" labels, 3 service/testimonial Edit button hovers, messages email link, password success message, Loader spinner.
+  - **laptop-3d.tsx**: verified — no cyan literals (component relies on .laptop-* classes in globals.css, which the lead agent already retinted). No edit needed.
+- Ran the 4 verification greps against `src/components/`:
+  - `rg "#00d4ff"` → only 1 hit in `scroll-color-transition.tsx:7` (a code comment `*   Heaven  (top / hero)         → angelic blue   #00d4ff` describing the heaven color). That file is the lead agent's ScrollColorTransition component (explicitly excluded from modification in the brief) AND the hit is a comment, not an actual colour usage — left intact.
+  - `rg "#0088cc"` → NONE.
+  - `rg "rgba\(0,\s*212,\s*255"` → NONE.
+  - `rg "rgba\(0,\s*136,\s*204"` → NONE.
+- Ran `bun run lint` → clean (no output beyond `$ eslint .`).
+- Checked dev.log tail (filtered for prisma:query): 24 successful `✓ Compiled in Xms` entries and many `GET / 200` / `GET /api/auth/session 200` responses during the refactor; zero `error` / `warn` / `fail` / `✗` / `exception` lines.
+
+Stage Summary:
+- 16 component files processed: hero, navigation, preloader, portfolio, process, about, services, testimonials, contact, admin-panel, footer, scroll-progress, stats-bar, section-heading, custom-cursor (15 edited, 1 (laptop-3d.tsx) needed no changes — uses retinted globals.css classes).
+- ~124 cyan literal occurrences replaced across 15 edited files: every `#00d4ff` / `#0088cc` Tailwind token became `var(--accent)` / `var(--accent-deep)`; every `[#00d4ff]/NN` opacity token became `[rgba(var(--accent-rgb),0.NN)]` (NN % → 0.NN decimal, so /5→0.05, /10→0.1, /20→0.2, /30→0.3, /40→0.4, /50→0.5, /60→0.6, /70→0.7); every inline `rgba(0,212,255,X)` and `rgba(0,136,204,X)` inside Tailwind arbitrary values or inline styles / `<style jsx>` blocks became `rgba(var(--accent-rgb),X)` / `rgba(var(--accent-deep-rgb),X)`. SVG `fill="#00d4ff"` → `fill="var(--accent)"`.
+- Black background (`#0a0a0c`, `#0e0e12`, `#121218`, `#14141a`, `#1a1a1f`, `#2a2a30`) and all neutral text colors (`#f0ece6`, `#b0aca6`, `#8a8a93`, `#9aa0a8`, `#5a5a63`) and the red destructive accent (`#ff4d5e`) were preserved untouched. Cream `rgba(240,236,230,X)` and `rgba(255,255,255,X)` literals in shadows / borders were also preserved.
+- Judgment call: in `scroll-progress.tsx` and `about.tsx`, the `to-[#0088cc]` deep-variant tokens in gradients were converted to `to-[var(--accent-deep)]` (per Rule 3) rather than to `var(--accent)` — these specifically use the deep variant for gradient endpoints, which is also what the scroll-color-transition component retints via `--accent-deep-rgb`.
+- Judgment call: the `#00d4ff` in the code comment at `scroll-color-transition.tsx:7` was deliberately NOT modified — that file is explicitly excluded by the brief, and the match is documentation prose (describing which colour heaven maps to), not a CSS colour reference. Leaving it intact preserves the explanatory comment.
+- Lint clean. Dev log shows continuous successful recompiles with zero errors throughout the refactor. Hot reload picked up every file save.
+- The 4 verification greps return the expected results: 3 entirely empty, the 4th (`#00d4ff`) returns only the exempted comment line. All non-comment cyan literals have been purged from the component layer — the entire UI will now retint in lockstep with the ScrollColorTransition Heaven→Earth→Hell colour interpolation.
+
+---
+Task ID: 14
+Agent: main (Z.ai Code)
+Task: Implement a scroll-driven colour transition so the accent colour shifts from Heaven (angelic blue) → Earth (brownish-golden) → Hell (deep red) as the visitor scrolls down, while keeping the black background. (User request: "make a colour transitional change, as a visitor on my website and scroll down, it should transition from blue to brownish-golden to Red as reaching the footer section. keep the black background. The Transition should represent the Heaven to earth to Hell.")
+
+Work Log:
+- Audited the codebase for the brand accent: 125 `#00d4ff` + 56 `rgba(0,212,255,X)` + 13 utility-class usages across 17 files (16 components + globals.css). Confirmed `--accent: #00d4ff` was already defined in :root but components used hardcoded literals.
+- **globals.css foundation:**
+  - Added `--accent-rgb: 0, 212, 255;`, `--accent-deep: #0088cc;`, `--accent-deep-rgb: 0, 136, 204;` to BOTH `:root` and `.dark` blocks.
+  - Repointed `--ring`, `--chart-1`, `--chart-2`, `--sidebar-primary`, `--sidebar-ring`, `--n2k-cyan`, `--n2k-cyan-deep` to `var(--accent)` / `var(--accent-deep)` so they retint automatically.
+  - Converted every cyan reference in the CSS rules (scrollbar, ::selection, .glow-cyan, .glow-cyan-sm, .text-glow, .grid-overlay, .grid-perspective, .btn-shine, .text-gradient-cyan, .scan-line, laptop-3d stage shadow, laptop-no-preview, laptop-lid-back, and the entire laptop-3d interactive CSS block — toggle, hint, reticle brackets/dot/readout) from `#00d4ff` / `rgba(0,212,255,X)` to `var(--accent)` / `rgba(var(--accent-rgb),X)`. Kept the `--accent: #00d4ff` default literal intact as the SSR fallback.
+- **ScrollColorTransition component** (`src/components/site/scroll-color-transition.tsx`):
+  - Uses Framer Motion `useScroll()` + `useMotionValueEvent(scrollYProgress, "change", …)`.
+  - 4-stop linear RGB interpolation: p=0.00 blue (0,212,255) → p=0.42 gold (201,162,83) → p=0.78 ember (217,90,50) → p=1.0 red (220,38,38).
+  - Computes a "deep" variant (accent × 0.6 luminance) for gradient endpoints.
+  - Writes all 4 values to `document.documentElement.style` (`--accent`, `--accent-rgb`, `--accent-deep`, `--accent-deep-rgb`) — zero React re-renders per frame (pure side-effect driver; component returns null).
+  - SSR-safe: CSS defaults keep the site blue before hydration.
+  - Wired `<ScrollColorTransition />` into `src/app/page.tsx` alongside CustomCursor / ScrollProgress.
+- **Component refactor (delegated to Task 14-a subagent):** replaced all 125 `#00d4ff` + 56 `rgba(0,212,255,X)` + deep-cyan references across 15 component files with `var(--accent)` / `rgba(var(--accent-rgb),X)` / `var(--accent-deep)` etc. `laptop-3d.tsx` needed no changes (uses retinted CSS classes). `src/app/api/contact/route.ts` intentionally skipped (email clients don't support CSS vars). Verification greps confirmed zero cyan literals remain in `src/components/`.
+- **Verification (Agent Browser + VLM):**
+  - Computed `--accent` at 4 scroll positions: 0% → `rgb(0, 212, 255)` (blue), 42% → `rgb(201, 162, 83)` (gold), 78% → `rgb(217, 90, 50)` (ember), 100% → `rgb(220, 38, 38)` (red). All match the designed stops exactly.
+  - VLM on 3 screenshots (top/middle/bottom): Image 1 (Hero) = Blue accent on black ✓; Image 2 (Services/Portfolio) = Golden/Amber accent on black ✓; Image 3 (Footer) = Red accent on black ✓.
+- Ran `bun run lint` — clean. Dev server healthy (200 OK, no compile errors).
+
+Stage Summary:
+- Heaven → Earth → Hell scroll colour transition is live and verified.
+- The accent retints smoothly and continuously across the ENTIRE UI — headings, borders, glows, gradients, scroll progress bar, custom cursor, laptop 3D toggle/reticle, section dividers, buttons, form inputs, etc. — all driven by 4 CSS custom properties on :root.
+- Black background preserved throughout; only the accent shifts.
+- Colour stops: blue (0%, heaven) → gold (42%, earth) → ember (78%, fiery descent) → red (100%, hell).
+- Zero per-frame React re-renders (DOM writes via Framer Motion's motion-value subscription); SSR-safe with blue CSS fallback.
+- Lint clean, dev server healthy, VLM-confirmed at all 3 zones.

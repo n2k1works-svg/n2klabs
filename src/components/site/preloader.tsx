@@ -22,10 +22,10 @@ export function Preloader() {
         >
           {/* grid */}
           <div className="absolute inset-0 grid-overlay opacity-40" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.12),transparent_60%)]" />
 
           <motion.div
-            className="relative font-mono text-xs tracking-[0.4em] text-[#00d4ff] uppercase mb-6"
+            className="relative font-mono text-xs tracking-[0.4em] text-[var(--accent)] uppercase mb-6"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -39,7 +39,7 @@ export function Preloader() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            N2K<span className="text-[#00d4ff]">.</span>
+            N2K<span className="text-[var(--accent)]">.</span>
           </motion.div>
 
           <motion.div
@@ -49,7 +49,7 @@ export function Preloader() {
             transition={{ delay: 0.3 }}
           >
             <motion.div
-              className="h-full bg-gradient-to-r from-transparent via-[#00d4ff] to-transparent"
+              className="h-full bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent"
               initial={{ x: "-100%" }}
               animate={{ x: "100%" }}
               transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}

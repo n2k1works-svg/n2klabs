@@ -29,7 +29,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
   return (
     <footer className="relative mt-auto border-t border-white/5 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,212,255,0.06),transparent_70%)]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.06),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8 py-16 md:py-20">
         <div className="grid lg:grid-cols-12 gap-10">
@@ -39,7 +39,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
               <span className="font-black text-3xl tracking-tight text-[#f0ece6]">
                 N2K
               </span>
-              <span className="font-black text-3xl text-[#00d4ff]">.</span>
+              <span className="font-black text-3xl text-[var(--accent)]">.</span>
               <span className="font-black text-3xl tracking-tight text-[#f0ece6]">
                 Labs
               </span>
@@ -51,16 +51,16 @@ export function Footer({ settings }: { settings: SettingsMap }) {
             <a
               href={`mailto:${email}`}
               data-cursor="hover"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#f0ece6] hover:text-[#00d4ff] transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#f0ece6] hover:text-[var(--accent)] transition-colors"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00d4ff] animate-blink" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-blink" />
               {email}
             </a>
           </div>
 
           {/* quick links */}
           <div className="lg:col-span-3">
-            <div className="mono-label text-[#00d4ff] mb-4">{"NAVIGATE"}</div>
+            <div className="mono-label text-[var(--accent)] mb-4">{"NAVIGATE"}</div>
             <ul className="grid grid-cols-2 gap-y-2 gap-x-6">
               {LINKS.map((l) => (
                 <li key={l.href}>
@@ -78,7 +78,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
 
           {/* socials + admin */}
           <div className="lg:col-span-4">
-            <div className="mono-label text-[#00d4ff] mb-4">{"CONNECT"}</div>
+            <div className="mono-label text-[var(--accent)] mb-4">{"CONNECT"}</div>
             <div className="flex flex-wrap gap-3 mb-6">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -88,7 +88,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
                   rel="noopener noreferrer"
                   aria-label={label}
                   data-cursor="hover"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[#00d4ff] hover:text-[#00d4ff] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -100,7 +100,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
                 window.dispatchEvent(new CustomEvent("n2k-open-admin"))
               }
               data-cursor="hover"
-              className="inline-flex items-center gap-2 mono-label text-[#9aa0a8] transition-colors hover:text-[#00d4ff]"
+              className="inline-flex items-center gap-2 mono-label text-[#9aa0a8] transition-colors hover:text-[var(--accent)]"
             >
               <ShieldCheck className="h-3.5 w-3.5" />
               Admin Access
@@ -119,7 +119,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
               onClick={scrollTop}
               data-cursor="hover"
               aria-label="Back to top"
-              className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[#00d4ff] hover:text-[#00d4ff] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+              className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
             >
               <ArrowUp className="h-4 w-4" />
             </motion.button>

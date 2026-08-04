@@ -58,7 +58,7 @@ export function Process() {
 
         <div className="mt-16 relative">
           {/* connecting line */}
-          <div className="hidden lg:block absolute top-[42px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/30 to-transparent" />
+          <div className="hidden lg:block absolute top-[42px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(var(--accent-rgb),0.3)] to-transparent" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4">
             {STEPS.map((s, i) => (
@@ -72,9 +72,9 @@ export function Process() {
               >
                 {/* node */}
                 <div className="relative mb-6 flex items-center lg:justify-start">
-                  <div className="relative flex h-[84px] w-[84px] items-center justify-center rounded-full border border-white/10 bg-[#0e0e12] transition-all duration-300 group-hover:border-[#00d4ff]/50 group-hover:shadow-[0_0_30px_rgba(0,212,255,0.3)]">
-                    <s.icon className="h-7 w-7 text-[#00d4ff]" />
-                    <span className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#00d4ff] font-mono text-[10px] font-bold text-[#0a0a0c]">
+                  <div className="relative flex h-[84px] w-[84px] items-center justify-center rounded-full border border-white/10 bg-[#0e0e12] transition-all duration-300 group-hover:border-[rgba(var(--accent-rgb),0.5)] group-hover:shadow-[0_0_30px_rgba(var(--accent-rgb),0.3)]">
+                    <s.icon className="h-7 w-7 text-[var(--accent)]" />
+                    <span className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] font-mono text-[10px] font-bold text-[#0a0a0c]">
                       {s.no}
                     </span>
                   </div>

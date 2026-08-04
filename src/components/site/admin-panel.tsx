@@ -99,7 +99,7 @@ export function AdminPanel() {
             {/* header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff]">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)]">
                   <Lock className="h-4 w-4" />
                 </div>
                 <div>
@@ -132,7 +132,7 @@ export function AdminPanel() {
             <div className="flex-1 overflow-hidden">
               {!bootChecked ? (
                 <div className="flex h-full items-center justify-center">
-                  <Loader2 className="h-6 w-6 animate-spin text-[#00d4ff]" />
+                  <Loader2 className="h-6 w-6 animate-spin text-[var(--accent)]" />
                 </div>
               ) : !authed ? (
                 <LoginPanel onLoggedIn={() => setAuthed(true)} />
@@ -146,7 +146,7 @@ export function AdminPanel() {
                         onClick={() => setTab(t.id)}
                         className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                           tab === t.id
-                            ? "bg-[#00d4ff]/10 text-[#00d4ff]"
+                            ? "bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent)]"
                             : "text-[#8a8a93] hover:bg-white/5 hover:text-[#f0ece6]"
                         }`}
                       >
@@ -206,7 +206,7 @@ function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
     <div className="flex h-full items-center justify-center p-6">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="mono-label text-[#00d4ff] mb-2">{"SECURE ACCESS"}</div>
+          <div className="mono-label text-[var(--accent)] mb-2">{"SECURE ACCESS"}</div>
           <h2 className="text-3xl font-black text-[#f0ece6]">Admin Console</h2>
           <p className="mt-2 text-sm text-[#8a8a93]">
             Default: admin@n2klabs.com / n2k-admin-2024
@@ -257,8 +257,8 @@ function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
           outline: none;
         }
         :global(.n2k-input:focus) {
-          border-color: rgba(0, 212, 255, 0.5);
-          box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+          border-color: rgba(var(--accent-rgb), 0.5);
+          box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
         }
       `}</style>
     </div>
@@ -292,7 +292,7 @@ function Toolbar({ title, onAdd }: { title: string; onAdd?: () => void }) {
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
-        <div className="mono-label text-[#00d4ff] mb-1">{"MANAGE"}</div>
+        <div className="mono-label text-[var(--accent)] mb-1">{"MANAGE"}</div>
         <h2 className="text-2xl font-black text-[#f0ece6]">{title}</h2>
       </div>
       {onAdd && (
@@ -314,7 +314,7 @@ function ItemCard({ children }: { children: React.ReactNode }) {
 }
 
 const inputCls =
-  "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-sm text-[#f0ece6] outline-none focus:border-[#00d4ff]/50";
+  "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-sm text-[#f0ece6] outline-none focus:border-[rgba(var(--accent-rgb),0.5)]";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -396,18 +396,18 @@ function ProjectsAdmin() {
         {projects.map((p) => (
           <ItemCard key={p.id}>
             <div className="flex items-center gap-4">
-              <div className="h-12 w-12 shrink-0 rounded-lg bg-[#00d4ff]/10 border border-[#00d4ff]/20 flex items-center justify-center overflow-hidden">
+              <div className="h-12 w-12 shrink-0 rounded-lg bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.2)] flex items-center justify-center overflow-hidden">
                 {p.image ? (
                   <img src={p.image} alt="" className="h-full w-full object-cover" />
                 ) : (
-                  <FolderKanban className="h-5 w-5 text-[#00d4ff]" />
+                  <FolderKanban className="h-5 w-5 text-[var(--accent)]" />
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-[#f0ece6] truncate">{p.title}</span>
                   {p.featured && (
-                    <span className="rounded px-1.5 py-0.5 text-[9px] bg-[#00d4ff]/10 text-[#00d4ff] font-mono">
+                    <span className="rounded px-1.5 py-0.5 text-[9px] bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent)] font-mono">
                       FEATURED
                     </span>
                   )}
@@ -419,7 +419,7 @@ function ProjectsAdmin() {
               <div className="flex gap-2">
                 <button
                   onClick={() => setEditing(p)}
-                  className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[#00d4ff]/50 hover:text-[#00d4ff]"
+                  className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]"
                 >
                   Edit
                 </button>
@@ -472,8 +472,8 @@ function ProjectEditor({
   };
 
   return (
-    <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5">
-      <div className="mono-label text-[#00d4ff] mb-4">
+    <div className="mb-6 rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/50 p-5">
+      <div className="mono-label text-[var(--accent)] mb-4">
         {project.id ? "EDIT PROJECT" : "NEW PROJECT"}
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
@@ -498,7 +498,7 @@ function ProjectEditor({
         <Field label="Image">
           <div className="flex items-center gap-3">
             <input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} className="hidden" id="proj-img" />
-            <label htmlFor="proj-img" className="cursor-pointer flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-[#8a8a93] hover:border-[#00d4ff]/50 hover:text-[#00d4ff]">
+            <label htmlFor="proj-img" className="cursor-pointer flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-[#8a8a93] hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]">
               <Upload className="h-3.5 w-3.5" /> Upload
             </label>
             {f.image && <span className="text-xs text-[#8a8a93] truncate">{f.image}</span>}
@@ -564,8 +564,8 @@ function TestimonialsAdmin() {
     <div>
       <Toolbar title="Testimonials" onAdd={() => setEditing({} as Testimonial)} />
       {editing && (
-        <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5 space-y-3">
-          <div className="mono-label text-[#00d4ff]">{editing.id ? "EDIT" : "NEW"}</div>
+        <div className="mb-6 rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/50 p-5 space-y-3">
+          <div className="mono-label text-[var(--accent)]">{editing.id ? "EDIT" : "NEW"}</div>
           <div className="grid sm:grid-cols-2 gap-3">
             <Field label="Name"><input className={inputCls} value={editing.name || ""} onChange={(e) => setEditing({ ...editing, name: e.target.value })} /></Field>
             <Field label="Role"><input className={inputCls} value={editing.role || ""} onChange={(e) => setEditing({ ...editing, role: e.target.value })} /></Field>
@@ -591,7 +591,7 @@ function TestimonialsAdmin() {
                 <p className="mt-2 text-sm text-[#8a8a93] line-clamp-2">{t.quote}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => setEditing(t)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[#00d4ff]/50 hover:text-[#00d4ff]">Edit</button>
+                <button onClick={() => setEditing(t)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]">Edit</button>
                 <button onClick={() => onDelete(t.id)} className="rounded-lg border border-white/10 p-1.5 text-[#8a8a93] hover:border-[#ff4d5e]/50 hover:text-[#ff4d5e]"><Trash2 className="h-3.5 w-3.5" /></button>
               </div>
             </div>
@@ -647,8 +647,8 @@ function ServicesAdmin() {
     <div>
       <Toolbar title="Services" onAdd={() => setEditing({} as Service)} />
       {editing && (
-        <div className="mb-6 rounded-xl border border-[#00d4ff]/30 bg-[#0a0a0c]/50 p-5 space-y-3">
-          <div className="mono-label text-[#00d4ff]">{editing.id ? "EDIT" : "NEW"}</div>
+        <div className="mb-6 rounded-xl border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/50 p-5 space-y-3">
+          <div className="mono-label text-[var(--accent)]">{editing.id ? "EDIT" : "NEW"}</div>
           <div className="grid sm:grid-cols-2 gap-3">
             <Field label="Title"><input className={inputCls} value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></Field>
             <Field label="Icon (lucide name)"><input className={inputCls} value={editing.icon || ""} onChange={(e) => setEditing({ ...editing, icon: e.target.value })} placeholder="Code2" /></Field>
@@ -670,7 +670,7 @@ function ServicesAdmin() {
                 <div className="mono-label text-[#9aa0a8] mt-0.5">{s.icon || "—"}</div>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => setEditing(s)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[#00d4ff]/50 hover:text-[#00d4ff]">Edit</button>
+                <button onClick={() => setEditing(s)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#8a8a93] hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]">Edit</button>
                 <button onClick={() => onDelete(s.id)} className="rounded-lg border border-white/10 p-1.5 text-[#8a8a93] hover:border-[#ff4d5e]/50 hover:text-[#ff4d5e]"><Trash2 className="h-3.5 w-3.5" /></button>
               </div>
             </div>
@@ -715,7 +715,7 @@ function MessagesAdmin() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-semibold text-[#f0ece6]">{m.name}</span>
-                  <a href={`mailto:${m.email}`} className="text-xs text-[#00d4ff] hover:underline flex items-center gap-1">
+                  <a href={`mailto:${m.email}`} className="text-xs text-[var(--accent)] hover:underline flex items-center gap-1">
                     {m.email} <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
@@ -831,7 +831,7 @@ function PasswordAdmin() {
       <form onSubmit={submit} className="space-y-4 max-w-sm">
         <Field label="Current Password"><input type="password" className={inputCls} value={cur} onChange={(e) => setCur(e.target.value)} required /></Field>
         <Field label="New Password"><input type="password" className={inputCls} value={next} onChange={(e) => setNext(e.target.value)} required /></Field>
-        {msg && <p className={`text-sm ${msg.ok ? "text-[#00d4ff]" : "text-[#ff4d5e]"}`}>{msg.text}</p>}
+        {msg && <p className={`text-sm ${msg.ok ? "text-[var(--accent)]" : "text-[#ff4d5e]"}`}>{msg.text}</p>}
         <button type="submit" disabled={loading} className="flex items-center gap-2 rounded-full bg-[#f0ece6] px-5 py-2.5 text-xs font-semibold text-[#0a0a0c] disabled:opacity-60">
           {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <KeyRound className="h-3.5 w-3.5" />} Update Password
         </button>
@@ -844,7 +844,7 @@ function PasswordAdmin() {
 function Loader() {
   return (
     <div className="flex h-40 items-center justify-center">
-      <Loader2 className="h-6 w-6 animate-spin text-[#00d4ff]" />
+      <Loader2 className="h-6 w-6 animate-spin text-[var(--accent)]" />
     </div>
   );
 }

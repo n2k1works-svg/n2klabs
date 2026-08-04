@@ -26,7 +26,7 @@ export function About({ tagline }: { tagline: string }) {
   return (
     <section id="about" className="relative py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse,rgba(0,212,255,0.08),transparent_70%)]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <SectionHeading
@@ -52,7 +52,7 @@ export function About({ tagline }: { tagline: string }) {
             transition={{ duration: 0.7 }}
             className="lg:col-span-7 glass rounded-2xl p-8 md:p-10"
           >
-            <div className="mono-label text-[#00d4ff] mb-4">{"THE STORY"}</div>
+            <div className="mono-label text-[var(--accent)] mb-4">{"THE STORY"}</div>
             <p className="text-lg md:text-xl text-[#f0ece6] leading-relaxed mb-6">
               N2K Labs was founded on a simple conviction: the South Pacific
               deserves digital experiences as refined as anything coming out of
@@ -68,7 +68,7 @@ export function About({ tagline }: { tagline: string }) {
 
             {/* signature line */}
             <div className="mt-8 flex items-center gap-4 pt-6 border-t border-white/10">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#00d4ff] to-[#0088cc] flex items-center justify-center font-black text-[#0a0a0c]">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-deep)] flex items-center justify-center font-black text-[#0a0a0c]">
                 N2K
               </div>
               <div>
@@ -91,10 +91,10 @@ export function About({ tagline }: { tagline: string }) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ delay: i * 0.12, duration: 0.6 }}
-                className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#121218] p-6 transition-colors hover:border-[#00d4ff]/40"
+                className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#121218] p-6 transition-colors hover:border-[rgba(var(--accent-rgb),0.4)]"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#00d4ff]/30 bg-[#00d4ff]/5 text-[#00d4ff] transition-shadow group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.05)] text-[var(--accent)] transition-shadow group-hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]">
                     <v.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -106,7 +106,7 @@ export function About({ tagline }: { tagline: string }) {
                     </p>
                   </div>
                 </div>
-                <div className="absolute -bottom-px left-0 h-px w-0 bg-gradient-to-r from-[#00d4ff] to-transparent transition-all duration-500 group-hover:w-full" />
+                <div className="absolute -bottom-px left-0 h-px w-0 bg-gradient-to-r from-[var(--accent)] to-transparent transition-all duration-500 group-hover:w-full" />
               </motion.div>
             ))}
           </div>

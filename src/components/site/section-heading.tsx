@@ -28,8 +28,8 @@ export function SectionHeading({
         transition={{ duration: 0.6 }}
         className="flex items-center gap-3"
       >
-        <span className="font-mono text-xs text-[#00d4ff]">{index}</span>
-        <span className="h-px w-8 bg-[#00d4ff]/60" />
+        <span className="font-mono text-xs text-[var(--accent)]">{index}</span>
+        <span className="h-px w-8 bg-[rgba(var(--accent-rgb),0.6)]" />
         <span className="mono-label text-[#8a8a93]">{kicker}</span>
       </motion.div>
 

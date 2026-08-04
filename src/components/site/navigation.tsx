@@ -54,16 +54,16 @@ export function Navigation() {
               className="flex items-center gap-2 group"
             >
               <span className="flex flex-col gap-[5px]">
-                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
-                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff]" />
-                <span className="block h-px w-4 bg-[#f0ece6] transition-all group-hover:bg-[#00d4ff] group-hover:w-6" />
+                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[var(--accent)]" />
+                <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[var(--accent)]" />
+                <span className="block h-px w-4 bg-[#f0ece6] transition-all group-hover:bg-[var(--accent)] group-hover:w-6" />
               </span>
               <span className="mono-label text-[#8a8a93] hidden sm:inline">Menu</span>
             </button>
 
             {/* location + clock — only on large screens, stays in left group */}
             <div className="hidden xl:flex items-center gap-2 mono-label text-[#8a8a93]">
-              <span className="text-[#00d4ff]">/</span>
+              <span className="text-[var(--accent)]">/</span>
               <span>South Pacific, FIJI</span>
               <span className="text-white/20">•</span>
               <LiveClock className="text-[#f0ece6]" />
@@ -79,7 +79,7 @@ export function Navigation() {
             <span className="font-black text-xl md:text-2xl tracking-tight text-[#f0ece6]">
               N2K
             </span>
-            <span className="font-black text-xl md:text-2xl text-[#00d4ff]">.</span>
+            <span className="font-black text-xl md:text-2xl text-[var(--accent)]">.</span>
           </a>
 
           {/* Right: CTA */}
@@ -105,13 +105,13 @@ export function Navigation() {
             transition={{ duration: 0.4 }}
           >
             <div className="absolute inset-0 grid-overlay opacity-30" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.12),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(var(--accent-rgb),0.12),transparent_60%)]" />
 
             <div className="relative h-full flex flex-col">
               {/* top bar */}
               <div className="flex items-center justify-between px-4 md:px-8 py-5">
                 <span className="mono-label text-[#8a8a93]">
-                  <span className="text-[#00d4ff]">/</span> Navigation
+                  <span className="text-[var(--accent)]">/</span> Navigation
                 </span>
                 <button
                   onClick={() => setOpen(false)}
@@ -120,7 +120,7 @@ export function Navigation() {
                   className="flex items-center gap-2 group"
                 >
                   <span className="mono-label text-[#8a8a93] group-hover:text-[#f0ece6]">Close</span>
-                  <X className="h-5 w-5 text-[#f0ece6] group-hover:text-[#00d4ff] transition-colors" />
+                  <X className="h-5 w-5 text-[#f0ece6] group-hover:text-[var(--accent)] transition-colors" />
                 </button>
               </div>
 
@@ -137,13 +137,13 @@ export function Navigation() {
                     transition={{ delay: 0.1 + i * 0.06, duration: 0.5 }}
                     className="group flex items-baseline gap-6 border-b border-white/5 py-5 md:py-7"
                   >
-                    <span className="font-mono text-xs text-[#00d4ff] w-8">
+                    <span className="font-mono text-xs text-[var(--accent)] w-8">
                       0{i + 1}
                     </span>
                     <span className="text-4xl md:text-7xl font-black tracking-tight text-[#f0ece6]/70 group-hover:text-[#f0ece6] group-hover:translate-x-3 transition-all duration-300">
                       {l.label}
                     </span>
-                    <ArrowUpRight className="hidden md:block h-8 w-8 text-[#00d4ff] opacity-0 group-hover:opacity-100 -translate-x-3 group-hover:translate-x-0 transition-all duration-300" />
+                    <ArrowUpRight className="hidden md:block h-8 w-8 text-[var(--accent)] opacity-0 group-hover:opacity-100 -translate-x-3 group-hover:translate-x-0 transition-all duration-300" />
                   </motion.a>
                 ))}
               </nav>
@@ -151,10 +151,10 @@ export function Navigation() {
               {/* bottom */}
               <div className="px-4 md:px-16 py-8 flex flex-wrap items-center justify-between gap-4">
                 <div className="mono-label text-[#8a8a93]">
-                  <span className="text-[#00d4ff]">/</span> hello@n2klabs.com
+                  <span className="text-[var(--accent)]">/</span> hello@n2klabs.com
                 </div>
                 <div className="flex gap-2 mono-label text-[#8a8a93]">
-                  <span className="text-[#00d4ff]">/</span> Pacific/Fiji
+                  <span className="text-[var(--accent)]">/</span> Pacific/Fiji
                 </div>
               </div>
             </div>

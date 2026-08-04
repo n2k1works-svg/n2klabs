@@ -47,7 +47,7 @@ export function StatsBar({ stats }: { stats: StatData[] }) {
               transition={{ delay: i * 0.1, duration: 0.6 }}
               className="px-4 md:px-8 py-10 md:py-14 text-center md:text-left"
             >
-              <div className="mono-label text-[#00d4ff] mb-3">
+              <div className="mono-label text-[var(--accent)] mb-3">
                 / 0{i + 1}
               </div>
               <div className="text-4xl md:text-6xl font-black tracking-tight text-[#f0ece6] text-glow-soft">
