@@ -127,11 +127,46 @@
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    /* Belt-and-suspenders guard against any decorative glow elements
+       (radial gradients, floating HUD panels) causing horizontal scroll
+       on narrow viewports. Sections that contain such glows also use
+       `overflow-hidden` locally; this is the global backstop. */
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "ss01", "cv11";
     overflow-x: hidden;
+    /* Respect iOS safe-area insets (notch / home indicator) */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    /* Remove the 300ms tap delay on touch devices (modern browsers
+       already do this when width=device-width, but this guarantees it) */
+    touch-action: manipulation;
+    /* Prevent text size adjustment on orientation change (iOS) */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensure interactive elements meet 44px minimum touch target
+     and don't trigger double-tap zoom on mobile. */
+  button,
+  a[role="button"],
+  [data-cursor="hover"] {
+    touch-action: manipulation;
+  }
+
+  /* Prevent iOS Safari from auto-zooming when an input gains focus.
+     iOS zooms in if font-size < 16px, which is jarring. 16px on
+     mobile, 14px (text-sm) is fine on desktop.
+     `!important` is required to win over Tailwind utility classes
+     like `text-sm` that share the same specificity. This only affects
+     mobile (≤768px) so desktop typography is untouched. */
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
   }
 
   /* Custom scrollbar */

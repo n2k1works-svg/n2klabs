@@ -27,7 +27,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative mt-auto border-t border-white/5 bg-[#0a0a0c]">
+    <footer className="relative mt-auto overflow-hidden border-t border-white/5 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.06),transparent_70%)]" />
 
@@ -88,7 +88,7 @@ export function Footer({ settings }: { settings: SettingsMap }) {
                   rel="noopener noreferrer"
                   aria-label={label}
                   data-cursor="hover"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-[#8a8a93] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

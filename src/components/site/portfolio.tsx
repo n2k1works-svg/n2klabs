@@ -63,7 +63,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
   const isSingle = projects.length === 1;
 
   return (
-    <section id="portfolio" className="relative py-24 md:py-36 bg-[#0a0a0c]">
+    <section id="portfolio" className="relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-[radial-gradient(ellipse,rgba(var(--accent-deep-rgb),0.08),transparent_70%)]" />
 
@@ -305,7 +305,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 <button
                   onClick={() => setActive(null)}
                   aria-label="Close"
-                  className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/70 text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                  className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/70 text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                 >
                   <X className="h-5 w-5" />
                 </button>

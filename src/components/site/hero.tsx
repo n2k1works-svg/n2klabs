@@ -53,7 +53,7 @@ export function Hero() {
     <section
       ref={ref}
       id="home"
-      className="relative min-h-[100svh] w-full overflow-hidden bg-[#0a0a0c]"
+      className="relative min-h-screen min-h-[100svh] w-full overflow-hidden bg-[#0a0a0c]"
     >
       {/* Z-1: 3D background */}
       <motion.div
@@ -147,7 +147,7 @@ export function Hero() {
 
       {/* Z-4: hero typography */}
       <motion.div
-        className="relative z-10 flex min-h-[100svh] flex-col justify-center px-4 md:px-8"
+        className="relative z-10 flex min-h-screen min-h-[100svh] flex-col justify-center px-4 md:px-8"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="mx-auto w-full max-w-[1600px]">
@@ -234,7 +234,7 @@ export function Hero() {
             rel="noopener noreferrer"
             aria-label={label}
             data-cursor="hover"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[#8a8a93] backdrop-blur-md transition-all hover:border-[rgba(var(--accent-rgb),0.6)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[#8a8a93] backdrop-blur-md transition-all hover:border-[rgba(var(--accent-rgb),0.6)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
           >
             <Icon className="h-4 w-4" />
           </a>

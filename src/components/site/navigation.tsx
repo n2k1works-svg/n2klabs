@@ -63,7 +63,7 @@ export function Navigation() {
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               data-cursor="hover"
-              className="flex items-center gap-2 group"
+              className="flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-lg px-2 py-2 group"
             >
               <span className="flex flex-col gap-[5px]">
                 <span className="block h-px w-6 bg-[#f0ece6] transition-all group-hover:bg-[var(--accent)]" />
@@ -86,7 +86,7 @@ export function Navigation() {
           <a
             href="#home"
             data-cursor="hover"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 z-10"
+            className="absolute left-1/2 -translate-x-1/2 flex min-h-[44px] items-center gap-1 z-10"
           >
             <span className="font-black text-xl md:text-2xl tracking-tight text-[#f0ece6]">
               N2K
@@ -129,7 +129,7 @@ export function Navigation() {
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
                   data-cursor="hover"
-                  className="flex items-center gap-2 group"
+                  className="flex min-h-[44px] items-center gap-2 group"
                 >
                   <span className="mono-label text-[#8a8a93] group-hover:text-[#f0ece6]">Close</span>
                   <X className="h-5 w-5 text-[#f0ece6] group-hover:text-[var(--accent)] transition-colors" />

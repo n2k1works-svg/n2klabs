@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -35,8 +35,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "N2K Labs" }],
   creator: "N2K Labs",
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: "/logo.svg",
+    apple: "/logo.svg",
   },
   openGraph: {
     title: "N2K Labs — Digital Solutions That Elevate",
@@ -57,6 +59,15 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+// Next.js 16 viewport export — sets the <meta name="viewport"> tag,
+// theme-color (mobile browser chrome), and viewport-fit (notch support).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0a0a0c",
 };
 
 export default function RootLayout({

@@ -24,7 +24,7 @@ const VALUES = [
 
 export function About({ tagline }: { tagline: string }) {
   return (
-    <section id="about" className="relative py-24 md:py-36 bg-[#0a0a0c]">
+    <section id="about" className="relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
 
