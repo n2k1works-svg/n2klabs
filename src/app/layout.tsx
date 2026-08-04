@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { siteConfig } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,13 +17,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://n2klabs.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "N2K Labs — Digital Solutions That Elevate",
     template: "%s | N2K Labs",
   },
-  description:
-    "N2K Labs is a South Pacific digital studio crafting world-class web experiences, brands, and commerce platforms. Web Development, UI/UX Design, E-Commerce, Digital Strategy, Brand Identity & SEO.",
+  description: siteConfig.description,
   keywords: [
     "N2K Labs",
     "web development Fiji",
@@ -42,9 +42,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "N2K Labs — Digital Solutions That Elevate",
-    description:
-      "A South Pacific digital studio crafting world-class web experiences, brands, and commerce platforms.",
-    url: "https://n2klabs.com",
+    description: siteConfig.description,
+    url: siteConfig.url,
     siteName: "N2K Labs",
     type: "website",
     locale: "en_US",
@@ -52,8 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "N2K Labs — Digital Solutions That Elevate",
-    description:
-      "A South Pacific digital studio crafting world-class web experiences, brands, and commerce platforms.",
+    description: siteConfig.description,
   },
   robots: {
     index: true,

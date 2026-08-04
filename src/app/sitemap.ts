@@ -1,10 +1,14 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // Use a fixed "last modified" date so Google caches it consistently.
+  // Using new Date() makes Google ignore the value (always "now").
+  const lastModified = new Date("2026-01-01");
   return [
     {
-      url: "https://n2klabs.com",
-      lastModified: new Date(),
+      url: siteConfig.url,
+      lastModified,
       changeFrequency: "monthly",
       priority: 1,
     },

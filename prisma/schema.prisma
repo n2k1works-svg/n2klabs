@@ -1,12 +1,14 @@
 // Prisma schema for N2K Labs agency website
-// Note: Using SQLite for local dev. For production, swap datasource to postgresql (Neon).
+// PostgreSQL (Neon) — works both locally and on Vercel.
+// SQLite is no longer used because Vercel's serverless filesystem is
+// ephemeral, so SQLite writes (contact messages, admin edits) don't persist.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
