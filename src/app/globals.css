@@ -125,7 +125,10 @@
     @apply border-border outline-ring/50;
   }
   html {
-    scroll-behavior: smooth;
+    /* NOTE: `scroll-behavior: smooth` was removed because it can fight with
+       native wheel/trackpad momentum scrolling on some browsers and created
+       a perceptible scroll lag. Anchor links that need smooth scrolling
+       call scrollIntoView({ behavior: 'smooth' }) explicitly. */
     -webkit-font-smoothing: antialiased;
     /* Belt-and-suspenders guard against any decorative glow elements
        (radial gradients, floating HUD panels) causing horizontal scroll
@@ -197,15 +200,14 @@
 @layer utilities {
   /* === Glassmorphism === */
   .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    /* backdrop-filter: blur() removed for scroll performance — the sticky
+       nav + hero panels used to repaint a Gaussian blur every scroll frame.
+       Slightly higher opacity compensates visually on the dark background. */
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--glass-border);
   }
   .glass-strong {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
+    background: rgba(255, 255, 255, 0.10);
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
@@ -252,7 +254,13 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
     opacity: 0.04;
     pointer-events: none;
-    mix-blend-mode: overlay;
+    /* Promote to its own GPU layer so the noise texture is rasterized once
+       and composited cheaply, instead of being re-painted every scroll frame.
+       `mix-blend-mode: overlay` was removed because it forced a full-viewport
+       recomposite on every frame — the visual difference at 0.04 opacity is
+       imperceptible. */
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   /* === HUD corner marks === */

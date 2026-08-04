@@ -236,11 +236,11 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/20 to-transparent" />
                   {p.featured && (
-                    <div className="absolute top-4 left-4 rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/70 px-3 py-1 mono-label text-[var(--accent)] backdrop-blur-md">
+                    <div className="absolute top-4 left-4 rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[#0a0a0c]/90 px-3 py-1 mono-label text-[var(--accent)]">
                       Featured
                     </div>
                   )}
-                  <div className="absolute top-4 right-4 rounded-full border border-white/10 bg-[#0a0a0c]/70 px-3 py-1 mono-label text-[#8a8a93] backdrop-blur-md">
+                  <div className="absolute top-4 right-4 rounded-full border border-white/10 bg-[#0a0a0c]/90 px-3 py-1 mono-label text-[#8a8a93]">
                     {p.category}
                   </div>
                 </div>
@@ -290,7 +290,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
             exit={{ opacity: 0 }}
           >
             <div
-              className="absolute inset-0 bg-[#0a0a0c]/80 backdrop-blur-md"
+              className="absolute inset-0 bg-[#0a0a0c]/92"
               onClick={() => setActive(null)}
             />
             <motion.div
@@ -305,7 +305,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                 <button
                   onClick={() => setActive(null)}
                   aria-label="Close"
-                  className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/70 text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                  className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#0a0a0c]/90 text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                 >
                   <X className="h-5 w-5" />
                 </button>

@@ -63,7 +63,7 @@ export function Navigation() {
       <header
         className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-500 ${
           scrolled
-            ? "py-3 bg-[#0a0a0c]/85 backdrop-blur-lg border-b border-white/5"
+            ? "py-3 bg-[#0a0a0c]/95 border-b border-white/5"
             : "py-5 bg-transparent"
         }`}
       >

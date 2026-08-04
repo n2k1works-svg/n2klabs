@@ -107,7 +107,7 @@ export function AdminDashboard() {
       <div className="pointer-events-none fixed inset-x-0 top-0 z-[1] h-64 bg-[radial-gradient(ellipse_at_top,rgba(var(--accent-rgb),0.10),transparent_70%)]" />
 
       {/* HEADER */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0a0a0c]/85 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0a0a0c]/95">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 md:px-8">
           {/* left: back + brand */}
           <div className="flex items-center gap-4">
@@ -245,7 +245,7 @@ export function AdminDashboard() {
             </nav>
 
             {/* mobile tab strip */}
-            <div className="md:hidden flex w-full overflow-x-auto border-b border-white/10 bg-[#0a0a0c]/80 backdrop-blur-xl">
+            <div className="md:hidden flex w-full overflow-x-auto border-b border-white/10 bg-[#0a0a0c]/95">
               {TABS.map((t) => (
                 <button
                   key={t.id}

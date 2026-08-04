@@ -210,7 +210,7 @@ export function Hero() {
               <MagneticButton
                 as="a"
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 Get a Quote
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -234,7 +234,7 @@ export function Hero() {
             rel="noopener noreferrer"
             aria-label={label}
             data-cursor="hover"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[#8a8a93] backdrop-blur-md transition-all hover:border-[rgba(var(--accent-rgb),0.6)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-[#8a8a93] transition-all hover:border-[rgba(var(--accent-rgb),0.6)] hover:text-[var(--accent)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
           >
             <Icon className="h-4 w-4" />
           </a>
@@ -246,7 +246,7 @@ export function Hero() {
         <a
           href="#about"
           data-cursor="hover"
-          className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-transparent px-5 py-2.5 text-sm font-medium text-[#f0ece6] backdrop-blur-md transition-colors hover:border-[#f0ece6]"
+          className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-transparent px-5 py-2.5 text-sm font-medium text-[#f0ece6] transition-colors hover:border-[#f0ece6]"
         >
           Our Story
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
