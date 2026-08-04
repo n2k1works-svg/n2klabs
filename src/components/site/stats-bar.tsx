@@ -1,33 +1,63 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import type { StatData } from "@/lib/data";
 
+/**
+ * Counter — animates a number from 0 to `value` over 1.6s when scrolled into view.
+ *
+ * PERFORMANCE: writes the current value directly to the DOM via ref.textContent
+ * instead of calling setState on every animation frame. The previous
+ * implementation triggered ~60 React re-renders per second per counter, and
+ * with 4 counters on the StatsBar that's 240 re-renders/sec landing exactly at
+ * the Hero→StatsBar scroll boundary — a major cause of the "first to second
+ * page" scroll choppiness.
+ */
 function Counter({ value, suffix }: { value: number; suffix?: string | null }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const [n, setN] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
+    const el = ref.current;
+    if (!el) return;
+
+    // IntersectionObserver replaces useInView so we don't need the extra
+    // hook + state cycle. Start counting only when the element is visible.
     let raf = 0;
-    const start = performance.now();
-    const dur = 1600;
-    const tick = (t: number) => {
-      const p = Math.min((t - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setN(Math.round(value * eased));
-      if (p < 1) raf = requestAnimationFrame(tick);
+    let started = false;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            const start = performance.now();
+            const dur = 1600;
+            const tick = (t: number) => {
+              const p = Math.min((t - start) / dur, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const n = Math.round(value * eased);
+              el.textContent = `${n}${suffix || ""}`;
+              if (p < 1) raf = requestAnimationFrame(tick);
+            };
+            raf = requestAnimationFrame(tick);
+          }
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    io.observe(el);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, value]);
+  }, [value, suffix]);
 
   return (
     <span ref={ref} className="font-mono">
-      {n}
-      {suffix}
+      0{suffix}
     </span>
   );
 }

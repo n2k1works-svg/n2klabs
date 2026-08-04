@@ -39,7 +39,7 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.1]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
@@ -148,7 +148,16 @@ export function Hero() {
       {/* Z-4: hero typography */}
       <motion.div
         className="relative z-10 flex min-h-screen min-h-[100svh] flex-col justify-center px-4 md:px-8"
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={{
+          y: contentY,
+          opacity: contentOpacity,
+          /* Promote the entire hero content subtree to its own GPU layer.
+             Without this, the opacity fade (1→0 during the first viewport of
+             scroll) forces the browser to repaint the whole content texture
+             — the massive h1, buttons, HUD panels — on every scroll frame.
+             With will-change, opacity changes are compositor-only (free). */
+          willChange: "transform, opacity",
+        }}
       >
         <div className="mx-auto w-full max-w-[1600px]">
           {/* tagline pill */}
