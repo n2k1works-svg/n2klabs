@@ -36,7 +36,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
@@ -46,9 +45,25 @@ local-*
 *.log
 dev.log
 dev.out.log
+dev.pid
+start-dev.py
 test
 prompt
-
 server.log
+
+# local database (SQLite — dev only; production uses Postgres)
+/db/*.db
+/db/*.db-journal
+
 # Skills directory
 /skills/
+
+# uploaded images (Vercel uses Blob storage in production)
+/public/uploads/
+
+# dev / verification screenshots
+/screenshots/
+/.verify/
+/.zscripts/
+/download/
+/examples/
