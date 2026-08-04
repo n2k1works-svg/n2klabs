@@ -1,4 +1,5 @@
 import { db } from '../src/lib/db'
+import { hashPassword } from '../src/lib/auth'
 
 async function main() {
   // Clean
@@ -22,10 +23,13 @@ async function main() {
       'Set it in .env (locally) or in your hosting platform env vars, then re-run: bunx tsx prisma/seed.ts'
     )
   }
+  // Hash the password before storing it. The auth verifyPassword() helper
+  // accepts both plain and hashed stores, so this is a safe upgrade.
+  const passwordHash = await hashPassword(adminPassword)
   await db.adminUser.create({
     data: {
       email: adminEmail,
-      passwordHash: adminPassword, // API hashes on compare; bcrypt recommended for production
+      passwordHash,
       name: 'N2K Admin',
     },
   })
