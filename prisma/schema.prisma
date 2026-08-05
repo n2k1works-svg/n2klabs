@@ -1,14 +1,15 @@
 // Prisma schema for N2K Labs agency website
-// SQLite for local dev. On Vercel, the site uses static fallback data
-// (defined in src/lib/data.ts) and the contact form is wired to Web3Forms,
-// so no database is needed in production for the 2-week trial launch.
+// PostgreSQL via Neon — works locally and on Vercel.
+// On Vercel, install the Neon integration (one-click) which auto-injects
+// DATABASE_URL + POSTGRES_* env vars. For local dev, run `vercel env pull`
+// to copy them into .env.local, or set DATABASE_URL manually.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
