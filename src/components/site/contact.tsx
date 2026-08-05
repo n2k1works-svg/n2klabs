@@ -17,6 +17,14 @@ const SERVICES = [
 ];
 const BUDGETS = ["< $5k", "$5k – $15k", "$15k – $40k", "$40k+", "Not sure yet"];
 
+/**
+ * Web3Forms access key — get yours free at https://web3forms.com
+ * (just enter your email, they send a key, paste it into .env as WEB3FORMS_ACCESS_KEY).
+ * Form submissions are emailed directly to the address you signed up with.
+ * No backend, no database, works on any static host / Vercel.
+ */
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
 export function Contact({ settings }: { settings: SettingsMap }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [form, setForm] = useState({
@@ -31,12 +39,34 @@ export function Contact({ settings }: { settings: SettingsMap }) {
     e.preventDefault();
     setStatus("loading");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Request failed");
+      // If Web3Forms key is configured, POST directly to Web3Forms (no backend needed).
+      // Otherwise fall back to the old /api/contact route (local dev only).
+      if (WEB3FORMS_KEY) {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `New inquiry from ${form.name}${form.service ? ` — ${form.service}` : ""}`,
+            from_name: "N2K Labs Website",
+            name: form.name,
+            email: form.email,
+            service: form.service || "—",
+            budget: form.budget || "—",
+            message: form.message,
+          }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || "Web3Forms failed");
+      } else {
+        // Local dev fallback — hits the API route (which still tries DB + Resend)
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        if (!res.ok) throw new Error("Request failed");
+      }
       setStatus("success");
       setForm({ name: "", email: "", service: "", budget: "", message: "" });
       setTimeout(() => setStatus("idle"), 4000);
