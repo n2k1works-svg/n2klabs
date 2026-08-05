@@ -134,7 +134,6 @@ export function ReadOnlyBanner() {
 
 /* ============ LOGIN ============ */
 export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
-  const [email, setEmail] = useState("n2k1works@gmail.com");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -147,7 +146,7 @@ export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
@@ -171,16 +170,6 @@ export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="mono-label text-[#8a8a93] mb-2 block">Email</label>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="n2k-input"
-              type="email"
-              required
-            />
-          </div>
-          <div>
             <label className="mono-label text-[#8a8a93] mb-2 block">Password</label>
             <input
               value={password}
@@ -188,6 +177,7 @@ export function LoginPanel({ onLoggedIn }: { onLoggedIn: () => void }) {
               className="n2k-input"
               type="password"
               required
+              autoFocus
               placeholder="••••••••"
             />
           </div>
@@ -739,51 +729,29 @@ export function SettingsAdmin({ readOnly }: { readOnly?: boolean }) {
 
 /* ============ PASSWORD ============ */
 export function PasswordAdmin({ readOnly }: { readOnly?: boolean }) {
-  const [cur, setCur] = useState("");
-  const [next, setNext] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMsg(null);
-    try {
-      const res = await fetch("/api/admin/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword: cur, newPassword: next }) });
-      const d = await res.json();
-      if (!res.ok) throw new Error(d.error || "failed");
-      setMsg({ ok: true, text: "Password updated successfully." });
-      setCur(""); setNext("");
-    } catch (e) {
-      setMsg({ ok: false, text: e instanceof Error ? e.message : "Failed" });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (readOnly) {
-    return (
-      <div>
-        <ReadOnlyBanner />
-        <Toolbar title="Change Password" readOnly />
-        <div className="max-w-sm rounded-xl border border-dashed border-white/10 py-12 text-center mono-label text-[#9aa0a8]">
-          Password management is hidden in View Mode.
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Toolbar title="Change Password" />
-      <form onSubmit={submit} className="space-y-4 max-w-sm">
-        <Field label="Current Password"><input type="password" className={inputCls} value={cur} onChange={(e) => setCur(e.target.value)} required /></Field>
-        <Field label="New Password"><input type="password" className={inputCls} value={next} onChange={(e) => setNext(e.target.value)} required /></Field>
-        {msg && <p className={`text-sm ${msg.ok ? "text-[var(--accent)]" : "text-[#ff4d5e]"}`}>{msg.text}</p>}
-        <button type="submit" disabled={loading} className="flex items-center gap-2 rounded-full bg-[#f0ece6] px-5 py-2.5 text-xs font-semibold text-[#0a0a0c] disabled:opacity-60">
-          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <KeyRound className="h-3.5 w-3.5" />} Update Password
-        </button>
-      </form>
+      <div className="max-w-lg rounded-xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
+        <p className="text-sm text-[#b0aca6]">
+          The admin password is set via the <code className="rounded bg-white/10 px-1.5 py-0.5 text-[var(--accent)]">ADMIN_PASSWORD</code> environment variable.
+          To change it:
+        </p>
+        <ol className="space-y-2 text-sm text-[#8a8a93] list-decimal list-inside">
+          <li>
+            <span className="text-[#f0ece6]">Local dev:</span> edit <code className="rounded bg-white/10 px-1.5 py-0.5 text-[var(--accent)]">.env</code> and
+            update the <code className="rounded bg-white/10 px-1.5 py-0.5 text-[var(--accent)]">ADMIN_PASSWORD</code> value, then restart the dev server.
+          </li>
+          <li>
+            <span className="text-[#f0ece6]">Production (Vercel):</span> go to Vercel → Settings → Environment Variables →
+            update <code className="rounded bg-white/10 px-1.5 py-0.5 text-[var(--accent)]">ADMIN_PASSWORD</code> → redeploy.
+          </li>
+        </ol>
+        <p className="text-xs text-[#5a5a63] pt-2 border-t border-white/5">
+          This is more secure than storing the password in a database — the credential
+          never touches the filesystem and can&apos;t be leaked through a DB dump.
+        </p>
+      </div>
     </div>
   );
 }
