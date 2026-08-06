@@ -801,23 +801,103 @@ export function MessagesAdmin({ readOnly }: { readOnly?: boolean }) {
 }
 
 /* ============ SETTINGS ============ */
-export const SETTING_FIELDS = [
-  { key: "contact.email", label: "Contact Email" },
-  { key: "contact.phone", label: "Contact Phone" },
-  { key: "contact.location", label: "Contact Location" },
-  { key: "social.twitter", label: "Twitter URL" },
-  { key: "social.instagram", label: "Instagram URL" },
-  { key: "social.website", label: "Website URL" },
-  { key: "social.github", label: "GitHub URL" },
-  { key: "site.tagline", label: "Site Tagline" },
-  { key: "site.description", label: "Site Description" },
+/* ============ settings field schema (grouped) ============ */
+export type SettingField = {
+  key: string;
+  label: string;
+  textarea?: boolean;
+  rows?: number;
+  placeholder?: string;
+  hint?: string;
+};
+
+export type SettingGroup = {
+  id: string;
+  label: string;
+  description?: string;
+  fields: SettingField[];
+};
+
+/**
+ * All editable site content. Each group renders as its own card in the
+ * Settings tab; a single Save at the bottom persists every key via
+ * PUT /api/settings (upsert by key).
+ *
+ * The `about.*` and `hero.*` groups drive the About/Story + Hero sections
+ * — editing them here changes the live homepage on the next render.
+ */
+export const SETTING_GROUPS: SettingGroup[] = [
+  {
+    id: "hero",
+    label: "Hero Section",
+    description: "The opening screen — title, tagline pill, subline and button labels.",
+    fields: [
+      { key: "hero.title", label: "Hero Title", hint: "The massive headline (animated letter-by-letter)." },
+      { key: "hero.tagline", label: "Tagline Pill", hint: "Small label above the title." },
+      { key: "hero.subline", label: "Subline", textarea: true, rows: 3, hint: "Paragraph under the title." },
+      { key: "hero.cta1", label: "Primary Button Text", hint: "Scrolls to portfolio." },
+      { key: "hero.cta2", label: "Secondary Button Text", hint: "Scrolls to contact." },
+    ],
+  },
+  {
+    id: "about",
+    label: "About / Story Section",
+    description: "The narrative block — heading, two story paragraphs, signature, and the Mission / Vision / Method values.",
+    fields: [
+      { key: "about.kicker", label: "Section Kicker", hint: "Small label above the heading (e.g. “About N2K Labs”)." },
+      { key: "about.heading.line1", label: "Heading — Line 1", hint: "First line of the heading." },
+      { key: "about.heading.line2", label: "Heading — Line 2", hint: "Second line, before the gradient highlight." },
+      { key: "about.heading.highlight", label: "Heading — Highlight", hint: "Final word/phrase rendered in the gradient." },
+      { key: "about.story1", label: "Story — Paragraph 1", textarea: true, rows: 3 },
+      { key: "about.story2", label: "Story — Paragraph 2", textarea: true, rows: 5 },
+      { key: "about.signature.name", label: "Signature Name" },
+      { key: "about.signature.location", label: "Signature Location" },
+      { key: "about.value1.title", label: "Value 1 — Title", hint: "Mission" },
+      { key: "about.value1.text", label: "Value 1 — Text", textarea: true, rows: 2 },
+      { key: "about.value2.title", label: "Value 2 — Title", hint: "Vision" },
+      { key: "about.value2.text", label: "Value 2 — Text", textarea: true, rows: 2 },
+      { key: "about.value3.title", label: "Value 3 — Title", hint: "Method" },
+      { key: "about.value3.text", label: "Value 3 — Text", textarea: true, rows: 2 },
+    ],
+  },
+  {
+    id: "site",
+    label: "Site",
+    fields: [
+      { key: "site.tagline", label: "Site Tagline", hint: "Shown as the About section description." },
+      { key: "site.description", label: "Site Description", textarea: true, rows: 2, hint: "Used in SEO metadata." },
+    ],
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    fields: [
+      { key: "contact.email", label: "Contact Email" },
+      { key: "contact.phone", label: "Contact Phone" },
+      { key: "contact.location", label: "Contact Location" },
+    ],
+  },
+  {
+    id: "social",
+    label: "Social Links",
+    fields: [
+      { key: "social.twitter", label: "Twitter URL" },
+      { key: "social.instagram", label: "Instagram URL" },
+      { key: "social.website", label: "Website URL" },
+      { key: "social.github", label: "GitHub URL" },
+    ],
+  },
 ];
+
+/** Flat list (kept for backward-compat / external consumers). */
+export const SETTING_FIELDS: SettingField[] = SETTING_GROUPS.flatMap((g) => g.fields);
 
 export function SettingsAdmin({ readOnly }: { readOnly?: boolean }) {
   const { data, loading } = useFetch<{ settings: Record<string, string> }>("/api/settings");
   const [vals, setVals] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [err, setErr] = useState("");
 
   useEffect(() => {
     if (data?.settings) setVals(data.settings);
@@ -825,10 +905,21 @@ export function SettingsAdmin({ readOnly }: { readOnly?: boolean }) {
 
   const save = async () => {
     setSaving(true);
+    setErr("");
     try {
-      await fetch("/api/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ settings: vals }) });
+      const res = await fetch("/api/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ settings: vals }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.error || "Save failed");
+      }
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Save failed");
     } finally {
       setSaving(false);
     }
@@ -840,21 +931,78 @@ export function SettingsAdmin({ readOnly }: { readOnly?: boolean }) {
     <div>
       {readOnly && <ReadOnlyBanner />}
       <Toolbar title="Settings" readOnly={readOnly} />
-      <div className="space-y-4 max-w-2xl">
-        {SETTING_FIELDS.map((f) => (
-          <Field key={f.key} label={f.label}>
-            <input
-              className={inputCls}
-              value={vals[f.key] || ""}
-              disabled={readOnly}
-              onChange={(e) => setVals((p) => ({ ...p, [f.key]: e.target.value }))}
-            />
-          </Field>
+
+      <div className="space-y-6 max-w-3xl">
+        {SETTING_GROUPS.map((group) => (
+          <div
+            key={group.id}
+            className="rounded-xl border border-white/10 bg-[#121218] p-5"
+          >
+            <div className="mb-4">
+              <div className="mono-label text-[var(--accent)] mb-1">{"SECTION"}</div>
+              <h3 className="text-lg font-bold text-[#f0ece6]">{group.label}</h3>
+              {group.description && (
+                <p className="mt-1 text-xs text-[#8a8a93] leading-relaxed">
+                  {group.description}
+                </p>
+              )}
+            </div>
+            <div className="space-y-4">
+              {group.fields.map((f) => (
+                <Field key={f.key} label={f.label}>
+                  {f.textarea ? (
+                    <textarea
+                      className={`${inputCls} resize-y min-h-[60px] leading-relaxed`}
+                      rows={f.rows ?? 3}
+                      value={vals[f.key] ?? ""}
+                      placeholder={f.placeholder}
+                      disabled={readOnly}
+                      onChange={(e) =>
+                        setVals((p) => ({ ...p, [f.key]: e.target.value }))
+                      }
+                    />
+                  ) : (
+                    <input
+                      className={inputCls}
+                      value={vals[f.key] ?? ""}
+                      placeholder={f.placeholder}
+                      disabled={readOnly}
+                      onChange={(e) =>
+                        setVals((p) => ({ ...p, [f.key]: e.target.value }))
+                      }
+                    />
+                  )}
+                  {f.hint && (
+                    <span className="mt-1 block text-[11px] text-[#5a5a63]">
+                      {f.hint}
+                    </span>
+                  )}
+                </Field>
+              ))}
+            </div>
+          </div>
         ))}
+
+        {err && (
+          <div className="rounded-lg border border-[#ff4d5e]/40 bg-[#ff4d5e]/10 px-4 py-2.5 text-xs text-[#ff4d5e]">
+            {err}
+          </div>
+        )}
+
         {!readOnly && (
-          <button onClick={save} disabled={saving} className="flex items-center gap-2 rounded-full bg-[#f0ece6] px-5 py-2.5 text-xs font-semibold text-[#0a0a0c] disabled:opacity-60">
-            {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : saved ? <Check className="h-3.5 w-3.5" /> : <Save className="h-3.5 w-3.5" />}
-            {saved ? "Saved" : "Save Settings"}
+          <button
+            onClick={save}
+            disabled={saving}
+            className="flex items-center gap-2 rounded-full bg-[#f0ece6] px-5 py-2.5 text-xs font-semibold text-[#0a0a0c] disabled:opacity-60"
+          >
+            {saving ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : saved ? (
+              <Check className="h-3.5 w-3.5" />
+            ) : (
+              <Save className="h-3.5 w-3.5" />
+            )}
+            {saved ? "Saved" : "Save All Settings"}
           </button>
         )}
       </div>

@@ -155,16 +155,46 @@ const FALLBACK_STATS: StatData[] = [
 ];
 
 const FALLBACK_SETTINGS: SettingsMap = {
+  // ── Contact ──
   "contact.email": "hello@n2klabs.com",
   "contact.phone": "+679 900 0000",
   "contact.location": "South Pacific, Fiji",
+  // ── Social ──
   "social.twitter": "https://twitter.com/n2klabs",
   "social.instagram": "https://instagram.com/n2klabs",
   "social.website": "https://n2klabs.com",
   "social.github": "https://github.com/n2klabs",
+  // ── Site ──
   "site.tagline": "Digital Solutions That Elevate",
   "site.description":
     "N2K Labs is a South Pacific digital studio crafting world-class web experiences, brands, and commerce platforms.",
+  // ── Hero section (editable from admin) ──
+  "hero.title": "N2K Labs",
+  "hero.tagline": "Digital Solutions Studio — Est. 2026",
+  "hero.subline":
+    "An award-grade digital studio in the South Pacific crafting world-class web experiences, brands, and commerce platforms.",
+  "hero.cta1": "View Our Work",
+  "hero.cta2": "Get a Quote",
+  // ── About / Story section (editable from admin) ──
+  "about.kicker": "About N2K Labs",
+  "about.heading.line1": "We build the digital",
+  "about.heading.line2": "infrastructure of",
+  "about.heading.highlight": "ambitious brands.",
+  "about.story1":
+    "N2K Labs was founded on a simple conviction: the South Pacific deserves digital experiences as refined as anything coming out of Sydney, Singapore, or San Francisco.",
+  "about.story2":
+    "From our base in Fiji, we partner with businesses, startups, and entrepreneurs who refuse to settle. We blend strategy, design, and engineering into work that performs — fast, accessible, and unmistakably premium. Every project is an opportunity to raise the bar for what's possible in the region.",
+  "about.signature.name": "The N2K Labs Team",
+  "about.signature.location": "/ South Pacific, Fiji",
+  "about.value1.title": "Mission",
+  "about.value1.text":
+    "To give South Pacific businesses a digital presence that rivals the best in the world — no compromises.",
+  "about.value2.title": "Vision",
+  "about.value2.text":
+    "A region known not for its limitations, but for the world-class experiences built within it.",
+  "about.value3.title": "Method",
+  "about.value3.text":
+    "Strategy first, design-led, engineered to last. Every pixel and every millisecond matters.",
 };
 
 function parseTags(raw: string | null | undefined): string[] {

@@ -42,7 +42,8 @@ export default async function Home({
     getSettings(),
   ]);
 
-  const tagline = settings["site.tagline"] || "Digital Solutions That Elevate";
+  // `settings` now also drives the Hero + About/Story section copy
+  // (hero.*, about.* keys — editable from the admin Settings tab).
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#0a0a0c]">
@@ -56,9 +57,9 @@ export default async function Home({
       <Navigation />
 
       <main className="relative z-10 flex-1 flex flex-col">
-        <Hero />
+        <Hero settings={settings} />
         <StatsBar stats={stats} />
-        <About tagline={tagline} />
+        <About settings={settings} />
         <Services services={services} />
         <Portfolio projects={projects} />
         <Process />

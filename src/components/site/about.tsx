@@ -3,26 +3,61 @@
 import { motion } from "framer-motion";
 import { Target, Eye, Zap } from "lucide-react";
 import { SectionHeading } from "./section-heading";
+import type { SettingsMap } from "@/lib/data";
 
-const VALUES = [
-  {
-    icon: Target,
-    title: "Mission",
-    text: "To give South Pacific businesses a digital presence that rivals the best in the world — no compromises.",
-  },
-  {
-    icon: Eye,
-    title: "Vision",
-    text: "A region known not for its limitations, but for the world-class experiences built within it.",
-  },
-  {
-    icon: Zap,
-    title: "Method",
-    text: "Strategy first, design-led, engineered to last. Every pixel and every millisecond matters.",
-  },
-];
+/**
+ * About — the "story" section.
+ *
+ * Fully content-driven: every visible string is read from `settings`
+ * (populated by /api/settings, seeded in prisma/seed.ts, and editable from
+ * the admin Settings tab). Falls back to sensible defaults baked into
+ * FALLBACK_SETTINGS (src/lib/data.ts) so the section renders even if the
+ * database is unreachable.
+ *
+ * Settings keys consumed:
+ *   about.kicker, about.heading.line1, about.heading.line2,
+ *   about.heading.highlight, about.story1, about.story2,
+ *   about.signature.name, about.signature.location,
+ *   about.value{1,2,3}.title, about.value{1,2,3}.text
+ *
+ * The three "values" (Mission / Vision / Method) keep their lucide icons
+ * mapped by position so admins only edit the copy, not the icon system.
+ */
+const VALUE_ICONS = [Target, Eye, Zap];
 
-export function About({ tagline }: { tagline: string }) {
+type ValueItem = {
+  icon: (typeof VALUE_ICONS)[number];
+  title: string;
+  text: string;
+};
+
+export function About({ settings }: { settings: SettingsMap }) {
+  const s = settings || {};
+  const kicker = s["about.kicker"] || "About N2K Labs";
+  const line1 = s["about.heading.line1"] || "We build the digital";
+  const line2 = s["about.heading.line2"] || "infrastructure of";
+  const highlight = s["about.heading.highlight"] || "ambitious brands.";
+  const story1 =
+    s["about.story1"] ||
+    "N2K Labs was founded on a simple conviction: the South Pacific deserves digital experiences as refined as anything coming out of Sydney, Singapore, or San Francisco.";
+  const story2 =
+    s["about.story2"] ||
+    "From our base in Fiji, we partner with businesses, startups, and entrepreneurs who refuse to settle. We blend strategy, design, and engineering into work that performs — fast, accessible, and unmistakably premium. Every project is an opportunity to raise the bar for what's possible in the region.";
+  const sigName = s["about.signature.name"] || "The N2K Labs Team";
+  const sigLocation = s["about.signature.location"] || "/ South Pacific, Fiji";
+
+  const values: ValueItem[] = [1, 2, 3].map((i) => ({
+    icon: VALUE_ICONS[i - 1],
+    title: s[`about.value${i}.title`] || ["Mission", "Vision", "Method"][i - 1],
+    text:
+      s[`about.value${i}.text`] ||
+      [
+        "To give South Pacific businesses a digital presence that rivals the best in the world — no compromises.",
+        "A region known not for its limitations, but for the world-class experiences built within it.",
+        "Strategy first, design-led, engineered to last. Every pixel and every millisecond matters.",
+      ][i - 1],
+  }));
+
   return (
     <section id="about" className="cv-auto contain-paint relative overflow-hidden py-24 md:py-36 bg-[#0a0a0c]">
       <div className="absolute inset-0 grid-overlay opacity-[0.04]" />
@@ -31,16 +66,16 @@ export function About({ tagline }: { tagline: string }) {
       <div className="relative mx-auto max-w-[1600px] px-4 md:px-8">
         <SectionHeading
           index="/ 01"
-          kicker="About N2K Labs"
+          kicker={kicker}
           title={
             <>
-              We build the digital
+              {line1}
               <br />
-              infrastructure of{" "}
-              <span className="text-gradient-cyan">ambitious brands.</span>
+              {line2}{" "}
+              <span className="text-gradient-cyan">{highlight}</span>
             </>
           }
-          description={tagline}
+          description={s["site.tagline"] || "Digital Solutions That Elevate"}
         />
 
         {/* Story block */}
@@ -54,16 +89,10 @@ export function About({ tagline }: { tagline: string }) {
           >
             <div className="mono-label text-[var(--accent)] mb-4">{"THE STORY"}</div>
             <p className="text-lg md:text-xl text-[#f0ece6] leading-relaxed mb-6">
-              N2K Labs was founded on a simple conviction: the South Pacific
-              deserves digital experiences as refined as anything coming out of
-              Sydney, Singapore, or San Francisco.
+              {story1}
             </p>
             <p className="text-base md:text-lg text-[#b0aca6] leading-relaxed">
-              From our base in Fiji, we partner with businesses, startups, and
-              entrepreneurs who refuse to settle. We blend strategy, design, and
-              engineering into work that performs — fast, accessible, and
-              unmistakably premium. Every project is an opportunity to raise the
-              bar for what&apos;s possible in the region.
+              {story2}
             </p>
 
             {/* signature line */}
@@ -73,10 +102,10 @@ export function About({ tagline }: { tagline: string }) {
               </div>
               <div>
                 <div className="text-sm font-semibold text-[#f0ece6]">
-                  The N2K Labs Team
+                  {sigName}
                 </div>
                 <div className="mono-label text-[#8a8a93]">
-                  / South Pacific, Fiji
+                  {sigLocation}
                 </div>
               </div>
             </div>
@@ -84,7 +113,7 @@ export function About({ tagline }: { tagline: string }) {
 
           {/* values */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            {VALUES.map((v, i) => (
+            {values.map((v, i) => (
               <motion.div
                 key={v.title}
                 initial={{ opacity: 0, x: 30 }}

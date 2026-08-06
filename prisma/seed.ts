@@ -123,10 +123,21 @@ async function main() {
     { key: 'hero.subline', value: 'An award-grade digital studio in the South Pacific crafting world-class web experiences, brands, and commerce platforms.' },
     { key: 'hero.cta1', value: 'View Our Work' },
     { key: 'hero.cta2', value: 'Get a Quote' },
+    // About / Story section
+    { key: 'about.kicker', value: 'About N2K Labs' },
     { key: 'about.heading.line1', value: 'We build the digital' },
-    { key: 'about.heading.line2', value: 'infrastructure of ambitious brands.' },
+    { key: 'about.heading.line2', value: 'infrastructure of' },
+    { key: 'about.heading.highlight', value: 'ambitious brands.' },
     { key: 'about.story1', value: 'N2K Labs was founded on a simple conviction: the South Pacific deserves digital experiences as refined as anything coming out of Sydney, Singapore, or San Francisco.' },
     { key: 'about.story2', value: 'From our base in Fiji, we partner with businesses, startups, and entrepreneurs who refuse to settle. We blend strategy, design, and engineering into work that performs — fast, accessible, and unmistakably premium. Every project is an opportunity to raise the bar for what\'s possible in the region.' },
+    { key: 'about.signature.name', value: 'The N2K Labs Team' },
+    { key: 'about.signature.location', value: '/ South Pacific, Fiji' },
+    { key: 'about.value1.title', value: 'Mission' },
+    { key: 'about.value1.text', value: 'To give South Pacific businesses a digital presence that rivals the best in the world — no compromises.' },
+    { key: 'about.value2.title', value: 'Vision' },
+    { key: 'about.value2.text', value: 'A region known not for its limitations, but for the world-class experiences built within it.' },
+    { key: 'about.value3.title', value: 'Method' },
+    { key: 'about.value3.text', value: 'Strategy first, design-led, engineered to last. Every pixel and every millisecond matters.' },
   ]
   for (const s of settings) {
     await db.setting.upsert({

@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowRight, Twitter, Instagram, Globe } from "lucide-react";
 import { MagneticButton } from "./magnetic-button";
-
-const HERO_TITLE = "N2K Labs".split("");
+import type { SettingsMap } from "@/lib/data";
 
 /** Floating glassmorphic HUD panel with corner marks + faux data UI. */
 function HudPanel({
@@ -32,7 +31,17 @@ function HudPanel({
   );
 }
 
-export function Hero() {
+export function Hero({ settings }: { settings: SettingsMap }) {
+  const s = settings || {};
+  const heroTitle = s["hero.title"] || "N2K Labs";
+  const HERO_TITLE = heroTitle.split("");
+  const heroTagline = s["hero.tagline"] || "Digital Solutions Studio — Est. 2026";
+  const heroSubline =
+    s["hero.subline"] ||
+    "An award-grade digital studio in the South Pacific crafting world-class web experiences, brands, and commerce platforms.";
+  const heroCta1 = s["hero.cta1"] || "View Our Work";
+  const heroCta2 = s["hero.cta2"] || "Get a Quote";
+
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -169,7 +178,7 @@ export function Hero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-blink" />
             <span className="mono-label text-[#8a8a93]">
-              Digital Solutions Studio — Est. 2026
+              {heroTagline}
             </span>
           </motion.div>
 
@@ -203,8 +212,7 @@ export function Hero() {
             className="mt-6 md:mt-8 flex flex-col md:flex-row md:items-end gap-6 md:gap-12"
           >
             <p className="max-w-md text-base md:text-lg text-[#b0aca6] leading-relaxed">
-              An award-grade digital studio in the South Pacific crafting
-              world-class web experiences, brands, and commerce platforms.
+              {heroSubline}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -213,7 +221,7 @@ export function Hero() {
                 href="#portfolio"
                 className="btn-shine group inline-flex items-center gap-2 rounded-full bg-[#f0ece6] px-6 py-3 text-sm font-semibold text-[#0a0a0c] transition-shadow hover:shadow-[0_0_30px_rgba(240,236,230,0.4)]"
               >
-                View Our Work
+                {heroCta1}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </MagneticButton>
               <MagneticButton
@@ -221,7 +229,7 @@ export function Hero() {
                 href="#contact"
                 className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-[#f0ece6] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
-                Get a Quote
+                {heroCta2}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </MagneticButton>
             </div>
