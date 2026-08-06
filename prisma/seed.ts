@@ -112,8 +112,10 @@ async function main() {
     { key: 'contact.email', value: 'hello@n2klabs.com' },
     { key: 'contact.phone', value: '+679 900 0000' },
     { key: 'contact.location', value: 'South Pacific, Fiji' },
-    { key: 'social.twitter', value: 'https://twitter.com/n2klabs' },
+    { key: 'social.facebook', value: 'https://facebook.com/n2klabs' },
     { key: 'social.instagram', value: 'https://instagram.com/n2klabs' },
+    // Legacy social keys (kept for backward compat; no longer rendered).
+    { key: 'social.twitter', value: 'https://twitter.com/n2klabs' },
     { key: 'social.website', value: 'https://n2klabs.com' },
     { key: 'social.github', value: 'https://github.com/n2klabs' },
     { key: 'site.tagline', value: 'Digital Solutions That Elevate' },

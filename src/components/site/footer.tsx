@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUp, Twitter, Instagram, Globe, Github } from "lucide-react";
+import { ArrowUp, Facebook, Instagram } from "lucide-react";
 import type { SettingsMap } from "@/lib/data";
 
 const LINKS = [
@@ -17,10 +17,8 @@ const LINKS = [
 export function Footer({ settings }: { settings: SettingsMap }) {
   const email = settings["contact.email"] || "hello@n2klabs.com";
   const socials = [
-    { icon: Twitter, href: settings["social.twitter"], label: "Twitter / X" },
+    { icon: Facebook, href: settings["social.facebook"], label: "Facebook" },
     { icon: Instagram, href: settings["social.instagram"], label: "Instagram" },
-    { icon: Globe, href: settings["social.website"], label: "Website" },
-    { icon: Github, href: settings["social.github"], label: "GitHub" },
   ].filter((s) => s.href);
 
   const scrollTop = () =>

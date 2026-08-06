@@ -880,11 +880,10 @@ export const SETTING_GROUPS: SettingGroup[] = [
   {
     id: "social",
     label: "Social Links",
+    description: "Only Facebook and Instagram are shown on the site.",
     fields: [
-      { key: "social.twitter", label: "Twitter URL" },
+      { key: "social.facebook", label: "Facebook URL" },
       { key: "social.instagram", label: "Instagram URL" },
-      { key: "social.website", label: "Website URL" },
-      { key: "social.github", label: "GitHub URL" },
     ],
   },
 ];

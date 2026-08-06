@@ -160,8 +160,10 @@ const FALLBACK_SETTINGS: SettingsMap = {
   "contact.phone": "+679 900 0000",
   "contact.location": "South Pacific, Fiji",
   // ── Social ──
-  "social.twitter": "https://twitter.com/n2klabs",
+  "social.facebook": "https://facebook.com/n2klabs",
   "social.instagram": "https://instagram.com/n2klabs",
+  // Legacy keys (kept in DB for backward compat; no longer rendered in UI).
+  "social.twitter": "https://twitter.com/n2klabs",
   "social.website": "https://n2klabs.com",
   "social.github": "https://github.com/n2klabs",
   // ── Site ──

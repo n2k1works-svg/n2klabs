@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowRight, Twitter, Instagram, Globe } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Facebook, Instagram } from "lucide-react";
 import { MagneticButton } from "./magnetic-button";
 import type { SettingsMap } from "@/lib/data";
 
@@ -240,9 +240,8 @@ export function Hero({ settings }: { settings: SettingsMap }) {
       {/* Z-5: UI chrome — socials bottom-left */}
       <div className="absolute bottom-6 left-4 md:left-8 z-20 flex items-center gap-2">
         {[
-          { icon: Twitter, href: "https://twitter.com/n2klabs", label: "Twitter / X" },
+          { icon: Facebook, href: "https://facebook.com/n2klabs", label: "Facebook" },
           { icon: Instagram, href: "https://instagram.com/n2klabs", label: "Instagram" },
-          { icon: Globe, href: "https://n2klabs.com", label: "Website" },
         ].map(({ icon: Icon, href, label }) => (
           <a
             key={label}
