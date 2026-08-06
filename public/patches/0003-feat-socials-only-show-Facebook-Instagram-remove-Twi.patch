@@ -1,0 +1,147 @@
+From 8103615838c08cdad587b9248e39910f2a5b6225 Mon Sep 17 00:00:00 2001
+From: Z User <z@container>
+Date: Thu, 6 Aug 2026 23:12:10 +0000
+Subject: [PATCH 3/3] feat(socials): only show Facebook + Instagram (remove
+ Twitter/Website/GitHub)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+User requested only Facebook + Instagram logos across the site.
+
+- src/components/site/footer.tsx: socials array now only contains
+  Facebook + Instagram (was Twitter, Instagram, Globe, Github).
+- src/components/site/hero.tsx: hero bottom-left social strip now
+  only shows Facebook + Instagram (was Twitter, Instagram, Globe).
+- src/lib/data.ts: added social.facebook to FALLBACK_SETTINGS
+  (https://facebook.com/n2klabs). Legacy twitter/website/github keys
+  kept for backward compat but no longer rendered.
+- prisma/seed.ts: upserts social.facebook on every deploy (idempotent).
+- src/components/site/admin-shared.tsx: Settings → Social Links group
+  now only has Facebook URL + Instagram URL fields (with a description
+  noting only those two are shown on the site).
+
+Verified locally: footer social labels = [Facebook, Instagram];
+hero social labels = [Facebook, Instagram]; admin Social Links group
+shows only Facebook URL + Instagram URL labels (Twitter/Website/GitHub
+labels all absent).
+---
+ .gitignore                           | 1 +
+ prisma/seed.ts                       | 4 +++-
+ src/components/site/admin-shared.tsx | 5 ++---
+ src/components/site/footer.tsx       | 6 ++----
+ src/components/site/hero.tsx         | 5 ++---
+ src/lib/data.ts                      | 4 +++-
+ 6 files changed, 13 insertions(+), 12 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 044b3cb..97a4094 100755
+--- a/.gitignore
++++ b/.gitignore
+@@ -72,3 +72,4 @@ server.log
+ /worklog.md
+ /tool-results/
+ /.agent-ctx/
++upload/
+diff --git a/prisma/seed.ts b/prisma/seed.ts
+index dda0166..4c12cf1 100755
+--- a/prisma/seed.ts
++++ b/prisma/seed.ts
+@@ -112,8 +112,10 @@ async function main() {
+     { key: 'contact.email', value: 'hello@n2klabs.com' },
+     { key: 'contact.phone', value: '+679 900 0000' },
+     { key: 'contact.location', value: 'South Pacific, Fiji' },
+-    { key: 'social.twitter', value: 'https://twitter.com/n2klabs' },
++    { key: 'social.facebook', value: 'https://facebook.com/n2klabs' },
+     { key: 'social.instagram', value: 'https://instagram.com/n2klabs' },
++    // Legacy social keys (kept for backward compat; no longer rendered).
++    { key: 'social.twitter', value: 'https://twitter.com/n2klabs' },
+     { key: 'social.website', value: 'https://n2klabs.com' },
+     { key: 'social.github', value: 'https://github.com/n2klabs' },
+     { key: 'site.tagline', value: 'Digital Solutions That Elevate' },
+diff --git a/src/components/site/admin-shared.tsx b/src/components/site/admin-shared.tsx
+index f786df2..4b10fee 100755
+--- a/src/components/site/admin-shared.tsx
++++ b/src/components/site/admin-shared.tsx
+@@ -880,11 +880,10 @@ export const SETTING_GROUPS: SettingGroup[] = [
+   {
+     id: "social",
+     label: "Social Links",
++    description: "Only Facebook and Instagram are shown on the site.",
+     fields: [
+-      { key: "social.twitter", label: "Twitter URL" },
++      { key: "social.facebook", label: "Facebook URL" },
+       { key: "social.instagram", label: "Instagram URL" },
+-      { key: "social.website", label: "Website URL" },
+-      { key: "social.github", label: "GitHub URL" },
+     ],
+   },
+ ];
+diff --git a/src/components/site/footer.tsx b/src/components/site/footer.tsx
+index 4b1a6ac..f72ac02 100755
+--- a/src/components/site/footer.tsx
++++ b/src/components/site/footer.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { motion } from "framer-motion";
+-import { ArrowUp, Twitter, Instagram, Globe, Github } from "lucide-react";
++import { ArrowUp, Facebook, Instagram } from "lucide-react";
+ import type { SettingsMap } from "@/lib/data";
+ 
+ const LINKS = [
+@@ -17,10 +17,8 @@ const LINKS = [
+ export function Footer({ settings }: { settings: SettingsMap }) {
+   const email = settings["contact.email"] || "hello@n2klabs.com";
+   const socials = [
+-    { icon: Twitter, href: settings["social.twitter"], label: "Twitter / X" },
++    { icon: Facebook, href: settings["social.facebook"], label: "Facebook" },
+     { icon: Instagram, href: settings["social.instagram"], label: "Instagram" },
+-    { icon: Globe, href: settings["social.website"], label: "Website" },
+-    { icon: Github, href: settings["social.github"], label: "GitHub" },
+   ].filter((s) => s.href);
+ 
+   const scrollTop = () =>
+diff --git a/src/components/site/hero.tsx b/src/components/site/hero.tsx
+index 2d3ba6a..eb60da2 100755
+--- a/src/components/site/hero.tsx
++++ b/src/components/site/hero.tsx
+@@ -2,7 +2,7 @@
+ 
+ import { useEffect, useRef, useState } from "react";
+ import { motion, useScroll, useTransform } from "framer-motion";
+-import { ArrowUpRight, ArrowRight, Twitter, Instagram, Globe } from "lucide-react";
++import { ArrowUpRight, ArrowRight, Facebook, Instagram } from "lucide-react";
+ import { MagneticButton } from "./magnetic-button";
+ import type { SettingsMap } from "@/lib/data";
+ 
+@@ -240,9 +240,8 @@ export function Hero({ settings }: { settings: SettingsMap }) {
+       {/* Z-5: UI chrome — socials bottom-left */}
+       <div className="absolute bottom-6 left-4 md:left-8 z-20 flex items-center gap-2">
+         {[
+-          { icon: Twitter, href: "https://twitter.com/n2klabs", label: "Twitter / X" },
++          { icon: Facebook, href: "https://facebook.com/n2klabs", label: "Facebook" },
+           { icon: Instagram, href: "https://instagram.com/n2klabs", label: "Instagram" },
+-          { icon: Globe, href: "https://n2klabs.com", label: "Website" },
+         ].map(({ icon: Icon, href, label }) => (
+           <a
+             key={label}
+diff --git a/src/lib/data.ts b/src/lib/data.ts
+index db72cdf..f4e1092 100755
+--- a/src/lib/data.ts
++++ b/src/lib/data.ts
+@@ -160,8 +160,10 @@ const FALLBACK_SETTINGS: SettingsMap = {
+   "contact.phone": "+679 900 0000",
+   "contact.location": "South Pacific, Fiji",
+   // ── Social ──
+-  "social.twitter": "https://twitter.com/n2klabs",
++  "social.facebook": "https://facebook.com/n2klabs",
+   "social.instagram": "https://instagram.com/n2klabs",
++  // Legacy keys (kept in DB for backward compat; no longer rendered in UI).
++  "social.twitter": "https://twitter.com/n2klabs",
+   "social.website": "https://n2klabs.com",
+   "social.github": "https://github.com/n2klabs",
+   // ── Site ──
+-- 
+2.47.3
+
