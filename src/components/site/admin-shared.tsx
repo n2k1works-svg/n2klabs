@@ -224,7 +224,8 @@ export type Project = {
   result?: string | null;
   url?: string | null;
   image?: string | null;
-  tags?: string | null;
+  images?: string[]; // array of base64 data URLs (or paths)
+  tags?: string | string[];
   featured: boolean;
   order: number;
 };
@@ -237,19 +238,25 @@ export function ProjectsAdmin({ readOnly }: { readOnly?: boolean }) {
   const onSave = async (p: Project) => {
     setSaving(true);
     try {
-      const tags = typeof p.tags === "string" ? JSON.parse(p.tags || "[]") : p.tags || [];
-      const body = { ...p, tags };
+      const tags = typeof p.tags === "string"
+        ? (() => { try { return JSON.parse(p.tags || "[]"); } catch { return []; } })()
+        : p.tags || [];
+      const images = Array.isArray(p.images) ? p.images : [];
+      const body = { ...p, tags, images };
       const method = p.id ? "PUT" : "POST";
       const res = await fetch("/api/projects", {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error("save failed");
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error || `HTTP ${res.status}`);
+      }
       setEditing(null);
       reload();
-    } catch {
-      alert("Save failed");
+    } catch (e) {
+      alert("Save failed: " + (e instanceof Error ? e.message : "unknown error"));
     } finally {
       setSaving(false);
     }
@@ -347,8 +354,23 @@ function ProjectEditor({
   onSave: (p: Project) => void;
   onCancel: () => void;
 }) {
-  const [f, setF] = useState<Project>(project);
+  const [uploading, setUploading] = useState(false);
+
+  // Normalise the images array once on mount: existing projects may have
+  // images stored as a JSON string, an array, or undefined. Merge the legacy
+  // `image` (cover) into the images array if not already present.
+  const initProject = (): Project => {
+    let imgs: string[] = [];
+    if (Array.isArray(project.images)) imgs = project.images;
+    else if (typeof project.images === "string") {
+      try { const v = JSON.parse(project.images); if (Array.isArray(v)) imgs = v; } catch { /* empty */ }
+    }
+    if (project.image && !imgs.includes(project.image)) imgs = [project.image, ...imgs];
+    return { ...project, images: imgs, image: imgs[0] || project.image || null };
+  };
+  const [f, setF] = useState<Project>(initProject);
   const set = (k: keyof Project, v: unknown) => setF((p) => ({ ...p, [k]: v }));
+
   const tagsStr =
     typeof f.tags === "string"
       ? (() => {
@@ -358,14 +380,49 @@ function ProjectEditor({
             return "";
           }
         })()
-      : "";
+      : Array.isArray(f.tags)
+        ? f.tags.join(", ")
+        : "";
 
-  const upload = async (file: File) => {
-    const fd = new FormData();
-    fd.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
-    const d = await res.json();
-    if (d.url) set("image", d.url);
+  const images: string[] = Array.isArray(f.images) ? f.images : [];
+
+  /** Upload a batch of files sequentially, collecting base64 data URLs. */
+  const uploadFiles = async (files: FileList | File[]) => {
+    const list = Array.from(files);
+    if (!list.length) return;
+    setUploading(true);
+    try {
+      const collected: string[] = [];
+      for (const file of list) {
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const d = await res.json();
+        if (!res.ok || !d.url) {
+          throw new Error(d.error || `Upload failed for ${file.name}`);
+        }
+        collected.push(d.url);
+      }
+      const merged = [...images, ...collected];
+      setF((p) => ({ ...p, images: merged, image: merged[0] || p.image || null }));
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = (idx: number) => {
+    const next = images.filter((_, i) => i !== idx);
+    setF((p) => ({ ...p, images: next, image: next[0] || null }));
+  };
+
+  const setPrimary = (idx: number) => {
+    if (idx === 0) return;
+    const next = [...images];
+    const [picked] = next.splice(idx, 1);
+    next.unshift(picked);
+    setF((p) => ({ ...p, images: next, image: picked }));
   };
 
   return (
@@ -392,15 +449,93 @@ function ProjectEditor({
         <Field label="Solution"><textarea className={inputCls} rows={2} value={f.solution || ""} onChange={(e) => set("solution", e.target.value)} /></Field>
         <Field label="Result"><textarea className={inputCls} rows={2} value={f.result || ""} onChange={(e) => set("result", e.target.value)} /></Field>
         <Field label="Tags (comma separated)"><input className={inputCls} defaultValue={tagsStr} onBlur={(e) => set("tags", JSON.stringify(e.target.value.split(",").map((s) => s.trim()).filter(Boolean)))} /></Field>
-        <Field label="Image">
-          <div className="flex items-center gap-3">
-            <input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} className="hidden" id="proj-img" />
-            <label htmlFor="proj-img" className="cursor-pointer flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-[#8a8a93] hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]">
-              <Upload className="h-3.5 w-3.5" /> Upload
+        <Field label="Images (drag & drop or click to upload — 15MB max each)">
+          <div className="space-y-3">
+            {/* Upload dropzone / button */}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                if (e.target.files?.length) uploadFiles(e.target.files);
+                e.target.value = ""; // reset so same file can be re-selected
+              }}
+              className="hidden"
+              id="proj-images"
+            />
+            <label
+              htmlFor="proj-images"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files?.length) uploadFiles(e.dataTransfer.files);
+              }}
+              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/15 px-4 py-6 text-xs text-[#8a8a93] transition-colors hover:border-[rgba(var(--accent-rgb),0.5)] hover:text-[var(--accent)]"
+            >
+              {uploading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Uploading…</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4" />
+                  <span>Click or drop images here</span>
+                </>
+              )}
             </label>
-            {f.image && <span className="text-xs text-[#8a8a93] truncate">{f.image}</span>}
-            {f.image && (
-              <button onClick={() => set("image", null)} className="text-xs text-[#ff4d5e]">remove</button>
+
+            {/* Thumbnail grid */}
+            {images.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                {images.map((src, idx) => (
+                  <div
+                    key={idx}
+                    className="group relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-[#0a0a0c]"
+                  >
+                    <img
+                      src={src}
+                      alt={`Project image ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    {/* Primary badge / star button */}
+                    <button
+                      type="button"
+                      onClick={() => setPrimary(idx)}
+                      title={idx === 0 ? "Primary image" : "Set as primary"}
+                      className={`absolute left-1 top-1 rounded-md p-1 transition-colors ${
+                        idx === 0
+                          ? "bg-[var(--accent)] text-[#0a0a0c]"
+                          : "bg-black/60 text-white/70 opacity-0 group-hover:opacity-100 hover:text-[var(--accent)]"
+                      }`}
+                    >
+                      <Star className="h-3 w-3" fill={idx === 0 ? "currentColor" : "none"} />
+                    </button>
+                    {/* Remove button */}
+                    <button
+                      type="button"
+                      onClick={() => removeImage(idx)}
+                      title="Remove image"
+                      className="absolute right-1 top-1 rounded-md bg-black/60 p-1 text-white/70 opacity-0 transition-colors group-hover:opacity-100 hover:text-[#ff4d5e]"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                    {idx === 0 && (
+                      <span className="absolute bottom-0 left-0 right-0 bg-black/60 py-0.5 text-center text-[8px] font-mono uppercase tracking-wider text-[var(--accent)]">
+                        Primary
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Legacy image path display (backward compat) */}
+            {f.image && !f.image.startsWith("data:") && images.length === 0 && (
+              <div className="flex items-center gap-2 text-xs text-[#8a8a93]">
+                <span className="truncate">{f.image}</span>
+                <button onClick={() => set("image", null)} className="text-[#ff4d5e]">remove</button>
+              </div>
             )}
           </div>
         </Field>

@@ -32,8 +32,9 @@ model Project {
   solution    String?
   result      String?
   url         String?
-  image       String?
-  gallery     String?  // JSON array of image paths
+  image       String?  // primary / cover image (backward compat)
+  images      String   @default("[]") // JSON array of base64 data URLs (or paths)
+  gallery     String?  // JSON array of image paths (legacy)
   tags        String?  // JSON array of strings
   featured    Boolean  @default(false)
   order       Int      @default(0)

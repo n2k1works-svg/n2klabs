@@ -11,6 +11,7 @@ export type ProjectData = {
   result?: string | null;
   url?: string | null;
   image?: string | null;
+  images?: string[]; // array of image data URLs / paths
   tags: string[];
   featured: boolean;
   order: number;
@@ -191,6 +192,7 @@ export async function getProjects(): Promise<ProjectData[]> {
       result: r.result,
       url: r.url,
       image: r.image,
+      images: parseTags(r.images), // images stored as JSON string, reuse parseTags (it returns [])
       tags: parseTags(r.tags),
       featured: r.featured,
       order: r.order,

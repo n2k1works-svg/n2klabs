@@ -130,7 +130,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                     className="group block w-full text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[rgba(var(--accent-rgb),0.4)] rounded-2xl"
                   >
                     <Laptop3D
-                      src={p.image}
+                      src={p.images?.[0] || p.image}
                       alt={p.title}
                       className="transition-transform duration-500 group-hover:scale-[1.01]"
                     />
@@ -215,9 +215,9 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
               >
                 {/* image */}
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  {p.image ? (
+                  {(p.images?.[0] || p.image) ? (
                     <img
-                      src={p.image}
+                      src={p.images?.[0] || p.image!}
                       alt={p.title}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
@@ -310,7 +310,7 @@ export function Portfolio({ projects }: { projects: ProjectData[] }) {
                   <X className="h-5 w-5" />
                 </button>
                 <LaptopMockup
-                  src={active.image}
+                  src={active.images?.[0] || active.image}
                   alt={active.title}
                   className="mx-auto max-w-3xl"
                 />
