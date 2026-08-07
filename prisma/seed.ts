@@ -2,11 +2,18 @@ import { db } from '../src/lib/db'
 import { hashPassword } from '../src/lib/auth'
 
 /**
- * Idempotent seed — safe to run on every Vercel build.
+ * Idempotent, create-only seed — safe to run on every Vercel build.
  *
- * Uses upserts so re-running never duplicates data and, crucially, never
- * destroys user-submitted ContactMessage rows (real client inquiries must
- * persist across deploys).
+ * CRITICAL: every upsert here uses `update: {}` (no-op). This means:
+ *   - First deploy: creates all default rows (admin user, services, projects,
+ *     testimonials, stats, settings).
+ *   - Subsequent deploys: skips any row that already exists, leaving
+ *     admin-edited data untouched.
+ *
+ * The previous version used `update: { value: s.value }` for settings, which
+ * silently reset every admin-saved setting back to the hardcoded default on
+ * every Vercel rebuild. That bug is now fixed — admin edits persist across
+ * deploys.
  *
  * If the DB is unreachable or any single upsert fails, the process exits 0
  * so a seed hiccup never breaks the Vercel build — the site has static
@@ -27,14 +34,16 @@ async function main() {
     )
   } else {
     const passwordHash = await hashPassword(adminPassword)
+    // Create-only: never overwrite an existing admin row (admin may have
+    // changed their name/password via the admin UI).
     await db.adminUser.upsert({
       where: { email: adminEmail },
-      update: { passwordHash, name: 'N2K Admin' },
+      update: {},
       create: { email: adminEmail, passwordHash, name: 'N2K Admin' },
     })
   }
 
-  // ── Services (upsert by slug) ─────────────────────────────────
+  // ── Services (create-only, by slug) ───────────────────────────
   const services = [
     { title: 'Web Development', slug: 'web-development', icon: 'Code2', description: 'High-performance websites & web apps engineered for speed, scale, and conversion. Pixel-perfect, blazing-fast, built to grow with your business.', features: ['Custom-built frontends', 'Editorial & marketing sites', 'Headless commerce', 'Core Web Vitals optimized'] },
     { title: 'UI/UX Design', slug: 'ui-ux-design', icon: 'PenTool', description: 'Interface design that fuses aesthetics with function. We craft intuitive flows, design systems, and interaction patterns users love.', features: ['Design systems', 'Prototyping', 'Interaction design', 'Usability testing'] },
@@ -45,14 +54,17 @@ async function main() {
   ]
   for (let i = 0; i < services.length; i++) {
     const s = services[i]
+    // Create-only: never overwrite an admin-edited service.
     await db.service.upsert({
       where: { slug: s.slug },
-      update: { title: s.title, description: s.description, features: JSON.stringify(s.features), icon: s.icon, order: i },
+      update: {},
       create: { ...s, features: JSON.stringify(s.features), order: i },
     })
   }
 
-  // ── Projects (upsert by title) ───────────────────────────────
+  // ── Projects (create-only, by title) ────────────────────────
+  // If a project with this title already exists, leave it alone — admin
+  // may have edited the description, image, tags, etc.
   const projects = [
     {
       title: 'Elux Designs',
@@ -71,27 +83,24 @@ async function main() {
   ]
   for (const p of projects) {
     const existing = await db.project.findFirst({ where: { title: p.title } })
-    if (existing) {
-      await db.project.update({ where: { id: existing.id }, data: p })
-    } else {
+    if (!existing) {
       await db.project.create({ data: p })
     }
   }
 
-  // ── Testimonials (upsert by name+company) ────────────────────
+  // ── Testimonials (create-only, by name+company) ────────────
   const testimonials = [
     { name: 'Elvind Govind', role: 'Founder', company: 'Elux Designs', quote: 'N2K Labs delivered a website that feels like our design work made digital — precise, beautiful, and considered in every detail. The CMS makes updates effortless.', rating: 5, order: 0 },
   ]
   for (const t of testimonials) {
+    // Create-only: never overwrite an admin-edited testimonial.
     const existing = await db.testimonial.findFirst({ where: { name: t.name, company: t.company } })
-    if (existing) {
-      await db.testimonial.update({ where: { id: existing.id }, data: t })
-    } else {
+    if (!existing) {
       await db.testimonial.create({ data: t })
     }
   }
 
-  // ── Stats (upsert by label) ──────────────────────────────────
+  // ── Stats (create-only, by label) ─────────────────────────
   const stats = [
     { label: 'Projects Delivered', value: 1, suffix: '', order: 0 },
     { label: 'Happy Clients', value: 1, suffix: '', order: 1 },
@@ -99,10 +108,9 @@ async function main() {
     { label: 'Avg. Load Time', value: 1, suffix: 's', order: 3 },
   ]
   for (const s of stats) {
+    // Create-only: never overwrite an admin-edited stat.
     const existing = await db.stat.findFirst({ where: { label: s.label } })
-    if (existing) {
-      await db.stat.update({ where: { id: existing.id }, data: s })
-    } else {
+    if (!existing) {
       await db.stat.create({ data: s })
     }
   }
@@ -141,17 +149,22 @@ async function main() {
     { key: 'about.value3.title', value: 'Method' },
     { key: 'about.value3.text', value: 'Strategy first, design-led, engineered to last. Every pixel and every millisecond matters.' },
   ]
+  // ── Settings (create-only, by key) ──────────────────────────
+  // CRITICAL: `update: {}` means existing settings are NEVER overwritten.
+  // Admin-edited settings (hero copy, social URLs, contact info, etc.) will
+  // survive every Vercel rebuild. Only settings that don't exist yet (e.g.
+  // a new key added in a future deploy) get created with the default value.
   for (const s of settings) {
     await db.setting.upsert({
       where: { key: s.key },
-      update: { value: s.value },
+      update: {},
       create: s,
     })
   }
 
   // NEVER touch ContactMessage — those are user-submitted inquiries and
   // must survive every deploy.
-  console.log('[seed] Idempotent seed complete. ContactMessage table untouched.')
+  console.log('[seed] Idempotent create-only seed complete. Existing admin-edited rows preserved. ContactMessage table untouched.')
 }
 
 main()
