@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUp, Facebook, Instagram } from "lucide-react";
+import Link from "next/link";
 import type { SettingsMap } from "@/lib/data";
 
 const LINKS = [
@@ -97,9 +98,28 @@ export function Footer({ settings }: { settings: SettingsMap }) {
 
         {/* bottom bar */}
         <div className="mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="mono-label text-[#9aa0a8]">
-            © {new Date().getFullYear()} N2K Labs — South Pacific, Fiji. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+            <p className="mono-label text-[#9aa0a8]">
+              © {new Date().getFullYear()} N2K Labs — South Pacific, Fiji. All rights reserved.
+            </p>
+            <div className="flex items-center gap-3 md:gap-4 text-xs">
+              <Link
+                href="/privacy"
+                data-cursor="hover"
+                className="mono-label text-[#8a8a93] hover:text-[var(--accent)] transition-colors"
+              >
+                PRIVACY POLICY
+              </Link>
+              <span className="text-white/20">/</span>
+              <Link
+                href="/terms"
+                data-cursor="hover"
+                className="mono-label text-[#8a8a93] hover:text-[var(--accent)] transition-colors"
+              >
+                TERMS OF SERVICE
+              </Link>
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             <motion.button
               whileHover={{ y: -3 }}
