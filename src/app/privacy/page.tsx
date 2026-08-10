@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "10 August 2026";
+const LAST_UPDATED = "11 August 2026";
 
 const SECTIONS = [
   {
@@ -41,10 +41,37 @@ const SECTIONS = [
           Site, you agree to the practices described here.
         </p>
         <p>
-          We are committed to protecting your privacy and complying with
-          applicable data protection laws, including the Fiji Online Safety
-          Act, the EU General Data Protection Regulation (GDPR), and the
-          California Consumer Privacy Act (CCPA).
+          We are committed to protecting your privacy and complying with all
+          applicable data protection and privacy laws, including:
+        </p>
+        <ul className="list-disc pl-6 space-y-2 marker:text-[var(--accent)]">
+          <li>
+            <strong>Fiji Constitution 2013, Clause 24</strong> &mdash; the
+            right to personal privacy, including confidentiality of personal
+            information.
+          </li>
+          <li>
+            <strong>Fiji Online Safety Act 2018 (Act No. 8 of 2018)</strong>{" "}
+            &mdash; promotes responsible online behaviour and a safe online
+            environment, administered by the Online Safety Commission Fiji
+            (OSC).
+          </li>
+          <li>
+            <strong>EU General Data Protection Regulation (GDPR)</strong> &mdash;
+            for visitors in the European Economic Area.
+          </li>
+          <li>
+            <strong>California Consumer Privacy Act (CCPA)</strong> &mdash; for
+            residents of California, USA.
+          </li>
+        </ul>
+        <p>
+          <em>Note:</em> Fiji does not currently have a standalone
+          comprehensive data protection statute. A Data Protection Bill is under
+          development. In the interim, privacy protections derive from the
+          constitutional right to privacy and the Online Safety Act 2018. We
+          have voluntarily adopted GDPR-aligned practices to ensure strong
+          protection regardless of the visitor&rsquo;s location.
         </p>
       </>
     ),
@@ -403,7 +430,8 @@ const SECTIONS = [
     body: (
       <>
         <p>
-          We may update this Privacy Policy from time to time. The
+          We may update this Privacy Policy from time to time, particularly when
+          Fiji&rsquo;s Data Protection Bill is enacted into law. The
           &ldquo;Last updated&rdquo; date at the top of this page indicates when
           the policy was last revised. Material changes will be highlighted on
           the Site or communicated to you directly if we have your contact
@@ -417,8 +445,90 @@ const SECTIONS = [
     ),
   },
   {
+    id: "fiji-legal-framework",
+    title: "12. Fiji Legal Framework",
+    body: (
+      <>
+        <p>
+          As a Fiji-based business, N2K Labs operates within the following
+          national legal framework relevant to privacy and data handling:
+        </p>
+        <div className="space-y-4 mt-4">
+          <div className="border border-white/10 rounded-lg p-4 bg-white/[0.02]">
+            <div className="font-semibold text-[#f0ece6] mb-1">
+              Constitution of the Republic of Fiji 2013, Clause 24
+            </div>
+            <p className="text-sm text-[#8a8a93]">
+              Recognises the right to personal privacy, including the right to
+              confidentiality of personal information. This is the primary
+              constitutional basis for privacy protection in Fiji.
+            </p>
+          </div>
+          <div className="border border-white/10 rounded-lg p-4 bg-white/[0.02]">
+            <div className="font-semibold text-[#f0ece6] mb-1">
+              Online Safety Act 2018 (Act No. 8 of 2018)
+            </div>
+            <p className="text-sm text-[#8a8a93]">
+              Promotes responsible online behaviour and a safe online
+              environment. Administered by the{" "}
+              <a
+                href="https://osc.com.fj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--accent)] hover:underline"
+              >
+                Online Safety Commission Fiji (OSC)
+              </a>
+              . The Act is currently under review, and we monitor amendments
+              that affect data handling.
+            </p>
+          </div>
+          <div className="border border-white/10 rounded-lg p-4 bg-white/[0.02]">
+            <div className="font-semibold text-[#f0ece6] mb-1">
+              Fijian Competition and Consumer Commission Act 2010 (FCCCA)
+            </div>
+            <p className="text-sm text-[#8a8a93]">
+              Provides consumer protection provisions that apply to our services
+              when supplied to Fijian consumers. Administered by the Fijian
+              Competition and Consumer Commission (FCCC).
+            </p>
+          </div>
+          <div className="border border-white/10 rounded-lg p-4 bg-white/[0.02]">
+            <div className="font-semibold text-[#f0ece6] mb-1">
+              Electronic Transactions Act (as amended 2017)
+            </div>
+            <p className="text-sm text-[#8a8a93]">
+              Gives legal recognition to electronic contracts, electronic
+              signatures, and digital records. This Act validates contracts
+              formed through our Site (including the contact form and Terms of
+              Service acceptance).
+            </p>
+          </div>
+          <div className="border border-white/10 rounded-lg p-4 bg-[var(--accent)]/[0.03]">
+            <div className="font-semibold text-[var(--accent)] mb-1">
+              Data Protection Bill (Pending)
+            </div>
+            <p className="text-sm text-[#8a8a93]">
+              Fiji&rsquo;s comprehensive Data Protection Bill is currently under
+              development. When enacted, it will introduce formal data
+              controller/processor obligations, breach notification
+              requirements, and enhanced data subject rights. We are monitoring
+              its progress and will update this Policy to achieve full
+              compliance when it takes effect.
+            </p>
+          </div>
+        </div>
+        <p className="mt-4">
+          For cross-border visitors, we additionally comply with the EU GDPR and
+          the California CCPA as described in this Policy. Where multiple laws
+          apply, we apply the highest standard of protection.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "contact",
-    title: "12. Contact Us",
+    title: "13. Contact Us",
     body: (
       <>
         <p>

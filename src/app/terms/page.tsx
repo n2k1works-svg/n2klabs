@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "10 August 2026";
+const LAST_UPDATED = "11 August 2026";
 
 const SECTIONS = [
   {
@@ -171,9 +171,18 @@ const SECTIONS = [
           4.3 Taxes
         </h3>
         <p>
-          Fees are exclusive of applicable taxes, including Fiji VAT where
-          applicable. Clients are responsible for any taxes assessed on their
-          behalf.
+          Fees are exclusive of applicable taxes. For clients based in Fiji,
+          Value Added Tax (VAT) applies at the current statutory rate of{" "}
+          <strong>12.5%</strong> (effective from 1 August 2025, as set by the
+          Fiji Revenue &amp; Customs Service). VAT is added to invoices where
+          applicable and is payable by the client in addition to the stated
+          fees.
+        </p>
+        <p>
+          Clients outside Fiji are responsible for any local taxes, duties, or
+          withholdings assessed on their behalf, including goods and services
+          taxes (GST) in their jurisdiction. N2K Labs is not responsible for
+          collecting or remitting foreign taxes.
         </p>
       </>
     ),
@@ -376,8 +385,35 @@ const SECTIONS = [
         </h3>
         <p>
           These Terms and any engagement with N2K Labs are governed by the laws
-          of the Republic of Fiji, without regard to conflict-of-law principles.
+          of the Republic of Fiji, without regard to conflict-of-law
+          principles. The principal Fiji legislation applicable to these Terms
+          includes:
         </p>
+        <ul className="list-disc pl-6 space-y-2 marker:text-[var(--accent)]">
+          <li>
+            <strong>Constitution of the Republic of Fiji 2013</strong> &mdash;
+            the supreme law of Fiji, including Clause 24 (right to personal
+            privacy) and the consumer rights provisions recognised in the
+            Bill of Rights.
+          </li>
+          <li>
+            <strong>Fijian Competition and Consumer Commission Act 2010
+            (FCCCA)</strong> &mdash; governing fair trading, consumer
+            protection, and competition. Administered by the Fijian Competition
+            and Consumer Commission (FCCC).
+          </li>
+          <li>
+            <strong>Electronic Transactions Act (as amended 2017)</strong>{" "}
+            &mdash; giving legal recognition to electronic contracts, signatures,
+            and records formed through this Site.
+          </li>
+          <li>
+            <strong>Value Added Tax Act 1991</strong> &mdash; governing the
+            application of VAT (currently 12.5% as amended from 1 August 2025)
+            to services supplied within Fiji. Administered by the Fiji Revenue
+            &amp; Customs Service (FRCS).
+          </li>
+        </ul>
 
         <h3 className="text-lg font-semibold text-[#f0ece6] mt-6 mb-3">
           10.2 Dispute resolution
