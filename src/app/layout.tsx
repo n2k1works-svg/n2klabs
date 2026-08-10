@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { siteConfig } from "@/lib/site";
@@ -47,15 +48,27 @@ export const metadata: Metadata = {
     siteName: "N2K Labs",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "N2K Labs — Digital Solutions That Elevate",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "N2K Labs — Digital Solutions That Elevate",
     description: siteConfig.description,
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: siteConfig.url,
   },
 };
 
@@ -68,6 +81,46 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0c",
 };
 
+/** JSON-LD structured data for SEO.
+ *  Helps Google understand this is a ProfessionalService business, which
+ *  enables rich results (local business panel, breadcrumbs, etc.).
+ */
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "N2K Labs",
+  description: siteConfig.description,
+  url: siteConfig.url,
+  email: siteConfig.email,
+  telephone: siteConfig.phone,
+  areaServed: "South Pacific",
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "Fiji",
+    addressCountry: "FJ",
+  },
+  sameAs: [
+    siteConfig.social.twitter,
+    siteConfig.social.instagram,
+    siteConfig.social.github,
+  ].filter(Boolean),
+  makesOffer: [
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Web Development" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "UI/UX Design" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "E-Commerce Solutions" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Digital Strategy" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Brand Identity" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "SEO & Analytics" } },
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "N2K Labs",
+  url: siteConfig.url,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,8 +131,29 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground font-sans`}
       >
+        {/* Skip-to-content link — keyboard accessibility (WCAG 2.4.1) */}
+        <a
+          href="#home"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-[#0a0a0c] focus:rounded-lg focus:text-sm focus:font-semibold"
+        >
+          Skip to content
+        </a>
+
+        {/* JSON-LD structured data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+
         {children}
         <Toaster />
+
+        {/* Vercel Analytics — privacy-friendly, no cookies, free */}
+        <Analytics />
       </body>
     </html>
   );

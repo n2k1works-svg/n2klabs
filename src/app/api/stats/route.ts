@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getAdminUser } from "@/lib/auth";
+import { statCreateSchema, statUpdateSchema, statDeleteSchema } from "@/lib/validate";
 
 export const runtime = "nodejs";
 
@@ -18,12 +19,20 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const body = await req.json();
+    const parsed = statCreateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    const d = parsed.data;
     const created = await db.stat.create({
       data: {
-        label: body.label,
-        value: Number(body.value) || 0,
-        suffix: body.suffix || null,
-        order: Number(body.order) || 0,
+        label: d.label,
+        value: d.value,
+        suffix: d.suffix || null,
+        order: d.order || 0,
       },
     });
     return NextResponse.json({ stat: created });
@@ -37,10 +46,17 @@ export async function PUT(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const body = await req.json();
-    const { id, ...rest } = body;
-    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
-    if (rest.value !== undefined) rest.value = Number(rest.value);
-    if (rest.order !== undefined) rest.order = Number(rest.order);
+    const parsed = statUpdateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    const d = parsed.data;
+    const { id, ...rest } = d;
+    if (rest.value !== undefined) rest.value = rest.value;
+    if (rest.order !== undefined) rest.order = rest.order;
     const updated = await db.stat.update({ where: { id }, data: rest });
     return NextResponse.json({ stat: updated });
   } catch {
@@ -52,8 +68,15 @@ export async function DELETE(req: NextRequest) {
   const user = await getAdminUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const { id } = await req.json();
-    await db.stat.delete({ where: { id } });
+    const body = await req.json();
+    const parsed = statDeleteSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    await db.stat.delete({ where: { id: parsed.data.id } });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });

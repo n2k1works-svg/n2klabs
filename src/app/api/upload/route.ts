@@ -1,28 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminUser } from "@/lib/auth";
+import { rateLimit, RATE_LIMITS } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
-// Allow up to 15MB per upload (Next.js body size limit).
-export const fetchCache = "force-no-store";
-
-const MAX_BYTES = 15 * 1024 * 1024; // 15 MB
+export const maxDuration = 30;
 
 /**
- * POST /api/upload
+ * Image upload endpoint for the admin Projects editor.
  *
- * Accepts a single file via multipart/form-data (field name "file").
- * Returns a JSON object `{ url }` where `url` is a base64 data URL.
+ * Accepts a single file via multipart/form-data ("file" field) and returns
+ * a base64 data URL. The data URL is stored directly in the Project.images
+ * JSON array column — no external file storage (S3, Vercel Blob) needed.
  *
- * On Vercel the filesystem is read-only, so we can't persist uploads to
- * disk — instead we return the file as a base64 data URL which gets stored
- * in the Project.images JSON array in Postgres.
+ * This keeps the deployment simple (no storage credentials to manage) at
+ * the cost of larger DB rows. For a small agency portfolio with a handful of
+ * project screenshots, this is the right tradeoff.
  *
- * Requires admin session.
+ * Limits:
+ *   - 15 MB per file (enforced)
+ *   - image/* MIME types only (enforced)
+ *   - admin auth required
  */
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
+const ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif",
+  "image/svg+xml",
+];
+
 export async function POST(req: NextRequest) {
   const user = await getAdminUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Rate limit: 10 uploads per minute per IP
+  const allowed = await rateLimit(req, RATE_LIMITS.upload);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many upload requests. Please slow down." },
+      { status: 429 },
+    );
   }
 
   try {
@@ -30,53 +49,37 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file");
 
     if (!file || !(file instanceof File)) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Validate MIME type
+    if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json(
-        { error: "No file provided (field name must be 'file')" },
+        {
+          error: `Unsupported file type: ${file.type}. Allowed: ${ALLOWED_TYPES.join(", ")}`,
+        },
         { status: 400 },
       );
     }
 
-    if (file.size > MAX_BYTES) {
+    // Validate size
+    if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        {
-          error: `File too large. Max ${MAX_BYTES / 1024 / 1024}MB, got ${(
-            file.size /
-            1024 /
-            1024
-          ).toFixed(1)}MB`,
-        },
+        { error: `File too large: ${(file.size / 1024 / 1024).toFixed(1)} MB. Max: 15 MB.` },
         { status: 413 },
       );
     }
 
-    // Validate content type
-    if (!file.type.startsWith("image/")) {
-      return NextResponse.json(
-        { error: `Only image files are accepted (got ${file.type || "unknown"})` },
-        { status: 400 },
-      );
-    }
-
-    const buf = Buffer.from(await file.arrayBuffer());
-    const base64 = buf.toString("base64");
+    // Convert to base64 data URL
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const base64 = buffer.toString("base64");
     const dataUrl = `data:${file.type};base64,${base64}`;
 
-    return NextResponse.json({
-      url: dataUrl,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-    });
+    return NextResponse.json({ url: dataUrl });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Upload failed";
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error("[upload] failed:", msg);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
-}
-
-export async function GET() {
-  return NextResponse.json({
-    ok: true,
-    message: "Upload endpoint. POST a file with field name 'file'. Max 15MB.",
-    maxBytes: MAX_BYTES,
-  });
 }

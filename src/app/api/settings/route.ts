@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getAdminUser } from "@/lib/auth";
+import { settingsUpdateSchema } from "@/lib/validate";
 
 export const runtime = "nodejs";
 
@@ -19,8 +20,15 @@ export async function PUT(req: NextRequest) {
   const user = await getAdminUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const body = await req.json(); // { settings: { key: value, ... } }
-    const settings = body.settings || body;
+    const body = await req.json();
+    const parsed = settingsUpdateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    const settings = parsed.data.settings;
     for (const [key, value] of Object.entries(settings)) {
       await db.setting.upsert({
         where: { key },

@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getAdminUser } from "@/lib/auth";
+import {
+  testimonialCreateSchema,
+  testimonialUpdateSchema,
+  testimonialDeleteSchema,
+} from "@/lib/validate";
 
 export const runtime = "nodejs";
 
@@ -18,15 +23,23 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const body = await req.json();
+    const parsed = testimonialCreateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    const d = parsed.data;
     const created = await db.testimonial.create({
       data: {
-        name: body.name,
-        role: body.role,
-        company: body.company || null,
-        quote: body.quote,
-        rating: Number(body.rating) || 5,
-        avatar: body.avatar || null,
-        order: Number(body.order) || 0,
+        name: d.name,
+        role: d.role,
+        company: d.company || null,
+        quote: d.quote,
+        rating: d.rating || 5,
+        avatar: d.avatar || null,
+        order: d.order || 0,
       },
     });
     return NextResponse.json({ testimonial: created });
@@ -40,10 +53,17 @@ export async function PUT(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const body = await req.json();
-    const { id, ...rest } = body;
-    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
-    if (rest.rating !== undefined) rest.rating = Number(rest.rating);
-    if (rest.order !== undefined) rest.order = Number(rest.order);
+    const parsed = testimonialUpdateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    const d = parsed.data;
+    const { id, ...rest } = d;
+    if (rest.rating !== undefined) rest.rating = rest.rating;
+    if (rest.order !== undefined) rest.order = rest.order;
     const updated = await db.testimonial.update({ where: { id }, data: rest });
     return NextResponse.json({ testimonial: updated });
   } catch {
@@ -55,8 +75,15 @@ export async function DELETE(req: NextRequest) {
   const user = await getAdminUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const { id } = await req.json();
-    await db.testimonial.delete({ where: { id } });
+    const body = await req.json();
+    const parsed = testimonialDeleteSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || "Invalid input" },
+        { status: 400 },
+      );
+    }
+    await db.testimonial.delete({ where: { id: parsed.data.id } });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });

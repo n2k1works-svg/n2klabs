@@ -30,6 +30,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
     service: "",
     budget: "",
     message: "",
+    website: "", // honeypot — bots fill this, humans don't see it
   });
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -43,7 +44,7 @@ export function Contact({ settings }: { settings: SettingsMap }) {
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");
-      setForm({ name: "", email: "", service: "", budget: "", message: "" });
+      setForm({ name: "", email: "", service: "", budget: "", message: "", website: "" });
       setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
@@ -175,10 +176,33 @@ export function Contact({ settings }: { settings: SettingsMap }) {
             </button>
 
             {status === "error" && (
-              <p className="mt-3 text-center text-sm text-[#ff4d5e]">
+              <p role="alert" className="mt-3 text-center text-sm text-[#ff4d5e]">
                 Something went wrong. Please email us directly at {email}.
               </p>
             )}
+            {status === "success" && (
+              <p role="status" className="sr-only">
+                Your message has been sent successfully.
+              </p>
+            )}
+
+            {/* Honeypot — visually hidden, bots fill it in */}
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={(e) => set("website", e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                width: 1,
+                height: 1,
+                opacity: 0,
+              }}
+            />
           </motion.form>
         </div>
       </div>
