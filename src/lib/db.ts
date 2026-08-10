@@ -30,6 +30,17 @@ function createPrismaClient() {
         'in the form libsql://<db>-<handle>.turso.io?authToken=<token>',
     )
   }
+  // Guard against stale local env pollution. Prisma 7's installer and some
+  // local SQLite workflows write DATABASE_URL=file:...db/custom.db, which
+  // Next.js will NOT override from .env (shell env wins). Fail loudly here
+  // instead of silently trying to open a non-existent local file.
+  if (url.startsWith('file:')) {
+    throw new Error(
+      `DATABASE_URL points at a local file ("${url}"). This is almost certainly ` +
+        'stale env pollution — the app expects a Turso libsql:// URL. ' +
+        'Run `unset DATABASE_URL` in your shell and restart the dev server.',
+    )
+  }
   // PrismaLibSql is a driver adapter FACTORY — it accepts a libsql Config
   // object (not a pre-built Client) and creates its own internal client.
   const adapter = new PrismaLibSql({ url })
