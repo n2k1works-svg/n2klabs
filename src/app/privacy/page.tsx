@@ -25,8 +25,10 @@ const SECTIONS = [
       <>
         <p>
           N2K Labs (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) is a
-          digital studio based in the South Pacific, Fiji. We operate the website
-          at{" "}
+          digital studio operated by an individual freelancer based in the South
+          Pacific, Fiji. We are currently operating as an unregistered sole
+          proprietor and are in the process of formalising our business
+          registration. We operate the website at{" "}
           <a
             href={siteConfig.url}
             className="text-[var(--accent)] hover:underline"
@@ -450,7 +452,7 @@ const SECTIONS = [
     body: (
       <>
         <p>
-          As a Fiji-based business, N2K Labs operates within the following
+          As an operator based in Fiji, N2K Labs operates within the following
           national legal framework relevant to privacy and data handling:
         </p>
         <div className="space-y-4 mt-4">
@@ -539,6 +541,9 @@ const SECTIONS = [
           <div className="font-semibold text-[#f0ece6]">N2K Labs</div>
           <div className="text-sm text-[#8a8a93]">
             South Pacific, Fiji
+          </div>
+          <div className="text-xs text-[#8a8a93] mt-1">
+            Currently operating as an unregistered sole proprietor
           </div>
           <div className="text-sm">
             <a

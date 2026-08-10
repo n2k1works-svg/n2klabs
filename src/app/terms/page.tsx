@@ -36,6 +36,15 @@ const SECTIONS = [
           (collectively, the &ldquo;Services&rdquo;).
         </p>
         <p>
+          <strong>About N2K Labs:</strong> N2K Labs is a digital studio operated
+          by an individual freelancer based in the South Pacific, Fiji. We are
+          currently operating as an unregistered sole proprietor and are in the
+          process of formalising our business registration. Until such time,
+          engagements are entered into as a contract between the client and the
+          individual operator (referred to here as &ldquo;N2K Labs&rdquo; or
+          &ldquo;we&rdquo;).
+        </p>
+        <p>
           By accessing the Site or engaging our Services, you agree to be bound by
           these Terms. If you do not agree, please do not use the Site or engage
           our Services.
@@ -171,12 +180,16 @@ const SECTIONS = [
           4.3 Taxes
         </h3>
         <p>
-          Fees are exclusive of applicable taxes. For clients based in Fiji,
-          Value Added Tax (VAT) applies at the current statutory rate of{" "}
-          <strong>12.5%</strong> (effective from 1 August 2025, as set by the
-          Fiji Revenue &amp; Customs Service). VAT is added to invoices where
-          applicable and is payable by the client in addition to the stated
-          fees.
+          N2K Labs is not currently registered for Value Added Tax (VAT) with
+          the Fiji Revenue &amp; Customs Service (FRCS), as we are below the
+          mandatory VAT registration threshold and are operating as an
+          unregistered sole proprietor. Accordingly, VAT is{" "}
+          <strong>not</strong> currently added to invoices for Fiji-based clients.
+        </p>
+        <p>
+          When we complete business registration and FRCS VAT registration, this
+          section will be updated to reflect the applicable VAT rate (currently
+          12.5% in Fiji) and our VAT registration number will appear on invoices.
         </p>
         <p>
           Clients outside Fiji are responsible for any local taxes, duties, or
@@ -409,9 +422,10 @@ const SECTIONS = [
           </li>
           <li>
             <strong>Value Added Tax Act 1991</strong> &mdash; governing the
-            application of VAT (currently 12.5% as amended from 1 August 2025)
-            to services supplied within Fiji. Administered by the Fiji Revenue
-            &amp; Customs Service (FRCS).
+            application of VAT in Fiji. N2K Labs is not currently VAT-registered
+            (we are below the mandatory threshold and operate as an unregistered
+            sole proprietor). This Act becomes applicable to our engagements
+            once we complete FRCS VAT registration.
           </li>
         </ul>
 
@@ -458,6 +472,9 @@ const SECTIONS = [
           <div className="font-semibold text-[#f0ece6]">N2K Labs</div>
           <div className="text-sm text-[#8a8a93]">
             South Pacific, Fiji
+          </div>
+          <div className="text-xs text-[#8a8a93] mt-1">
+            Currently operating as an unregistered sole proprietor
           </div>
           <div className="text-sm">
             <a

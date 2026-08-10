@@ -157,7 +157,10 @@ const FALLBACK_STATS: StatData[] = [
 const FALLBACK_SETTINGS: SettingsMap = {
   // ── Contact ──
   "contact.email": "hello@n2klabs.com",
-  "contact.phone": "+679 900 0000",
+  // Phone left empty — N2K Labs is an unregistered sole proprietor without
+  // a business phone line. Set a real number via the admin dashboard when
+  // one is available. Do NOT publish a fake placeholder number.
+  "contact.phone": "",
   "contact.location": "South Pacific, Fiji",
   // ── Social ──
   "social.facebook": "https://facebook.com/n2klabs",

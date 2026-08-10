@@ -34,14 +34,14 @@ export const siteConfig = {
     "N2K Labs is a South Pacific digital studio crafting world-class web experiences, brands, and commerce platforms.",
   // Contact details (used by JSON-LD structured data + contact form)
   email: process.env.CONTACT_EMAIL ?? "hello@n2klabs.com",
-  phone: "+679 900 0000",
+  // Phone omitted — N2K Labs is currently an unregistered sole proprietor
+  // without a business phone line. Add one here once it's available.
+  phone: null,
   location: "South Pacific, Fiji",
   // Social links (used in footer + JSON-LD)
   social: {
-    twitter: "https://twitter.com/n2klabs",
-    instagram: "https://instagram.com/n2klabs",
-    website: "https://n2klabs.com",
-    github: "https://github.com/n2klabs",
+    facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL ?? "",
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "",
   },
 } as const;
 

@@ -92,7 +92,9 @@ const jsonLd = {
   description: siteConfig.description,
   url: siteConfig.url,
   email: siteConfig.email,
-  telephone: siteConfig.phone,
+  // telephone omitted — no business phone line yet (unregistered sole proprietor).
+  // Adding a fake number would violate Google's structured data guidelines.
+  ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
   areaServed: "South Pacific",
   address: {
     "@type": "PostalAddress",
@@ -100,9 +102,8 @@ const jsonLd = {
     addressCountry: "FJ",
   },
   sameAs: [
-    siteConfig.social.twitter,
+    siteConfig.social.facebook,
     siteConfig.social.instagram,
-    siteConfig.social.github,
   ].filter(Boolean),
   makesOffer: [
     { "@type": "Offer", itemOffered: { "@type": "Service", name: "Web Development" } },
