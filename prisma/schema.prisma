@@ -1,15 +1,26 @@
 // Prisma schema for N2K Labs agency website
-// PostgreSQL via Neon — works locally and on Vercel.
-// On Vercel, install the Neon integration (one-click) which auto-injects
-// DATABASE_URL + POSTGRES_* env vars. For local dev, run `vercel env pull`
-// to copy them into .env.local, or set DATABASE_URL manually.
+// Turso (libSQL) — works on Vercel and locally.
+//
+// The schema provider is "sqlite" because Turso's libSQL is SQLite-compatible.
+// The actual Turso connection (libsql://... URL + auth token) is wired up in
+// src/lib/db.ts via the @prisma/adapter-libsql driver adapter — that's where
+// the libsql:// protocol is actually parsed.
+//
+// HOW TO SET UP:
+// 1. Create a Turso database: https://turso.tech → app → New database
+// 2. Get the connection URL and auth token from the database's "Settings" page
+// 3. Set DATABASE_URL in .env (local) AND Vercel env vars (production):
+//      DATABASE_URL="libsql://<db-name>-<your-handle>.turso.io?authToken=<token>"
+// 4. Run `bun run db:push` to create tables
+// 5. Run `bun run db:seed` to populate default content
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
