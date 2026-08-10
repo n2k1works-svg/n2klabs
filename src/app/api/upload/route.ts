@@ -17,11 +17,18 @@ export const maxDuration = 30;
  * project screenshots, this is the right tradeoff.
  *
  * Limits:
- *   - 15 MB per file (enforced)
+ *   - 2 MB per file (enforced) — keeps base64 within Turso's row size limit
  *   - image/* MIME types only (enforced)
  *   - admin auth required
+ *
+ * Why 2 MB: images are stored as base64 data URLs in the Project.images
+ * JSON column. Base64 encoding adds ~33% overhead, so a 2 MB image becomes
+ * ~2.7 MB in the DB. Turso (libSQL) has a ~4 MB row size limit, and the
+ * images column may hold multiple images, so 2 MB per upload is the safe
+ * ceiling. For larger images, compress before uploading or migrate to
+ * Vercel Blob / S3.
  */
-const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_TYPES = [
   "image/jpeg",
   "image/png",
@@ -65,7 +72,7 @@ export async function POST(req: NextRequest) {
     // Validate size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { error: `File too large: ${(file.size / 1024 / 1024).toFixed(1)} MB. Max: 15 MB.` },
+        { error: `File too large: ${(file.size / 1024 / 1024).toFixed(1)} MB. Max: 2 MB. For larger images, compress before uploading.` },
         { status: 413 },
       );
     }
